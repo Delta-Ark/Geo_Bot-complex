@@ -77,19 +77,23 @@ class GeoSearchClass(object):
 
     def write_search_results(self,output_file=u'output.txt'):
         '''
-        Writes search results to file "output.txt":
+        Writes search results to output file, defaults to "output.txt".
 
 
         USAGE: 
-        write_results() 
+        write_results( output_file = 'output.txt') 
+
         
         Details:
         It uses unicode encoding to capture all of the possible tweet characters. It gets the filesystemencoding for each OS.
         '''
         search_results = self._search_results
         tweet_text = u''
-        for sr in search_results:     
-            s = u'\n\n\n@' + sr.user.screen_name + u' : \n'  + sr.text
+        for sr in search_results:
+            if sr.geo:
+                coords = u'     coordinates = ' + str((sr.geo)['coordinates'])
+            s = u'\n\n\n@' + sr.user.screen_name + coords + u' : \n'  + sr.text
+            
             tweet_text = tweet_text + s
 
         #print tweet_text
