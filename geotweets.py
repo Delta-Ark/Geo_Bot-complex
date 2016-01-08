@@ -60,6 +60,35 @@ def get_params(filename):
         print key + ' : ' + str(params[key])        
     return params
 
+## NLTK stuff
+import nltk, re
+from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+from nltk.corpus import stopwords
+def visualize(search_results):
+    tweet_text = u''
+    for sr in search_results:
+        tweet_text = tweet_text + sr.text
+
+    tokens=word_tokenize(tweet_text)
+    #remove stop words and do some basic filtering
+    tokens = [word.lower() for word in tokens]
+    print '\n\n\n\n stop words: \n'
+    print   stopwords.words('english')
+    filtered_words = [word for word in tokens if word not in stopwords.words('english')]
+    #remove urls with another filter using reg expressions
+    p = re.compile(r'//t.co/')
+    filtered_words = [word for word in filtered_words if not p.match(word)]
+    p2 = re.compile(r'https')
+    filtered_words = [word for word in filtered_words if not p2.match(word)]
+    filtered_words = [word for word in filtered_words if len(word)>2]
+    print '\n\n\n'
+    print filtered_words
+    fdist = FreqDist(filtered_words)
+    fdist.plot(30)
+
+
+
 
 
 def main():
@@ -71,6 +100,8 @@ def main():
     parser.add_argument('-f', '--filename', help='specify a FILENAME to use as the parameter file. If not specified, will use default arguments.')
     parser.add_argument('-v', '--verbose', action='store_true', help='additionally print output to command line')
     parser.add_argument('-o', '--output', help='specify an OUTPUT file to write to. The default is output.txt')
+    parser.add_argument('-vis', '--visualize', action='store_true', help='visualize using nlp tools')
+    
     #automatically grabs arguments from sys.argv[]
     args = parser.parse_args()
 
@@ -105,6 +136,9 @@ def main():
         g.write_search_results(args.output)
     else:
         g.write_search_results()
+
+    if args.visualize:
+        visualize(g.search_results)
 
 
 

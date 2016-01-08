@@ -30,7 +30,7 @@ class GeoSearchClass(object):
         self._longitude=-122.4093
         self._radius=3
         self._geo_string = None
-        self._search_results=None
+        self.search_results=None
 
 
     def api_search(self,api):
@@ -46,7 +46,7 @@ class GeoSearchClass(object):
         if self._geo_string==None:
             raise Exception("initialize geo string")
         search_results = api.search(q=self._search_term, geocode=geo_string, result_type=self._result_type, count=self._count)
-        self._search_results=search_results
+        self.search_results=search_results
 
 
 
@@ -58,7 +58,7 @@ class GeoSearchClass(object):
         '''
 
         #printSROInfo()   #This is for SRO object investigation
-        search_results = self._search_results
+        search_results = self.search_results
         print "Actual number of tweets returned from Twitter: " + str(len(search_results))
 
         for sr in search_results:
@@ -87,7 +87,7 @@ class GeoSearchClass(object):
         Details:
         It uses unicode encoding to capture all of the possible tweet characters. It gets the filesystemencoding for each OS.
         '''
-        search_results = self._search_results
+        search_results = self.search_results
         tweet_text = u''
         for sr in search_results:
             if sr.geo:
@@ -113,7 +113,7 @@ class GeoSearchClass(object):
         USAGE: 
         print_SRO_info()  
         '''
-        search_results = self._search_results
+        search_results = self.search_results
         print '\n\n\n\n'
         print 'The methods of each SearchResult object :'
         print dir(search_results[0])
