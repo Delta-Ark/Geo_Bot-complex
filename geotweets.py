@@ -73,8 +73,6 @@ def visualize(search_results):
     tokens=word_tokenize(tweet_text)
     #remove stop words and do some basic filtering
     tokens = [word.lower() for word in tokens]
-    print '\n\n\n\n stop words: \n'
-    print   stopwords.words('english')
     filtered_words = [word for word in tokens if word not in stopwords.words('english')]
     #remove urls with another filter using reg expressions
     p = re.compile(r'//t.co/')
@@ -82,8 +80,6 @@ def visualize(search_results):
     p2 = re.compile(r'https')
     filtered_words = [word for word in filtered_words if not p2.match(word)]
     filtered_words = [word for word in filtered_words if len(word)>2]
-    print '\n\n\n'
-    print filtered_words
     fdist = FreqDist(filtered_words)
     fdist.plot(30)
 
