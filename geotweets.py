@@ -60,29 +60,6 @@ def get_params(filename):
         print key + ' : ' + str(params[key])        
     return params
 
-## NLTK stuff
-import nltk, re
-from nltk.tokenize import word_tokenize
-from nltk.probability import FreqDist
-from nltk.corpus import stopwords
-def visualize(search_results):
-    tweet_text = u''
-    for sr in search_results:
-        tweet_text = tweet_text + sr.text
-
-    tokens=word_tokenize(tweet_text)
-    #remove stop words and do some basic filtering
-    tokens = [word.lower() for word in tokens]
-    filtered_words = [word for word in tokens if word not in stopwords.words('english')]
-    #remove urls with another filter using reg expressions
-    p = re.compile(r'//t.co/')
-    filtered_words = [word for word in filtered_words if not p.match(word)]
-    p2 = re.compile(r'https')
-    filtered_words = [word for word in filtered_words if not p2.match(word)]
-    filtered_words = [word for word in filtered_words if len(word)>2]
-    fdist = FreqDist(filtered_words)
-    fdist.plot(30)
-
 
 
 
@@ -134,7 +111,8 @@ def main():
         g.write_search_results()
 
     if args.visualize:
-        visualize(g.search_results)
+        import visualize
+        visualize.visualize(g.search_results)
 
 
 
