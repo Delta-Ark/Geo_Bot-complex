@@ -78,7 +78,9 @@ def main():
 
     if args.visualize:
         import visualize
-        visualize.do_it_all(g.search_results)
+        #visualize.do_it_all(g.search_results)
+        filtered_words = visualize.process(g.search_results)
+        fdist = visualize.visualize(filtered_words)
 
 
 
