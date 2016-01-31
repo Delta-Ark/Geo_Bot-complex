@@ -11,9 +11,13 @@ def visualize(word_list):
     fdist = nltk.probability.FreqDist(word_list)
     textOb = nltk.text.Text(word_list)
     print textOb.collocations()
-    #fdist.plot(30)    
-    # print "vocab is: "
-    # print textOb.vocab()
+    print textOb.vocab()
+    
+    #fdist.plot(30)
+
+    
+    
+    return fdist
 
 
 def process(search_results):
