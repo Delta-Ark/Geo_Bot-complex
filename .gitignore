@@ -2,5 +2,6 @@ consumerkeyandsecret
 output.txt
 params.txt
 params2.txt
+2params.txt
 *.pyc
 *~
