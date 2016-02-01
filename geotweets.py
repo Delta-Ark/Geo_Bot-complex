@@ -2,8 +2,7 @@
 # geotweets
 # Saito 2015
 
-"""
-This program is for grabbing geo-located tweets using the Twitter API
+"""This program is for grabbing geo-located tweets using the Twitter API
 
 
 USAGE:
@@ -12,8 +11,8 @@ USAGE:
 Print command line help:
 >> ./geotweets.py --help   (or just -h)
 
-Example:
-This uses parameter file 'params.txt', prints results to command line and writes them to 'out.txt':
+Example: This uses parameter file 'params.txt', prints results to
+command line and writes them to 'out.txt': 
 >> ./geotweets.py --verbose --filename params.txt --output out.txt
 
 The program requires a consumer key and secret stored in a file called
@@ -35,22 +34,34 @@ Example of params.txt:
 """
 
 #import ast, tweepy
-import sys, argparse
+import sys
+import argparse
 import geosearchclass
 
 
-def main():
+def get_parser():
     # Create command line argument parser
-    parser = argparse.ArgumentParser(description='Perform a geo-located search.')
-    #need to add arguments here
+    parser = argparse.ArgumentParser(
+        description='Perform a geo-located search.')
+    # need to add arguments here
     #parser.add_argument('filename', metavar='filename', type=str, help='The parameter file name')
-    parser.add_argument('-d', '--doc', action='store_true', help='print module documentation and exit')
-    parser.add_argument('-f', '--filename', help='specify a FILENAME to use as the parameter file. If not specified, will use default arguments.')
-    parser.add_argument('-v', '--verbose', action='store_true', help='additionally print output to command line')
-    parser.add_argument('-o', '--output', help='specify an OUTPUT file to write to. The default is output.txt')
-    parser.add_argument('-vis', '--visualize', action='store_true', help='visualize using nlp tools')
+    parser.add_argument('-d', '--doc', action='store_true',
+                        help='print module documentation and exit')
+    parser.add_argument(
+        '-f', '--filename', help='specify a FILENAME to use as the parameter file. If not specified, will use default arguments.')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='additionally print output to command line')
+    parser.add_argument(
+        '-o', '--output', help='specify an OUTPUT file to write to. The default is output.txt')
+    parser.add_argument('-vis', '--visualize',
+                        action='store_true', help='visualize using nlp tools')
+
+    # automatically grabs arguments from sys.argv[]
     
-    #automatically grabs arguments from sys.argv[]
+    return parser
+
+def command_line_runner():
+    parser = get_parser()
     args = parser.parse_args()
 
     if args.doc:
@@ -58,10 +69,10 @@ def main():
         sys.exit()
 
     g = geosearchclass.GeoSearchClass()
-    
+
     if args.filename:
         print 'Using parameters from ' + str(args.filename)
-        #turn parameter file into dictionary
+        # turn parameter file into dictionary
         g.set_params_from_file(args.filename)
     else:
         print "Using default search values"
@@ -70,7 +81,7 @@ def main():
     # print formatted results with extra info to terminal
     if args.verbose:
         g.print_search_results()
-        
+
     if args.output:
         g.write_search_results(args.output)
     else:
@@ -78,14 +89,14 @@ def main():
 
     if args.visualize:
         import visualize
-        #visualize.do_it_all(g.search_results)
         filtered_words = visualize.process(g.search_results)
-        fdist = visualize.visualize(filtered_words)
+        fdist = visualize.visualize_old(filtered_words)
+    
+    
 
+def main():
+    command_line_runner()
+    
 
-
-# Standard boilerplate to call the main() function to begin
-# the program.         
 if __name__ == '__main__':
     main()
-

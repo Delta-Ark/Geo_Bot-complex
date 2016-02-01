@@ -1,6 +1,6 @@
 geotweets.py README file
 
-Trevor Owens 11/8/2015
+Ariel Kalinowski and Trevor Owens 11/8/2015
 
 This program is made to search for and return tweets at a specific
 location as determined by geocoordinates. You can optionally search
