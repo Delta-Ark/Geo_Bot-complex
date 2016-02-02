@@ -10,7 +10,7 @@ def do_it_all(search_results):
 
 
 def visualize(word_list):
-    fdist = nltk.probability.FreqDist(word_list)
+    fdist = get_freq_dist(word_list)
     textOb = nltk.text.Text(word_list)
     print textOb.collocations()
     #print textOb.vocab()
@@ -19,26 +19,25 @@ def visualize(word_list):
 
     return fdist
 
-def visualize_old(word_list):
+def get_freq_dist(word_list):
     fdist = nltk.probability.FreqDist(word_list)
+    return fdist
+
+
+def visualize_old(word_list):
+    fdist = get_freq_dist(word_list)
     textOb = nltk.text.Text(word_list)
     print textOb.collocations()    
     #fdist.plot(30)
     
     samples = [item for item, _ in fdist.most_common(30)]
-    cumulative = False
     freqs = [fdist[sample] for sample in samples]
     pylab.grid(True, color="silver")
-    #kwargs["linewidth"] = 2
-    #pylab.plot(freqs, **kwargs)
     pylab.plot(freqs)
-
     pylab.xticks(range(len(samples)), [str(s) for s in samples], rotation=90)
     pylab.xlabel("Samples")
     pylab.ylabel("Counts")
     pylab.show()
-
-
     return fdist
 
 def process(search_results):

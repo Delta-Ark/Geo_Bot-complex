@@ -14,7 +14,7 @@ import threading
 import time
 import argparse
 import copy
-import visualize
+import vis_helper
 import geotweets
 import geosearchclass
 
@@ -51,7 +51,7 @@ class Producer(threading.Thread):
             new_search_results = new_tweets(search_results, old_ids)
             #new_search_results = new_tweets(search_results,old_search_results)
             print "len(new_search_results) = " + str(len(new_search_results)) + "\n\n\n"
-            filtered_words = visualize.process(new_search_results)
+            filtered_words = vis_helper.process(new_search_results)
             if filtered_words:
                 with condition:
                     print 'Thread', self.getName(), 'got lock'
@@ -72,7 +72,7 @@ class Consumer(threading.Thread):
                 print 'Thread', self.getName(), 'got lock'
                 print ' len(product) = ' + str(len(product))
                 condition.wait()
-                visualize.visualize(product)
+                vis_helper.visualize(product)
 
 
 def main():

@@ -88,9 +88,9 @@ def command_line_runner():
         g.write_search_results()
 
     if args.visualize:
-        import visualize
-        filtered_words = visualize.process(g.search_results)
-        fdist = visualize.visualize_old(filtered_words)
+        import vis_helper
+        filtered_words = vis_helper.process(g.search_results)
+        fdist = vis_helper.visualize_old(filtered_words)
     
     
 
