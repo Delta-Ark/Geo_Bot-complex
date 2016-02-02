@@ -42,7 +42,7 @@ def main():
     filtered_words = vis_helper.process(search_results)
     fdist = vis_helper.get_freq_dist(filtered_words)
     #set up plot
-    samples = [item for item, _ in fdist.most_common(50)]
+    samples = [item for item, _ in fdist.most_common(30)]
 
 
     freqs = [fdist[sample] for sample in samples]
@@ -58,7 +58,8 @@ def main():
     # set up loop    
     old_ids = set([s.id for s in search_results])
     product = []
-    for i in xrange(100):        
+    for i in xrange(100):
+        g.result_type = "recent" #use mixed above, change to recent here
         search_results = g.api_search()
         new_search_results = new_tweets(search_results, old_ids)
         if new_search_results:
@@ -66,8 +67,10 @@ def main():
             fdist = update_fdist(fdist,filtered_words)
             freqs = [fdist[sample] for sample in samples]
             pylab.plot(freqs)
-            print 'len(old_ids)  = %d' % len(old_ids)
+            print '%d new tweet(s)' % len(new_search_results)
             old_ids.update(set([s.id for s in new_search_results]))
+        else:
+            print "no updates"
         pylab.pause(5)
         #time.sleep(5)  # wait >=5s to get more tweets
 

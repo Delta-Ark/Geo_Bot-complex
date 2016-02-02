@@ -23,6 +23,8 @@ class TestRTV(unittest.TestCase):
         sr2 = self.sr[0:10]  # 10 old same one
         old = [s.id for s in sr2]
         old = set(old)
+        #print 'len(sr) = %d' % len(self.sr)
+        #print 'len(sr2) = %d' % len(sr2)
         self.assertEqual(
             len(new_tweets(self.sr,old)),90)
 
