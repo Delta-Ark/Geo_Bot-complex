@@ -41,6 +41,13 @@ For more information see the docstring for geotweets:
 >> python import geotweets
 >> python help(geotweets)
 
+To initialize the geosearchclass with a parameter file and the
+consumer key and secret file:
+g = GeoSearchClass(params_file, consumerkeyandsecret_file)
+and use:
+g.search()
+g.print_search_results()
+
 
 
 
