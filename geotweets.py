@@ -77,7 +77,7 @@ def command_line_runner():
     else:
         print "Using default search values"
 
-    g.api_search()
+    g.search()
     # print formatted results with extra info to terminal
     if args.verbose:
         g.print_search_results()

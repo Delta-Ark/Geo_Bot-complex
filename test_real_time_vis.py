@@ -17,7 +17,7 @@ class TestRTV(unittest.TestCase):
         self.g.search_term=""
         self.g.result_type='mixed'
         self.g.count = 100
-        self.sr = self.g.api_search()
+        self.sr = self.g.search()
 
     def test_new_tweets(self):
         sr2 = self.sr[0:10]  # 10 old same one
@@ -40,7 +40,7 @@ class TestRTV(unittest.TestCase):
         self.g.search_term=""
         self.g.result_type='mixed'
         self.g.count = 10        
-        sr2 = self.g.api_search()    # all different (15 old different ones)
+        sr2 = self.g.search()    # all different (15 old different ones)
         old = [s.id for s in sr2]
         old = set(old)
         self.assertEqual(

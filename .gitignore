@@ -1,6 +1,8 @@
 consumerkeyandsecret
 output.txt
 params.txt
-2params.txt
+p_files/
+2threads.py
+#*
 *.pyc
 *~

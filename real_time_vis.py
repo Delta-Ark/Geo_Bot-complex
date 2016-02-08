@@ -38,7 +38,7 @@ def main():
     print 'Using parameters from ' + fn
     g = geosearchclass.GeoSearchClass()
     g.set_params_from_file(fn)
-    search_results = g.api_search()
+    search_results = g.search()
     filtered_words = vis_helper.process(search_results)
     fdist = vis_helper.get_freq_dist(filtered_words)
     #set up plot
@@ -60,7 +60,7 @@ def main():
     product = []
     for i in xrange(100):
         g.result_type = "recent" #use mixed above, change to recent here
-        search_results = g.api_search()
+        search_results = g.search()
         new_search_results = new_tweets(search_results, old_ids)
         if new_search_results:
             filtered_words = vis_helper.process(new_search_results)
