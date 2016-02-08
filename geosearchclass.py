@@ -21,11 +21,21 @@ class GeoSearchClass(object):
 
     Simple example:
     g = GeoSearchClass()
-    g.api_search() 
+    g.search() 
     g.print_search_results()
+
+    OR
+    g = GeoSearchClass(params_file, consumerkeyandsecret_file) # to properly initialize
     """
 
-    def __init__(self):
+    def __init__(self,  params_file=None, keys_file = "consumerkeyandsecret"):
+        if params_file:
+            self.set_params_from_file(params_file) 
+        else:
+            self.use_default_params()
+        self.get_creds(keys_file)
+
+    def use_default_params(self):
         self._search_term = None
         self._result_type = "mixed"
         self._count = 15
@@ -34,8 +44,7 @@ class GeoSearchClass(object):
         self._radius = 3
         self._geo_string = None
         self.search_results = None
-        # create api
-        self.get_creds()
+        
 
     def set_params_from_file(self, filename):
         with open(filename, 'rU') as f:
@@ -50,11 +59,13 @@ class GeoSearchClass(object):
         self._result_type = params['result_type']
         self._count = params['count']
 
-    def get_creds(self):
-        '''USAGE: api = get_creds() This function gives App Only
-        Authorization.  It is made for app access to the twitter rest API.
+    def get_creds(self,keys_file="consumerkeyandsecret"):
+        ''' This function gives App Only Authorization.  It is made for app access to the
+        twitter rest API.
+
+        USAGE: api = get_creds(keys_file)
         '''
-        with open("consumerkeyandsecret", 'rU') as myfile:
+        with open(keys_file, 'rU') as myfile:
             auth_data = [line.strip() for line in myfile]
             CONSUMER_KEY = auth_data[0]
             CONSUMER_SECRET = auth_data[1]
@@ -62,14 +73,14 @@ class GeoSearchClass(object):
         api = tweepy.API(auth)
         self.api = api
 
-    def api_search(self):
+    def search(self):
         '''
         Perform a geolocated search using the class attributes 'search_term', 'result_type', 'count', and 'geo_string'.
 
         Requires an api object as returned by the tweepy module.
 
         USAGE:
-        search_results = api_search(api)
+        search_results = search(api)
         '''
         geo_string = getattr(self, "geo_string")
         if self._geo_string == None:
