@@ -43,7 +43,7 @@ For more information see the docstring for geotweets:
 
 To initialize the geosearchclass with a parameter file and the
 consumer key and secret file:
-g = GeoSearchClass(params_file, consumerkeyandsecret_file)
+g = GeoSearchClass(params_filename, consumer_key_and_secret_filename)
 and use:
 g.search()
 g.print_search_results()

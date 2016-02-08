@@ -24,8 +24,8 @@ class GeoSearchClass(object):
     g.search() 
     g.print_search_results()
 
-    OR
-    g = GeoSearchClass(params_file, consumerkeyandsecret_file) # to properly initialize
+    OR to properly initialize:    
+    g = GeoSearchClass(params_filename, consumer_key_and_secret_filename)
     """
 
     def __init__(self,  params_file=None, keys_file = "consumerkeyandsecret"):
