@@ -56,9 +56,6 @@ def updating_plot(geosearchclass, number_of_words,grow=False):
     fdist = vis_helper.get_freq_dist(filtered_words)
     #set up plot
     samples = [item for item, _ in fdist.most_common(number_of_words)]
-    samples.reverse() # want most frequent on top
-    if grow:
-        samples.reverse()  # -> doesn't work for extension
     freqs = [fdist[sample] for sample in samples]
     plt.grid(True, color="silver")
     plt.plot(freqs,range(len(freqs)))
