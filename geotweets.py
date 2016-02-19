@@ -43,16 +43,20 @@ def get_parser():
     # Create command line argument parser
     parser = argparse.ArgumentParser(
         description='Perform a geo-located search.')
-    # need to add arguments here
-    #parser.add_argument('filename', metavar='filename', type=str, help='The parameter file name')
+
     parser.add_argument('-d', '--doc', action='store_true',
                         help='print module documentation and exit')
     parser.add_argument(
-        '-f', '--filename', help='specify a FILENAME to use as the parameter file. If not specified, will use default arguments.')
+        '-f', '--filename',
+        help='''specify a FILENAME to use as the parameter file. 
+        If not specified, will use default arguments.''')
+
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='additionally print output to command line')
     parser.add_argument(
-        '-o', '--output', help='specify an OUTPUT file to write to. The default is output.txt')
+        '-o', '--output',
+        help='''specify an OUTPUT file to write to. 
+        The default is output.txt''')
     parser.add_argument('-vis', '--visualize',
                         action='store_true', help='visualize using nlp tools')
 
@@ -60,7 +64,11 @@ def get_parser():
     
     return parser
 
-def command_line_runner():
+    
+    
+
+def main():
+    
     parser = get_parser()
     args = parser.parse_args()
 
@@ -91,11 +99,7 @@ def command_line_runner():
         import vis_helper
         filtered_words = vis_helper.process(g.search_results)
         fdist = vis_helper.visualize_old(filtered_words)
-    
-    
 
-def main():
-    command_line_runner()
     
 
 if __name__ == '__main__':
