@@ -62,13 +62,13 @@ def get_parser():
     parser.add_argument(
         '-f', '--filename',
         help='''specify a FILENAME to use as the parameter file. 
-        If not specified, will use default arguments.''')
+        If not specified, will use 'params.txt'.''')
     parser.add_argument(
         '-v', '--verbose', action='store_true',
         help='additionally print output to command line')
     parser.add_argument(
         '--default', action='store_true',
-        help="""ignore parameter file and se default search
+        help="""ignore parameter file and use default search
         terms from geosearchclass""")
     parser.add_argument(
         '-o', '--output',
