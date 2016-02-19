@@ -116,7 +116,7 @@ class GeoSearchClass(object):
                 print 'coordinates = ' + str((sr.geo)['coordinates'])
             print "created_at = " + str(sr.created_at)
             print "tweet id: " + str(sr.id)
-            print "retweet_count = " + str(sr.retweet_count) + "   favorite_count = " + str(sr.favorite_count)
+            print "retweet_count = " + str(sr.retweet_count) + "favorite_count = " + str(sr.favorite_count)
             print sr.text
 
     def write_search_results(self, output_file=u'output.txt'):
@@ -134,6 +134,7 @@ class GeoSearchClass(object):
         search_results = self.search_results
         tweet_text = u''
         for sr in search_results:
+            coords = u''
             if sr.geo:
                 coords = u'     coordinates = ' + str((sr.geo)['coordinates'])
             s = u'\n\n\n@' + sr.user.screen_name + coords + u' : \n' + sr.text
