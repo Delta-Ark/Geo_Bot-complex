@@ -61,14 +61,12 @@ def get_parser():
                         action='store_true', help='visualize using nlp tools')
 
     # automatically grabs arguments from sys.argv[]
-    
+
     return parser
 
-    
-    
 
 def main():
-    
+
     parser = get_parser()
     args = parser.parse_args()
 
@@ -100,7 +98,6 @@ def main():
         filtered_words = vis_helper.process(g.search_results)
         fdist = vis_helper.visualize_old(filtered_words)
 
-    
 
 if __name__ == '__main__':
     main()
