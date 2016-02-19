@@ -7,8 +7,9 @@ import tweepy
 
 
 class GeoSearchClass(object):
-    """
-    Create a geo search with data validation
+    """Create a geo search with data validation
+
+    For examples of usages, see geotweets.py
 
     Usage:
     g = GeoSearchClass()
@@ -26,6 +27,13 @@ class GeoSearchClass(object):
 
     OR to properly initialize:    
     g = GeoSearchClass(params_filename, consumer_key_and_secret_filename)
+
+    To initialize the geosearchclass with a parameter file and the
+    consumer key and secret file: 
+    g = GeoSearchClass(params_filename,consumer_key_and_secret_filename) 
+    and use: 
+    g.search()
+    g.print_search_results()
     """
 
     def __init__(self,  params_file=None, keys_file = "consumerkeyandsecret"):

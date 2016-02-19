@@ -2,13 +2,35 @@ geotweets.py README file
 
 Ariel Kalinowski and Trevor Owens 11/8/2015
 
-This program is made to search for and return tweets at a specific
-location as determined by geocoordinates. You can optionally search
-within this set for specific words or hash tags.
+This library is composed of several tools for scraping geolocated tweets and
+visualizing data gleaned from these tweets.
 
-It takes in a parameter file with geolocation and search
-terms and returns tweets with those specifications. See params.txt for
-an example.
+One tool, called 'geotweets' allows you to scrape and save geolocated
+twitter data in batch form. You can optionally search
+within this set for specific words or hash tags. See geotweets.py for
+details or from command line run:
+
+  $ python geotweets.py --help
+  $ python geotweets.py --doc
+  
+USAGE :
+  $ python geotweets.py [-h][-d][-v][-f FILENAME][-o OUTPUT]
+
+
+Another tool, called 'real_time_vis' uses the previous tool to create a
+word frequency distribution chart which can grow and change in near real
+time as more tweets are grabbed. See real_time_vis.py for details or
+from the command line run:
+
+  $ python real_time_vis.py --help
+  $ python real_time_vis.py --doc
+  
+USAGE :
+  $ python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER]
+
+
+Both files use a parameter file with geolocation and search
+terms. See params.txt for an example.
 
 The program requires a file in this folder called consumerkeyandsecret
 which contains only a consumer key on the first line and consumer
@@ -20,33 +42,19 @@ installed with pip. You may have to adjust your PYTHONPATH variable to
 run the program from the command line. Otherwise, using the python
 interpreter you can run it.
 
-USAGE :
-  >> ./geotweets.py [-h][-d][-v][-f FILENAME][-o OUTPUT]
-OR using the python interpreter : 
-  >> python geotweets.py [-h][-d][-v][-f FILENAME][-o OUTPUT]
-
 Examples:
 
-Default search:
-  >> ./geotweets.py 
+Grabbing geo-located tweets using paramter file params.txt, print to
+command line and write to output.txt:
 
-OR to grab tweets using a parameter file:
-  >> python geotweets.py -f params.txt
+  $ python geotweets.py -f params.txt --verbose
 
-OR to grab tweets using a parameter file, print to output and print a
-verbose readout to the command line:
-  >> python geotweets.pyc -v -f params.txt -o output.txt
-  
-For more information see the docstring for geotweets:
->> python import geotweets
->> python help(geotweets)
+Visualizing the data, 20 initial words, growing chart:
 
-To initialize the geosearchclass with a parameter file and the
-consumer key and secret file:
-g = GeoSearchClass(params_filename, consumer_key_and_secret_filename)
-and use:
-g.search()
-g.print_search_results()
+  $ python real_time_vis.py -g -n 20
+
+
+
 
 
 

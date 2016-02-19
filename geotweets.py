@@ -2,21 +2,23 @@
 # geotweets
 # Saito 2015
 
-"""This program is for grabbing geo-located tweets using the Twitter API
+"""This program is for grabbing and saving geo-located tweets
 
 
 USAGE:
-  >> ./geotweets.py [-h][-d][-v][-f FILENAME][-o OUTPUT]
+  $ ./geotweets.py [-h][-d][-v][-f FILENAME][-o OUTPUT][-vis]
 
 Print command line help:
->> ./geotweets.py --help   (or just -h)
+  $ ./geotweets.py --help   (or just -h)
 
 Example: This uses parameter file 'params.txt', prints results to
 command line and writes them to 'out.txt': 
->> ./geotweets.py --verbose --filename params.txt --output out.txt
+  $ ./geotweets.py --verbose --filename params.txt --output out.txt
 
-The program requires a consumer key and secret stored in a file called
-consumerkeyandsecret. See README for details.
+The program requires a file in this folder called consumerkeyandsecret
+which contains only a consumer key on the first line and consumer
+secret (the longer one) on the second line. You can get this by
+creating an app under your twitter account online.
 
 The program can optionally take a parameter file as input. This file,
 must be in python dictionary format and contain these paramters:
@@ -40,7 +42,16 @@ import geosearchclass
 
 
 def get_parser():
-    # Create command line argument parser
+    """ Creates a command line parser
+    
+    --doc -d 
+    --help -h
+    --filename -f
+    --verbose -v
+    --output -o
+    --visualize -vis
+    """
+
     parser = argparse.ArgumentParser(
         description='Perform a geo-located search.')
 
