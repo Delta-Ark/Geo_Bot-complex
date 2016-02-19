@@ -44,12 +44,13 @@ interpreter you can run it.
 
 Examples:
 
-Grabbing geo-located tweets using paramter file params.txt, print to
-command line and write to output.txt:
+Grabbing geo-located tweets using paramter file params.txt (default), print to
+command line and write to output.txt (default):
 
-  $ python geotweets.py -f params.txt --verbose
+  $ python geotweets.py --verbose
 
-Visualizing the data, 20 initial words, growing chart:
+Visualizing the data, 20 initial words, growing chart, using params.txt
+(default):
 
   $ python real_time_vis.py -g -n 20
 

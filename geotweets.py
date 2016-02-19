@@ -50,20 +50,26 @@ def get_parser():
     --verbose -v
     --output -o
     --visualize -vis
+    --default
     """
 
     parser = argparse.ArgumentParser(
         description='Perform a geo-located search.')
 
-    parser.add_argument('-d', '--doc', action='store_true',
-                        help='print module documentation and exit')
+    parser.add_argument(
+        '-d', '--doc', action='store_true',
+        help='print module documentation and exit')
     parser.add_argument(
         '-f', '--filename',
         help='''specify a FILENAME to use as the parameter file. 
         If not specified, will use default arguments.''')
-
-    parser.add_argument('-v', '--verbose', action='store_true',
-                        help='additionally print output to command line')
+    parser.add_argument(
+        '-v', '--verbose', action='store_true',
+        help='additionally print output to command line')
+    parser.add_argument(
+        '--default', action='store_true',
+        help="""ignore parameter file and se default search
+        terms from geosearchclass""")
     parser.add_argument(
         '-o', '--output',
         help='''specify an OUTPUT file to write to. 
@@ -92,7 +98,12 @@ def main():
         # turn parameter file into dictionary
         g.set_params_from_file(args.filename)
     else:
-        print "Using default search values"
+        if args.default:
+            print 'Using default search terms'
+        else:
+            print 'Using parameters from params.txt'
+            g.set_params_from_file('params.txt')
+
 
     g.search()
     # print formatted results with extra info to terminal
