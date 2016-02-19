@@ -25,7 +25,7 @@
 , 
 "longitude": -122.4093
 ,
-"radius" : 100
+"radius" : 10
 ,
 "search_term" : ""
 ,
