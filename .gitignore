@@ -6,3 +6,4 @@ p_files/
 #*
 *.pyc
 *~
+.DS_Store
