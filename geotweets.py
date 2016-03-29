@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# geotweets
+# geotweets.py
 # Saito 2015
 
 """This program is for grabbing and saving geo-located tweets
