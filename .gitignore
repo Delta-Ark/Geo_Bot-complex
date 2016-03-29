@@ -1,3 +1,5 @@
+phrases.json
+tweets.json
 consumerkeyandsecret
 output.txt
 params.txt
@@ -7,3 +9,4 @@ p_files/
 *.pyc
 *~
 .DS_Store
+
