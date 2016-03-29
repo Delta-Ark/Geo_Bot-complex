@@ -72,14 +72,20 @@ def updating_plot(geosearchclass, number_of_words,grow=False):
     for i in xrange(100):
         plt.pause(5)
         geosearchclass.result_type = "recent" #use mixed above, change to recent here
+        #perturbation study
         # if i%2:  # for testing purposes
-        #     #change location every odd time to nyc
-        #     geosearchclass.latitude =40.734073
-        #     geosearchclass.longitude =-73.990663
+        #     # #change location every odd time to nyc
+        #     # geosearchclass.latitude =40.734073
+        #     # geosearchclass.longitude =-73.990663
+        #     # perturb latitude
+        #     geosearchclass.latitude =geosearchclass.latitude + .001
+
+ 
         # else:
         #     #now back to sf
-        #     geosearchclass.latitude = 37.7821
-        #     geosearchclass.longitude =  -122.4093
+        #     # geosearchclass.latitude = 37.7821
+        #     # geosearchclass.longitude =  -122.4093
+        #     geosearchclass.longitude =geosearchclass.longitude + .001
             
         search_results = geosearchclass.search()
         new_search_results = new_tweets(search_results, old_ids)
