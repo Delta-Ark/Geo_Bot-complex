@@ -31,6 +31,6 @@
 ,
 "result_type" : "recent"
 ,
-"count" : 100}
+"count" : 2}
 
 

@@ -5,6 +5,8 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 import json
 import time
+import Queue
+import threading
 
 def get_creds(keys_file="consumerkeyandsecret"):
     ''' This function gives stream access to the API
@@ -64,15 +66,12 @@ def get_creds(keys_file="consumerkeyandsecret"):
     #     stream.filter(locations=[-122.75,36.8,-121.75,37.8])
 
 
-class Listener(StreamListener):
-    """A StreamListener implementation for accessing Twitter Streaming API
-
-    Always call with the "with" statement.
-
+class ListenerJSON(StreamListener):
+    """A StreamListener implementation for accessing Twitter Streaming API that writes to a JSON file
     """
     
     def __init__(self,filename):
-        super(Listener,self).__init__()
+        super(ListenerJSON,self).__init__()
         self.json_file = open(filename,'a')
 
     def on_status(self, status):
@@ -91,16 +90,42 @@ class Listener(StreamListener):
             return False #returning False in on_data disconnects the stream
 
     def on_disconnect():
-        super(Listener,self).on_disconnect()
+        super(ListenerJSON,self).on_disconnect()
         print "made it to disconnector"
         self.json_file.close()
 
 
-#class Streamer(object):
+
+
+
+
+        
+class ListenerQueue(StreamListener):
+    """A StreamListener implementation for accessing Twitter Streaming API that writes to a queue object sent on initialization.
+
+    Usage: myListener = ListenerQueue(queue)
+    Stream(authorization, myListener)
+    """
     
-def run_streamer():
+    def __init__(self,queue):
+        super(ListenerQueue,self).__init__()
+        self.queue = queue
+
+    def on_status(self, status):
+        self.queue.put(status)
+        return True
+
+    def on_error(self, status):
+        # error codes: https://dev.twitter.com/overview/api/response-codes
+        print status
+        if status_code == 420:
+            return False #returning False in on_data disconnects the stream
+
+
+    
+def stream_to_json_file(fn = 'tweets.json'):
     auth = get_creds()
-    L =  Listener('tweets.json')
+    L =  ListenerJSON(fn)
     stream = Stream(auth, L)
     stream.filter(locations=[-122.75,36.8,-121.75,37.8], async=True)
     print "waiting 5s"
@@ -108,11 +133,49 @@ def run_streamer():
     print "terminating"
     stream.disconnect()
     L.json_file.close()
-    
+
+def stream_to_queue(queue):
+    auth = get_creds()
+    L =  ListenerQueue(queue)
+    stream = Stream(auth, L)
+    stream.filter(locations=[-122.75,36.8,-121.75,37.8], async=True)
+    print "waiting 5s"
+    time.sleep(5)
+    print "terminating"
+    stream.disconnect()
+
+
+def get_tweets_from_q(queue):
+    while True:
+        print "entered while loop"
+        status = queue.get()
+        print u"Tweet Message : {}\n\n".format(status.text)
+        queue.task_done()
+
+def start_stream():
+    auth = get_creds()
+    q = Queue.Queue()
+    L =  ListenerQueue(q)
+    stream = Stream(auth, L)
+    stream.filter(locations=[-122.75,36.8,-121.75,37.8], async=True)
+    t = threading.Thread(target=get_tweets_from_q(q))
+    t.daemon = True
+    t.start()
+    print "waiting 5s"
+    time.sleep(5)
+    print "terminating"
+    stream.disconnect()
+
+
         
 if __name__ == '__main__':
 
-    run_streamer()
+
+#    stream_to_json_file()
+    
+    start_stream()
+    
+
 
     # now read in the files
     
