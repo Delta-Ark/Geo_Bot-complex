@@ -153,6 +153,31 @@ class GeoSearchClass(object):
             f.write(tweet_text)
         return
 
+    # def json_search_results(self, output_file = 'search_results.json'):
+    #     '''Writes search results as json to output file 'search_results.json
+
+
+    #     USAGE: 
+    #     json_search_results( output_file = 'search_results.json')
+
+
+    #     Details: It uses unicode encoding to capture all of the
+    #     possible tweet characters. It gets the filesystemencoding for
+    #     each OS.
+
+    #     '''
+    #     import json
+    #     fileSystemEncoding = sys.getfilesystemencoding()
+    #     #OUTPUT_FILE = os.path.expanduser(u'./output.txt')
+    #     OUTPUT_FILE = os.path.expanduser(u'./' + output_file)
+    #     # with codecs.open(OUTPUT_FILE, encoding='utf-8', mode="w") as f:
+    #     with codecs.open(
+    #             OUTPUT_FILE, encoding=fileSystemEncoding, mode="w") as f:
+    #         j = json.dumps(self.search_results._json)
+    #         f.write(j)
+    #     return
+
+
     def _print_SRO_info(self):
         '''
         This gives a verbose amount of info about the SearchResult objects methods 
