@@ -3,8 +3,12 @@ tweets.json
 consumerkeyandsecret
 output.txt
 params.txt
+grammar.pickle
+grammr*pickle
+*.pickle
 p_files/
 2threads.py
+*.json
 #*
 *.pyc
 *~
