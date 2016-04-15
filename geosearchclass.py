@@ -153,29 +153,31 @@ class GeoSearchClass(object):
             f.write(tweet_text)
         return
 
-    # def json_search_results(self, output_file = 'search_results.json'):
-    #     '''Writes search results as json to output file 'search_results.json
+    def json_search_results(self, output_file = 'search_results.json'):
+        '''Writes search results as json to output file 'search_results.json
 
 
-    #     USAGE: 
-    #     json_search_results( output_file = 'search_results.json')
+        USAGE: 
+        json_search_results( output_file = 'search_results.json')
 
 
-    #     Details: It uses unicode encoding to capture all of the
-    #     possible tweet characters. It gets the filesystemencoding for
-    #     each OS.
+        Details: It uses unicode encoding to capture all of the
+        possible tweet characters. It gets the filesystemencoding for
+        each OS.
 
-    #     '''
-    #     import json
-    #     fileSystemEncoding = sys.getfilesystemencoding()
-    #     #OUTPUT_FILE = os.path.expanduser(u'./output.txt')
-    #     OUTPUT_FILE = os.path.expanduser(u'./' + output_file)
-    #     # with codecs.open(OUTPUT_FILE, encoding='utf-8', mode="w") as f:
-    #     with codecs.open(
-    #             OUTPUT_FILE, encoding=fileSystemEncoding, mode="w") as f:
-    #         j = json.dumps(self.search_results._json)
-    #         f.write(j)
-    #     return
+        '''
+        import json
+        print 'writing results to file {}'.format(output_file)
+        fileSystemEncoding = sys.getfilesystemencoding()
+        #OUTPUT_FILE = os.path.expanduser(u'./output.txt')
+        OUTPUT_FILE = os.path.expanduser(u'./' + output_file)
+        # with codecs.open(OUTPUT_FILE, encoding='utf-8', mode="w") as f:
+        with codecs.open(
+                OUTPUT_FILE, encoding=fileSystemEncoding, mode="w") as f:
+            for sr in self.search_results:
+                j = json.dumps(sr._json, indent=1)
+                f.write(j)
+        return
 
 
     def _print_SRO_info(self):

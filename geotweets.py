@@ -73,7 +73,10 @@ def get_parser():
     parser.add_argument(
         '-o', '--output',
         help='''specify an OUTPUT file to write to. 
-        The default is output.txt''')
+        Default is output.txt''')
+    parser.add_argument(
+        '-j', '--json',
+        help='''specify an OUTPUT JSON file to write to.''')
     parser.add_argument('-vis', '--visualize',
                         action='store_true', help='visualize using nlp tools')
 
@@ -114,6 +117,12 @@ def main():
         g.write_search_results(args.output)
     else:
         g.write_search_results()
+
+    if args.json:
+        g.json_search_results(args.json)
+
+        
+
 
     if args.visualize:
         import vis_helper
