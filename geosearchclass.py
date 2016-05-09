@@ -77,7 +77,7 @@ class GeoSearchClass(object):
             auth_data = [line.strip() for line in myfile]
             CONSUMER_KEY = auth_data[0]
             CONSUMER_SECRET = auth_data[1]
-        auth = tweepy.auth.AppAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+            auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
         api = tweepy.API(auth)
         self.api = api
 

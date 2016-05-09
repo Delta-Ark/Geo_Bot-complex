@@ -121,8 +121,6 @@ def main():
     if args.json:
         g.json_search_results(args.json)
 
-        
-
 
     if args.visualize:
         import vis_helper
@@ -130,5 +128,7 @@ def main():
         fdist = vis_helper.visualize_old(filtered_words)
 
 
+
+        
 if __name__ == '__main__':
     main()
