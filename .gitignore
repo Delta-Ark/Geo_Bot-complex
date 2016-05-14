@@ -5,9 +5,8 @@ output.txt
 params.txt
 grammar.pickle
 grammr*pickle
+deprecated/
 *.pickle
-p_files/
-2threads.py
 *.json
 #*
 *.pyc

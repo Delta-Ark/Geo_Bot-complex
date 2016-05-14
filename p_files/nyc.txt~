@@ -1,0 +1,13 @@
+#NYC
+
+{"latitude" : 40.734073
+, 
+"longitude": -73.990663
+,
+"radius" : 10
+,
+"search_term" : ""
+,
+"result_type" : "recent"
+,
+"count" : 100}
