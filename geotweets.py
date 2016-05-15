@@ -12,7 +12,7 @@ Print command line help:
   $ ./geotweets.py --help   (or just -h)
 
 Example: This uses parameter file 'params.txt', prints results to
-command line and writes them to 'out.txt': 
+command line and writes them to 'out.txt':
   $ ./geotweets.py --verbose --filename params.txt --output out.txt
 
 The program requires a file in this folder called consumerkeyandsecret
@@ -26,7 +26,7 @@ latitude, longitude, radius, search_term, result_type and
 count. Please see the file "params.txt" for an example.
 
 Example of params.txt:
-{"latitude" : 37.7821, 
+{"latitude" : 37.7821,
 "longitude": -122.4093,
 "radius" : 10,
 "search_term" : "#SF+tech",
@@ -35,7 +35,6 @@ Example of params.txt:
 
 """
 
-#import ast, tweepy
 import sys
 import argparse
 import geosearchclass
@@ -44,7 +43,7 @@ import geosearchclass
 def get_parser():
     """ Creates a command line parser
 
-    --doc -d 
+    --doc -d
     --help -h
     --filename -f
     --verbose -v
@@ -61,7 +60,7 @@ def get_parser():
         help='print module documentation and exit')
     parser.add_argument(
         '-f', '--filename',
-        help='''specify a FILENAME to use as the parameter file. 
+        help='''specify a FILENAME to use as the parameter file.
         If not specified, will use 'params.txt'.''')
     parser.add_argument(
         '-v', '--verbose', action='store_true',
@@ -72,7 +71,7 @@ def get_parser():
         terms from geosearchclass""")
     parser.add_argument(
         '-o', '--output',
-        help='''specify an OUTPUT file to write to. 
+        help='''specify an OUTPUT file to write to.
         Default is output.txt''')
     parser.add_argument(
         '-j', '--json',
@@ -123,7 +122,7 @@ def main():
     if args.visualize:
         import vis_helper
         filtered_words = vis_helper.process(g.search_results)
-        fdist = vis_helper.visualize_old(filtered_words)
+        vis_helper.visualize_old(filtered_words)
 
 
 if __name__ == '__main__':

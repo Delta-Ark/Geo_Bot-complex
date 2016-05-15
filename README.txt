@@ -3,7 +3,8 @@ Ariel Kalinowski and Trevor Owens 5/14/2016
 Install:
 
 git, python 2.7.X, pip
-On Windows: upgrade powershell (you may still have unicode problems)
+On Windows: upgrade powershell
+   (you may still have unicode problems when printing to command line)
 Python packages required: tweepy, nltk, matplotlib
 $ python -m pip install
 $ pip install <packages>
