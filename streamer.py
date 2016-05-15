@@ -11,9 +11,16 @@ import threading
 
 
 def get_creds(keys_file="consumerkeyandsecret"):
-    ''' This function gives stream access to the API
+    '''This function gives stream access to the API
+
+    It requires that your consumerkeyandsecret have 4 lines, with the
+    consumer key on the first line, the secret on the next and then an
+    access token on the 3rd and the access token secret on the
+    4th. You can get these by logging on to your twitter account and
+    creating an app.
 
     USAGE: auth = get_creds(keys_file)
+
     '''
     with open(keys_file, 'rU') as myfile:
         auth_data = [line.strip() for line in myfile]

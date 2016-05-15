@@ -1,7 +1,46 @@
 geotweets.py README file
 
-Ariel Kalinowski and Trevor Owens 11/8/2015
+Ariel Kalinowski and Trevor Owens 5/14/2016
 
+Install:
+git, python 2.7.X, pip
+On windows: upgrade powershell
+Python packages required: tweepy, nltk, matplotlib
+>>>python -m pip install
+>>>pip install <packages>
+Need some data, so we’ll use the nltk downloader
+Run a python shell:
+>>> python
+>>> import nltk
+>>> nltk.download()
+Less data:
+1) under corpora -> highlight stopwords then click download
+2) under corpora -> highlight treebank then click download
+3) under all packages -> highlight punkt then click download
+4) under models -> highlight averaged-perceptron-tagger then click download
+OR if you don't mind much more data:
+On main page, highlight book, click download and that should be it... 
+
+This created a folder called “nltk_data” in your home folder which is
+used by the program
+
+Navigate to the folder where you want getweets to be
+git clone https://github.com/owenst/geotweets.git
+get consumerkeyandsecret and put that in the folder
+cd into folder
+run geotweets.py
+
+Consumer Key and Secret:
+The program requires a file in this folder called consumerkeyandsecret
+secret (the longer one) on the second line. This should have 4 lines,
+with the consumer key on the first line, the secret on the next and
+then an access token on the 3rd and the access token secret on the
+4th. You can get these by logging on to your twitter account in a web
+browser and creating an app. These are used in the geosearchclass and
+streamer modules.
+
+
+About:
 This library is composed of several tools for scraping geolocated tweets and
 visualizing data gleaned from these tweets.
 
