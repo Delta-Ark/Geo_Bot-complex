@@ -43,7 +43,7 @@ import geosearchclass
 
 def get_parser():
     """ Creates a command line parser
-    
+
     --doc -d 
     --help -h
     --filename -f
@@ -107,7 +107,6 @@ def main():
             print 'Using parameters from params.txt'
             g.set_params_from_file('params.txt')
 
-
     g.search()
     # print formatted results with extra info to terminal
     if args.verbose:
@@ -121,14 +120,11 @@ def main():
     if args.json:
         g.json_search_results(args.json)
 
-
     if args.visualize:
         import vis_helper
         filtered_words = vis_helper.process(g.search_results)
         fdist = vis_helper.visualize_old(filtered_words)
 
 
-
-        
 if __name__ == '__main__':
     main()
