@@ -3,7 +3,8 @@ import nltk
 import re
 from nltk.corpus import stopwords
 from nltk.tokenize import TweetTokenizer
-from  matplotlib import pylab
+from matplotlib import pylab
+
 
 def do_it_all(search_results):
     visualize(process(search_results))
@@ -13,11 +14,12 @@ def visualize(word_list):
     fdist = get_freq_dist(word_list)
     textOb = nltk.text.Text(word_list)
     print textOb.collocations()
-    #print textOb.vocab()
+    # print textOb.vocab()
 
     # fdist.plot(30)
 
     return fdist
+
 
 def get_freq_dist(word_list):
     fdist = nltk.probability.FreqDist(word_list)
@@ -27,9 +29,9 @@ def get_freq_dist(word_list):
 def visualize_old(word_list):
     fdist = get_freq_dist(word_list)
     textOb = nltk.text.Text(word_list)
-    print textOb.collocations()    
-    #fdist.plot(30)
-    
+    print textOb.collocations()
+    # fdist.plot(30)
+
     samples = [item for item, _ in fdist.most_common(30)]
     freqs = [fdist[sample] for sample in samples]
     pylab.grid(True, color="silver")
@@ -39,6 +41,7 @@ def visualize_old(word_list):
     pylab.ylabel("Counts")
     pylab.show()
     return fdist
+
 
 def process(search_results):
     tokens = tokenize_results(search_results)
@@ -52,7 +55,7 @@ def tokenize_results(search_results):
         tweet_text = tweet_text + sr.text
     tokenizer = nltk.tokenize.casual.TweetTokenizer()
     tokens = tokenizer.tokenize(tweet_text)
-#    tokens = nltk.tokenize.word_tokenize(tweet_text)    
+#    tokens = nltk.tokenize.word_tokenize(tweet_text)
     return tokens
 
 

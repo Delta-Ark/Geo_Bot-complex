@@ -30,12 +30,13 @@ import matplotlib.pyplot as plt
 import streamer
 import Queue
 
-def update_fdist(fdist,new_words):
+
+def update_fdist(fdist, new_words):
     for word in new_words:
         if fdist.has_key(word):
-            fdist[word]+=1
+            fdist[word] += 1
         else:
-            fdist[word]=1
+            fdist[word] = 1
     return fdist
 
 
@@ -52,28 +53,28 @@ def new_tweets(new_sr, old_ids):
     return new_tweets
 
 
-def updating_plot(geosearchclass, number_of_words,grow=False):
+def updating_plot(geosearchclass, number_of_words, grow=False):
     search_results = geosearchclass.search()
     filtered_words = vis_helper.process(search_results)
     fdist = vis_helper.get_freq_dist(filtered_words)
-    #set up plot
+    # set up plot
     samples = [item for item, _ in fdist.most_common(number_of_words)]
     freqs = [fdist[sample] for sample in samples]
     plt.grid(True, color="silver")
-    plt.plot(freqs,range(len(freqs)))
+    plt.plot(freqs, range(len(freqs)))
     plt.yticks(range(len(samples)), [s for s in samples])
     plt.ylabel("Samples")
     plt.xlabel("Counts")
     plt.title("Top Words Frequency Distribution")
     plt.ion()
-    plt.show()    
+    plt.show()
 
-    # set up loop    
+    # set up loop
     old_ids = set([s.id for s in search_results])
     for i in xrange(100):
         plt.pause(5)
-        geosearchclass.result_type = "recent" #use mixed above, change to recent here
-        #perturbation study
+        geosearchclass.result_type = "recent"  # use mixed above, change to recent here
+        # perturbation study
         # if i%2:  # for testing purposes
         #     # #change location every odd time to nyc
         #     # geosearchclass.latitude =40.734073
@@ -81,18 +82,17 @@ def updating_plot(geosearchclass, number_of_words,grow=False):
         #     # perturb latitude
         #     geosearchclass.latitude =geosearchclass.latitude + .001
 
- 
         # else:
         #     #now back to sf
         #     # geosearchclass.latitude = 37.7821
         #     # geosearchclass.longitude =  -122.4093
         #     geosearchclass.longitude =geosearchclass.longitude + .001
-            
+
         search_results = geosearchclass.search()
         new_search_results = new_tweets(search_results, old_ids)
         if new_search_results:
             filtered_words = vis_helper.process(new_search_results)
-            fdist = update_fdist(fdist,filtered_words)
+            fdist = update_fdist(fdist, filtered_words)
             if grow:
                 newsamples = [item for
                               item, _ in fdist.most_common(number_of_words)]
@@ -102,16 +102,17 @@ def updating_plot(geosearchclass, number_of_words,grow=False):
                 if s1:
                     print "New words: " + str(list(s1))
                     newsamples = list(s1)
-                    samples.extend(newsamples)                                
+                    samples.extend(newsamples)
                     plt.yticks(range(len(samples)), [s for s in samples])
             freqs = [fdist[sample] for sample in samples]
-            plt.plot(freqs,range(len(freqs)))
+            plt.plot(freqs, range(len(freqs)))
             if grow:
                 plt.draw()
             print '%d new tweet(s)' % len(new_search_results)
             old_ids.update(set([s.id for s in new_search_results]))
         else:
             print "no updates"
+
 
 def updating_stream_plot(q):
     setup = False
@@ -127,11 +128,11 @@ def updating_stream_plot(q):
             print "setting up plot"
             filtered_words = vis_helper.process(search_results)
             fdist = vis_helper.get_freq_dist(filtered_words)
-            #set up plot
+            # set up plot
             samples = [item for item, _ in fdist.most_common(number_of_words)]
             freqs = [fdist[sample] for sample in samples]
             plt.grid(True, color="silver")
-            plt.plot(freqs,range(len(freqs)))
+            plt.plot(freqs, range(len(freqs)))
             plt.yticks(range(len(samples)), [s for s in samples])
             plt.ylabel("Samples")
             plt.xlabel("Counts")
@@ -140,10 +141,10 @@ def updating_stream_plot(q):
             plt.show()
             plt.pause(draw_time)
             setup = True
-            
-        else:    
+
+        else:
             filtered_words = vis_helper.process(search_results)
-            fdist = update_fdist(fdist,filtered_words)
+            fdist = update_fdist(fdist, filtered_words)
             newsamples = [item for
                           item, _ in fdist.most_common(number_of_words)]
             s1 = set(newsamples)
@@ -152,19 +153,17 @@ def updating_stream_plot(q):
             if s1:
                 print "New words: " + str(list(s1))
                 newsamples = list(s1)
-                samples.extend(newsamples)                                
+                samples.extend(newsamples)
                 plt.yticks(range(len(samples)), [s for s in samples])
             freqs = [fdist[sample] for sample in samples]
-            plt.plot(freqs,range(len(freqs)))
+            plt.plot(freqs, range(len(freqs)))
             plt.draw()
             plt.pause(draw_time)
 
- 
- 
-            
+
 def get_parser():
     """ Creates a command line parser
-    
+
     --doc -d 
     --help -h
     --filename -f
@@ -183,17 +182,16 @@ def get_parser():
         help='''specify a FILENAME to use as the parameter file. 
         If not specified, will use 'params.txt'.''')
     parser.add_argument(
-        '-g', '--grow',action='store_true',
+        '-g', '--grow', action='store_true',
         help='Grow chart as new words arrive')
     parser.add_argument(
         '-n', '--number',
         help='specify NUMBER of words to display')
     parser.add_argument(
-        '-s', '--stream',action='store_true',
+        '-s', '--stream', action='store_true',
         help='Use streaming API to update growing plot')
 
     return parser
-
 
 
 def main():
@@ -219,16 +217,12 @@ def main():
             g.set_params_from_file(args.filename)
         else:
             print "Using search values from params.txt"
-            g.set_params_from_file('params.txt')        
+            g.set_params_from_file('params.txt')
         if args.grow:
-            updating_plot(g, number, True) #set grow flag to True
+            updating_plot(g, number, True)  # set grow flag to True
         else:
             updating_plot(g, number, False)
 
 
-
-
-
-        
 if __name__ == '__main__':
     main()

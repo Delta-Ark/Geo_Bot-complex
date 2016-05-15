@@ -71,8 +71,8 @@ class ListenerJSON(StreamListener):
         self.json_file = open(filename, 'a')
 
     def on_status(self, status):
-        #print data
-        #print u"Tweet Message : {}\n\n".format(status.text)
+        # print data
+        # print u"Tweet Message : {}\n\n".format(status.text)
         print type(status)
         sj = status._json
         j = json.dumps(sj, indent=1)
@@ -83,7 +83,7 @@ class ListenerJSON(StreamListener):
         # error codes: https://dev.twitter.com/overview/api/response-codes
         print status
         if status_code == 420:
-            return False  #returning False in on_data disconnects the stream
+            return False  # returning False in on_data disconnects the stream
 
     def on_disconnect():
         super(ListenerJSON, self).on_disconnect()
@@ -110,7 +110,7 @@ class ListenerQueue(StreamListener):
         # error codes: https://dev.twitter.com/overview/api/response-codes
         print status
         if status_code == 420:
-            return False  #returning False in on_data disconnects the stream
+            return False  # returning False in on_data disconnects the stream
 
 
 def stream_to_json_file(fn='tweets.json'):
@@ -128,7 +128,7 @@ def stream_to_json_file(fn='tweets.json'):
 def get_tweets_from_q(queue):
     while True:
         status = queue.get()
-        print u"Tweet Message : {}\n\n".format(status.text)        
+        print u"Tweet Message : {}\n\n".format(status.text)
         queue.task_done()
 
 

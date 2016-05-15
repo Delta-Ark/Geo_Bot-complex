@@ -36,9 +36,9 @@ class GeoSearchClass(object):
     g.print_search_results()
     """
 
-    def __init__(self,  params_file=None, keys_file = "consumerkeyandsecret"):
+    def __init__(self,  params_file=None, keys_file="consumerkeyandsecret"):
         if params_file:
-            self.set_params_from_file(params_file) 
+            self.set_params_from_file(params_file)
         else:
             self.use_default_params()
         self.get_creds(keys_file)
@@ -52,7 +52,6 @@ class GeoSearchClass(object):
         self._radius = 3
         self._geo_string = None
         self.search_results = None
-        
 
     def set_params_from_file(self, filename):
         with open(filename, 'rU') as f:
@@ -67,7 +66,7 @@ class GeoSearchClass(object):
         self._result_type = params['result_type']
         self._count = params['count']
 
-    def get_creds(self,keys_file="consumerkeyandsecret"):
+    def get_creds(self, keys_file="consumerkeyandsecret"):
         ''' This function gives App Only Authorization.  It is made for app access to the
         twitter rest API.
 
@@ -153,7 +152,7 @@ class GeoSearchClass(object):
             f.write(tweet_text)
         return
 
-    def json_search_results(self, output_file = 'search_results.json'):
+    def json_search_results(self, output_file='search_results.json'):
         '''Writes search results as json to output file 'search_results.json
 
 
@@ -178,7 +177,6 @@ class GeoSearchClass(object):
                 j = json.dumps(sr._json, indent=1)
                 f.write(j)
         return
-
 
     def _print_SRO_info(self):
         '''
