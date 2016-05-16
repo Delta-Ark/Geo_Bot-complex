@@ -33,7 +33,7 @@ import Queue
 
 def update_fdist(fdist, new_words):
     for word in new_words:
-        if fdist.has_key(word):
+        if word in fdist:
             fdist[word] += 1
         else:
             fdist[word] = 1
@@ -41,9 +41,9 @@ def update_fdist(fdist, new_words):
 
 
 def new_tweets(new_sr, old_ids):
-    ''' returns only search_results that do not have ids listed in old_ids
-    new_sr is the new search results, 
-    old_ids is a set of ids
+    '''returns only search_results that do not have ids listed in old_ids
+    new_sr is the new search results, old_ids is a set of ids
+
     '''
     new_tweets = []
     if old_ids:
@@ -73,7 +73,8 @@ def updating_plot(geosearchclass, number_of_words, grow=False):
     old_ids = set([s.id for s in search_results])
     for i in xrange(100):
         plt.pause(5)
-        geosearchclass.result_type = "recent"  # use mixed above, change to recent here
+        # use mixed above, change to recent here
+        geosearchclass.result_type = "recent"
         # perturbation study
         # if i%2:  # for testing purposes
         #     # #change location every odd time to nyc
@@ -116,14 +117,19 @@ def updating_plot(geosearchclass, number_of_words, grow=False):
 
 def updating_stream_plot(q):
     setup = False
-    search_results = []
-    fdist = None
+    fdist = vis_helper.get_freq_dist([])
     samples = None
     number_of_words = 30
     draw_time = 0.1
+    samples = []
     while True:
         status = q.get()
-        search_results.append(status)
+        search_results = [status]
+        # search_results = []
+        # while not q.empty():
+        #     print "getting another tweet"
+        #     status = q.get()
+        #     search_results.append(status)
         if not setup:
             print "setting up plot"
             filtered_words = vis_helper.process(search_results)
@@ -207,7 +213,9 @@ def main():
         number = int(args.number)
     else:
         number = 30
+        
     if args.stream:
+        print "using streaming queue"
         q = Queue.Queue()
         streamer.start_stream(q, updating_stream_plot)
     else:
@@ -219,8 +227,10 @@ def main():
             print "Using search values from params.txt"
             g.set_params_from_file('params.txt')
         if args.grow:
+            print "using updating plot"
             updating_plot(g, number, True)  # set grow flag to True
         else:
+            print "using non-updating plot"
             updating_plot(g, number, False)
 
 

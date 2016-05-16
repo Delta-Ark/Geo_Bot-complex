@@ -5,8 +5,8 @@
 """ Test unit for write """
 
 import unittest
-import time
-import geosearchclass
+# import time
+# import geosearchclass
 import nltk
 import logging
 from write import traverse_tree_grab_phrase
@@ -32,7 +32,7 @@ class TestWrite(unittest.TestCase):
         # self.sr = self.g.search()
 
     def setUp(self):
-         # set to DEBUG, INFO, WARNING, ERROR, CRITICAL :
+        # set to DEBUG, INFO, WARNING, ERROR, CRITICAL :
         logging.basicConfig(
             format='%(levelname)s:  %(message)s', level=logging.INFO)
         self.tokens = nltk.word_tokenize(
@@ -69,7 +69,8 @@ class TestWrite(unittest.TestCase):
         for k, v in phrases.items():
             print '{} : {}'.format(k, v)
         self.assertEqual(
-            phrases['NP'], ['Numerous passing references', 'the phrase', 'movies'])
+            phrases['NP'], ['Numerous passing references',
+                            'the phrase', 'movies'])
         self.assertEqual(
             phrases['VP'], ['have occurred in movies', 'occurred in movies'])
         self.assertEqual(phrases['PP'], ['to the phrase'])  # maybe 'in movies'
