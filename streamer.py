@@ -54,7 +54,7 @@ class ListenerJSON(StreamListener):
     def on_error(self, status):
         # error codes: https://dev.twitter.com/overview/api/response-codes
         print status
-        if status_code == 420:
+        if status == 420:
             return False  # returning False in on_data disconnects the stream
 
     def on_disconnect():
@@ -83,7 +83,7 @@ class ListenerQueue(StreamListener):
     def on_error(self, status):
         # error codes: https://dev.twitter.com/overview/api/response-codes
         print status
-        if status_code == 420:
+        if status == 420:
             return False  # returning False in on_data disconnects the stream
 
 

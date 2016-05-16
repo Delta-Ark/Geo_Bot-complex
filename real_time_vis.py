@@ -4,22 +4,24 @@
 
 """This grabs tweets and visualizes them in near real time.
 
-USAGE: 
+USAGE:
   $ python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER]
 OR for help, try:
   $ ./real_time_vis.py -h
-OR: 
+OR:
   $ python real_time_vis.py
 
 
-Example using default parameter file 'params.txt', with 10 top words to display,
-on a growing chart:
+Example using default parameter file 'params.txt', with 10 top words
+to display, on a growing chart:
+
     $ ./real_time_vis --grow --number 10
 Equivalently:
     $ ./real_time_vis -g -n 10
 
 There is a delay in updating because Twitter API policy requires you
 to wait 5 seconds between queries.
+
 """
 
 
@@ -125,13 +127,16 @@ def updating_stream_plot(q):
     while True:
         status = q.get()
         search_results = [status]
-        # search_results = []
-        # while not q.empty():
-        #     print "getting another tweet"
-        #     status = q.get()
-        #     search_results.append(status)
+        while not q.empty():
+            print "getting another tweet"
+            status = q.get()
+            search_results.append(status)
+        
         if not setup:
             print "setting up plot"
+            g = geosearchclass.GeoSearchClass()
+            g.set_params_from_file('params.txt')
+            search_results = g.search()
             filtered_words = vis_helper.process(search_results)
             fdist = vis_helper.get_freq_dist(filtered_words)
             # set up plot
