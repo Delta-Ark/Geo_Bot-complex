@@ -134,9 +134,9 @@ def updating_stream_plot(q):
         
         if not setup:
             print "setting up plot"
-            g = geosearchclass.GeoSearchClass()
-            g.set_params_from_file('params.txt')
-            search_results = g.search()
+            # g = geosearchclass.GeoSearchClass()
+            # g.set_params_from_file('params.txt')
+            # search_results = g.search()
             filtered_words = vis_helper.process(search_results)
             fdist = vis_helper.get_freq_dist(filtered_words)
             # set up plot
