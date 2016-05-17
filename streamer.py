@@ -116,11 +116,10 @@ def start_stream(q, q_handler_function):
     t = threading.Thread(target=q_handler_function(q))
     t.daemon = True
     t.start()
-    print "waiting 5s"
-    time.sleep(5)
-    print "terminating"
+    print "terminating stream"
     stream.disconnect()
-    t.join()
+    print "stream terminated"
+    return
 
 
 if __name__ == '__main__':

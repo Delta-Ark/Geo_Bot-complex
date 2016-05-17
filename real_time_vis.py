@@ -55,6 +55,14 @@ def new_tweets(new_sr, old_ids):
     return new_tweets
 
 
+def remove_infrequent_words(samples, fdist):
+    trimmed_samples = []
+    for item in samples:
+        if fdist[item] > 2:
+            trimmed_samples.append(item)
+    return trimmed_samples
+
+
 def updating_plot(geosearchclass, number_of_words, grow=False):
     search_results = geosearchclass.search()
     filtered_words = vis_helper.process(search_results)
@@ -116,33 +124,43 @@ def updating_plot(geosearchclass, number_of_words, grow=False):
         else:
             print "no updates"
 
+# g = geosearchclass.GeoSearchClass()
+# g.set_params_from_file('params.txt')
+# search_results = g.search()
+
 
 def updating_stream_plot(q):
     setup = False
-    fdist = vis_helper.get_freq_dist([])
+    fdist = None
     samples = None
     number_of_words = 30
     draw_time = 0.1
     samples = []
-    while True:
+    plt.grid(True, color="silver")
+    for i in range(10):
         status = q.get()
         search_results = [status]
         while not q.empty():
             print "getting another tweet"
             status = q.get()
             search_results.append(status)
-        
+
         if not setup:
-            print "setting up plot"
-            # g = geosearchclass.GeoSearchClass()
-            # g.set_params_from_file('params.txt')
-            # search_results = g.search()
-            filtered_words = vis_helper.process(search_results)
-            fdist = vis_helper.get_freq_dist(filtered_words)
-            # set up plot
-            samples = [item for item, _ in fdist.most_common(number_of_words)]
+            print "Gathering enough data to begin plotting"
+            while len(samples) < 1:
+                status = q.get()
+                search_results.append(status)
+                filtered_words = vis_helper.process(search_results)
+                if fdist is None:
+                    fdist = vis_helper.get_freq_dist(filtered_words)
+                else:
+                    fdist = update_fdist(fdist, filtered_words)
+                n_words = min(10, len(fdist))
+                samples = [item for item, _ in fdist.most_common(n_words)]
+                print "len(samples) = {}".format(len(samples))
+                samples = remove_infrequent_words(samples, fdist)
             freqs = [fdist[sample] for sample in samples]
-            plt.grid(True, color="silver")
+
             plt.plot(freqs, range(len(freqs)))
             plt.yticks(range(len(samples)), [s for s in samples])
             plt.ylabel("Samples")
@@ -158,6 +176,7 @@ def updating_stream_plot(q):
             fdist = update_fdist(fdist, filtered_words)
             newsamples = [item for
                           item, _ in fdist.most_common(number_of_words)]
+            newsamples = remove_infrequent_words(newsamples, fdist)
             s1 = set(newsamples)
             s2 = set(samples)
             s1.difference_update(s2)
@@ -165,11 +184,19 @@ def updating_stream_plot(q):
                 print "New words: " + str(list(s1))
                 newsamples = list(s1)
                 samples.extend(newsamples)
+                if len(samples) > 60:
+                    samples = newsamples
+                    plt.close()
                 plt.yticks(range(len(samples)), [s for s in samples])
             freqs = [fdist[sample] for sample in samples]
             plt.plot(freqs, range(len(freqs)))
             plt.draw()
             plt.pause(draw_time)
+    # This doesn't seem to work
+    plt.ioff()
+    plt.close()
+    q.task_done()
+    return
 
 
 def get_parser():
@@ -223,6 +250,7 @@ def main():
         print "using streaming queue"
         q = Queue.Queue()
         streamer.start_stream(q, updating_stream_plot)
+        q.join()
     else:
         g = geosearchclass.GeoSearchClass()
         if args.filename:
