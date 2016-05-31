@@ -87,6 +87,10 @@ params.txt (default):
 
   $ python real_time_vis.py -g -n 20
 
+Streaming real time data word frequency chart using a local address:
+
+  $ python real_time_vis.py -a "175 5th Avenue NYC" -s
+
 
 
 
