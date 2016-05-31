@@ -1,12 +1,13 @@
 #!/usr/bin/python
 
-from tweepy.streaming import StreamListener
-from tweepy import OAuthHandler
-from tweepy import Stream
-import json
-import time
 import Queue
-import threading
+import atexit
+import json
+import sys
+import time
+
+from tweepy import OAuthHandler, Stream
+from tweepy.streaming import StreamListener
 
 
 def get_creds(keys_file="consumerkeyandsecret"):
@@ -84,6 +85,7 @@ class ListenerQueue(StreamListener):
         # error codes: https://dev.twitter.com/overview/api/response-codes
         print status
         if status == 420:
+            print "Too many attempts made to contact the Twitter server"
             return False  # returning False in on_data disconnects the stream
 
 
@@ -92,6 +94,7 @@ def stream_to_json_file(fn='tweets.json'):
     L = ListenerJSON(fn)
     stream = Stream(auth, L)
     stream.filter(locations=[-122.75, 36.8, -121.75, 37.8], async=True)
+    # can find terms: by adding track=['python']
     print "waiting 5s"
     time.sleep(5)
     print "terminating"
@@ -101,33 +104,55 @@ def stream_to_json_file(fn='tweets.json'):
 
 def get_tweets_from_q(queue):
     while True:
-        status = queue.get()
+        status = queue.get(True, 5)
         print u"Tweet Message : {}\n\n".format(status.text)
         queue.task_done()
 
 
-def start_stream(q, q_handler_function):
+def start_stream(q, bounding_box, search_terms=None):
     auth = get_creds()
-
     L = ListenerQueue(q)
     stream = Stream(auth, L)
-    stream.filter(locations=[-122.75, 36.8, -121.75, 37.8], async=True)
-#    t = threading.Thread(target=get_tweets_from_q(q))
-    t = threading.Thread(target=q_handler_function(q))
-    t.daemon = True
-    t.start()
-    print "terminating stream"
+    if search_terms:
+        stream.filter(locations=bounding_box, track=search_terms, async=True)
+    else:
+        stream.filter(locations=bounding_box, async=True)
+    
+    # q_handler_function(q)
+    # t = threading.Thread(target=get_tweets_from_q(q))
+    # t = threading.Thread(target=q_handler_function(q))
+    # t.daemon = True
+    # t.start()
+    # print "thread function must have returned"
+    # print "terminating stream"
+    # stream.disconnect()
+    # print "stream terminated"
+    return stream
+
+
+def kill_stream(stream, q):
+    q.all_tasks_done()
+    print "disconnecting stream"
     stream.disconnect()
-    print "stream terminated"
-    return
+    print "stream disconnected"
 
 
-if __name__ == '__main__':
-
+def main():
     #    stream_to_json_file()
     q = Queue.Queue()
-    start_stream(q, get_tweets_from_q)
-
+    bounding_box = [-122.75, 36.8, -121.75, 37.8]
+    stream = start_stream(q, bounding_box)
+    atexit.register(kill_stream, stream, q)
+    get_tweets_from_q(q)
     # now read in the files
 
     # https://dev.twitter.com/streaming/overview/request-parameters
+    
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print "Main function interrupted"
+        sys.exit()
+        pass

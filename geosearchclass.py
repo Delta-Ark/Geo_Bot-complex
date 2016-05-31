@@ -1,8 +1,9 @@
 #!/usr/bin/python
-import sys
-import os
-import codecs
 import ast
+import codecs
+import os
+import sys
+
 import tweepy
 
 
@@ -22,26 +23,27 @@ class GeoSearchClass(object):
 
     Simple example:
     g = GeoSearchClass()
-    g.search() 
+    g.search()
     g.print_search_results()
 
-    OR to properly initialize:    
+    OR to properly initialize:
     g = GeoSearchClass(params_filename, consumer_key_and_secret_filename)
 
     To initialize the geosearchclass with a parameter file and the
-    consumer key and secret file: 
-    g = GeoSearchClass(params_filename,consumer_key_and_secret_filename) 
-    and use: 
+    consumer key and secret file:
+    g = GeoSearchClass(params_filename,consumer_key_and_secret_filename)
+    and use:
     g.search()
     g.print_search_results()
     """
 
-    def __init__(self,  params_file=None, keys_file="consumerkeyandsecret"):
+    def __init__(self, params_file=None, keys_file="consumerkeyandsecret"):
         if params_file:
             self.set_params_from_file(params_file)
         else:
             self.use_default_params()
-        self.get_creds(keys_file)
+        self.keys_file = keys_file
+        self.credits_retrieved = False
 
     def use_default_params(self):
         self._search_term = None
@@ -67,10 +69,11 @@ class GeoSearchClass(object):
         self._count = params['count']
 
     def get_creds(self, keys_file="consumerkeyandsecret"):
-        ''' This function gives App Only Authorization.  It is made for app access to the
-        twitter rest API.
+        '''This function gives App Only Authorization.  It is made for app
+        access to the twitter rest API.
 
         USAGE: api = get_creds(keys_file)
+
         '''
         with open(keys_file, 'rU') as myfile:
             auth_data = [line.strip() for line in myfile]
@@ -81,32 +84,40 @@ class GeoSearchClass(object):
         self.api = api
 
     def search(self):
-        '''
-        Perform a geolocated search using the class attributes 'search_term', 'result_type', 'count', and 'geo_string'.
+        '''Perform a geolocated search using the class attributes
+        'search_term', 'result_type', 'count', and 'geo_string'.
 
         Requires an api object as returned by the tweepy module.
 
         USAGE:
         search_results = search(api)
+
         '''
+        if not self.credits_retrieved:
+            self.get_creds(self.keys_file)
+            self.credits_retrieved = True
         geo_string = getattr(self, "geo_string")
-        if self._geo_string == None:
+        if self._geo_string is None:
             raise Exception("initialize geo string")
-        search_results = self.api.search(
-            q=self._search_term, geocode=geo_string, result_type=self._result_type, count=self._count)
+        search_results = self.api.search(q=self._search_term,
+                                         geocode=geo_string,
+                                         result_type=self._result_type,
+                                         count=self._count)
         self.search_results = search_results
         return self.search_results
 
     def print_search_results(self):
-        '''
-        Pretty prints the list of SearchResult objects returned using the api.search method.
+        '''Pretty prints the list of SearchResult objects returned using the
+        api.search method.
 
         The results are formated and give some info about the tweet.
+
         '''
 
         # printSROInfo()   #This is for SRO object investigation
         search_results = self.search_results
-        print "Actual number of tweets returned from Twitter: " + str(len(search_results))
+        print "Actual number of tweets returned from Twitter: " + str(len(
+            search_results))
 
         for sr in search_results:
             print
@@ -115,15 +126,17 @@ class GeoSearchClass(object):
                 print 'coordinates = ' + str((sr.geo)['coordinates'])
             print "created_at = " + str(sr.created_at)
             print "tweet id: " + str(sr.id)
-            print "retweet_count = " + str(sr.retweet_count) + "favorite_count = " + str(sr.favorite_count)
+            print "retweet_count = " + str(
+                sr.retweet_count) + "favorite_count = " + str(
+                    sr.favorite_count)
             print sr.text
 
     def write_search_results(self, output_file=u'output.txt'):
         '''Writes search results to output file, defaults to "output.txt".
 
 
-        USAGE: 
-        write_results( output_file = 'output.txt') 
+        USAGE:
+        write_results( output_file = 'output.txt')
 
 
         Details: It uses unicode encoding to capture all of the
@@ -144,11 +157,12 @@ class GeoSearchClass(object):
         # print tweet_text
         # print "tweet text type = " + str(type(tweet_text))
         fileSystemEncoding = sys.getfilesystemencoding()
-        #OUTPUT_FILE = os.path.expanduser(u'./output.txt')
+        # OUTPUT_FILE = os.path.expanduser(u'./output.txt')
         OUTPUT_FILE = os.path.expanduser(u'./' + output_file)
         # with codecs.open(OUTPUT_FILE, encoding='utf-8', mode="w") as f:
-        with codecs.open(
-                OUTPUT_FILE, encoding=fileSystemEncoding, mode="w") as f:
+        with codecs.open(OUTPUT_FILE,
+                         encoding=fileSystemEncoding,
+                         mode="w") as f:
             f.write(tweet_text)
         return
 
@@ -156,7 +170,7 @@ class GeoSearchClass(object):
         '''Writes search results as json to output file 'search_results.json
 
 
-        USAGE: 
+        USAGE:
         json_search_results( output_file = 'search_results.json')
 
 
@@ -171,8 +185,9 @@ class GeoSearchClass(object):
         #OUTPUT_FILE = os.path.expanduser(u'./output.txt')
         OUTPUT_FILE = os.path.expanduser(u'./' + output_file)
         # with codecs.open(OUTPUT_FILE, encoding='utf-8', mode="w") as f:
-        with codecs.open(
-                OUTPUT_FILE, encoding=fileSystemEncoding, mode="w") as f:
+        with codecs.open(OUTPUT_FILE,
+                         encoding=fileSystemEncoding,
+                         mode="w") as f:
             for sr in self.search_results:
                 j = json.dumps(sr._json, indent=1)
                 f.write(j)
@@ -213,8 +228,9 @@ class GeoSearchClass(object):
             value = float(value)
         if isinstance(value, (float, int)):
             if not (value > 0 and value < 101 and value == int(value)):
-                raise ValueError("count is '" + str(value) +
-                                 "' but count must be an integer and 0 < count < 101")
+                raise ValueError(
+                    "count is '" + str(value) +
+                    "' but count must be an integer and 0 < count < 101")
         self._count = value
 
     @property
@@ -226,7 +242,8 @@ class GeoSearchClass(object):
     def result_type(self, rt):
         if not (rt == "mixed" or rt == "popular" or rt == "recent"):
             raise ValueError(
-                "result_type must be 'mixed', 'recent', or 'popular' NOT '" + str(rt) + "'")
+                "result_type must be 'mixed', 'recent', or 'popular' NOT '" +
+                str(rt) + "'")
         self._result_type = rt
 
     @property

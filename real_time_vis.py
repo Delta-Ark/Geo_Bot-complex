@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # real_time_vis.py
 # Saito 2015
-
 """This grabs tweets and visualizes them in near real time.
 
 USAGE:
@@ -23,14 +22,19 @@ There is a delay in updating because Twitter API policy requires you
 to wait 5 seconds between queries.
 
 """
+from __future__ import division
 
-
-import vis_helper
-import geosearchclass
-import argparse
-import matplotlib.pyplot as plt
-import streamer
 import Queue
+import argparse
+import atexit
+import sys
+
+import matplotlib.pyplot as plt
+
+import geo_converter
+import geosearchclass
+import streamer
+import vis_helper
 
 
 def update_fdist(fdist, new_words):
@@ -105,8 +109,9 @@ def updating_plot(geosearchclass, number_of_words, grow=False):
             filtered_words = vis_helper.process(new_search_results)
             fdist = update_fdist(fdist, filtered_words)
             if grow:
-                newsamples = [item for
-                              item, _ in fdist.most_common(number_of_words)]
+                newsamples = [item
+                              for item, _ in fdist.most_common(number_of_words)
+                              ]
                 s1 = set(newsamples)
                 s2 = set(samples)
                 s1.difference_update(s2)
@@ -129,15 +134,32 @@ def updating_plot(geosearchclass, number_of_words, grow=False):
 # search_results = g.search()
 
 
-def updating_stream_plot(q):
+def updating_stream_plot(q, number_of_words=30):
+    """This plot uses the streaming API to get real time twitter
+    information from a given region, determined by a geo-coordinate
+    bounding box. The upper left and lower right determine the
+    bounding box.
+
+    q is a queue instance, which holds tweets
+    
+    number_of_words determines the average number of words in the
+    plot. Once the plot reaches 2 x number_of_words, it is shrunk down
+    to the new set of words and starts growing again
+
+    To exit the program early, hit CTRL + Z to stop the python script
+    and then CTRL + D twice to kill the terminal process and close the
+    window.
+
+    """
     setup = False
     fdist = None
     samples = None
-    number_of_words = 30
     draw_time = 0.1
     samples = []
+    plt.ion()
     plt.grid(True, color="silver")
-    for i in range(10):
+
+    for i in range(100000):
         status = q.get()
         search_results = [status]
         while not q.empty():
@@ -157,16 +179,14 @@ def updating_stream_plot(q):
                     fdist = update_fdist(fdist, filtered_words)
                 n_words = min(10, len(fdist))
                 samples = [item for item, _ in fdist.most_common(n_words)]
-                print "len(samples) = {}".format(len(samples))
+                # print "len(samples) = {}".format(len(samples))
                 samples = remove_infrequent_words(samples, fdist)
             freqs = [fdist[sample] for sample in samples]
-
             plt.plot(freqs, range(len(freqs)))
             plt.yticks(range(len(samples)), [s for s in samples])
             plt.ylabel("Samples")
             plt.xlabel("Counts")
             plt.title("Top Words Frequency Distribution")
-            plt.ion()
             plt.show()
             plt.pause(draw_time)
             setup = True
@@ -174,8 +194,8 @@ def updating_stream_plot(q):
         else:
             filtered_words = vis_helper.process(search_results)
             fdist = update_fdist(fdist, filtered_words)
-            newsamples = [item for
-                          item, _ in fdist.most_common(number_of_words)]
+            newsamples = [item
+                          for item, _ in fdist.most_common(number_of_words)]
             newsamples = remove_infrequent_words(newsamples, fdist)
             s1 = set(newsamples)
             s2 = set(samples)
@@ -184,7 +204,7 @@ def updating_stream_plot(q):
                 print "New words: " + str(list(s1))
                 newsamples = list(s1)
                 samples.extend(newsamples)
-                if len(samples) > 60:
+                if len(samples) > 2*number_of_words:
                     samples = newsamples
                     plt.close()
                 plt.yticks(range(len(samples)), [s for s in samples])
@@ -192,17 +212,22 @@ def updating_stream_plot(q):
             plt.plot(freqs, range(len(freqs)))
             plt.draw()
             plt.pause(draw_time)
-    # This doesn't seem to work
+    kill_plot()
+    return
+
+
+def kill_plot():
+    print "turning interactive off"
     plt.ioff()
+    print "closing plot"
     plt.close()
-    q.task_done()
     return
 
 
 def get_parser():
     """ Creates a command line parser
 
-    --doc -d 
+    --doc -d
     --help -h
     --filename -f
     --grow -g
@@ -212,22 +237,37 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description='Create an updating word frequency distribution chart.')
 
+    parser.add_argument('-d',
+                        '--doc',
+                        action='store_true',
+                        help='print module documentation and exit')
     parser.add_argument(
-        '-d', '--doc', action='store_true',
-        help='print module documentation and exit')
-    parser.add_argument(
-        '-f', '--filename',
-        help='''specify a FILENAME to use as the parameter file. 
+        '-f',
+        '--filename',
+        help='''specify a FILENAME to use as the parameter file.
         If not specified, will use 'params.txt'.''')
     parser.add_argument(
-        '-g', '--grow', action='store_true',
-        help='Grow chart as new words arrive')
-    parser.add_argument(
-        '-n', '--number',
-        help='specify NUMBER of words to display')
-    parser.add_argument(
-        '-s', '--stream', action='store_true',
-        help='Use streaming API to update growing plot')
+        '-a',
+        '--address',
+        help='''give an ADDRESS to get geocoordinates for.''')
+    parser.add_argument('-g',
+                        '--grow',
+                        action='store_true',
+                        help='Grow chart as new words arrive. This is only\
+                        for the non-streaming plot, which uses the REST API')
+    parser.add_argument('-n',
+                        '--number',
+                        help='specify NUMBER of words to display. The\
+                        streaming plot will grow to twice this number\
+                        before shrinking again')
+    parser.add_argument('-s',
+                        '--stream',
+                        action='store_true',
+                        help='Use streaming API to update a growing plot. \
+                        This uses the LOCATION and SEARCH_TERM from\
+                        parameter file. The geolocation is approximately\
+                        converted, by inscribing a bounding box square in the\
+                        circle around the geocoordinates')
 
     return parser
 
@@ -239,33 +279,58 @@ def main():
     if args.doc:
         print __doc__
         import sys
-        sys.exit()
+        sys.exit(0)
 
     if args.number:
         number = int(args.number)
     else:
         number = 30
-        
+
+    g = geosearchclass.GeoSearchClass()
+
+    if args.filename:
+        print 'Using parameters from ' + str(args.filename)
+        g.set_params_from_file(args.filename)
+    else:
+        print "Using search values from params.txt"
+        g.set_params_from_file('params.txt')
+
+    if args.address:
+        print "Finding geocoordates for address:\n{}".format(args.address)
+        coords = geo_converter.get_geocoords_from_address(args.address)
+        if coords:
+            g.latitude = coords[0]
+            g.longitude = coords[1]
+        else:
+            print "Failed to find coordinates"
+    
     if args.stream:
         print "using streaming queue"
         q = Queue.Queue()
-        streamer.start_stream(q, updating_stream_plot)
-        q.join()
+        # bounding_box = [-122.75, 36.8, -121.75, 37.8]
+        bounding_box = geo_converter.get_bounding_box_from(g)
+        search_terms = geo_converter.get_search_terms_from(g)
+        print "bounding_box = {}".format(bounding_box)
+        print "search_terms = {}".format(search_terms)
+        # import sys
+        # sys.exit()
+        stream = streamer.start_stream(q, bounding_box, search_terms)
+        atexit.register(kill_plot)
+        atexit.register(streamer.kill_stream, stream)
+        updating_stream_plot(q, number)
+        stream.disconnect()
+    elif args.grow:
+        print "using REST API updating plot"
+        updating_plot(g, number, True)  # set grow flag to True
     else:
-        g = geosearchclass.GeoSearchClass()
-        if args.filename:
-            print 'Using parameters from ' + str(args.filename)
-            g.set_params_from_file(args.filename)
-        else:
-            print "Using search values from params.txt"
-            g.set_params_from_file('params.txt')
-        if args.grow:
-            print "using updating plot"
-            updating_plot(g, number, True)  # set grow flag to True
-        else:
-            print "using non-updating plot"
-            updating_plot(g, number, False)
+        print "using REST API non-updating plot"
+        updating_plot(g, number, False)
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print "Main function interrupted"
+        sys.exit()
+        pass
