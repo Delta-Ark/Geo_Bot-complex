@@ -58,10 +58,10 @@ class ListenerJSON(StreamListener):
         if status == 420:
             return False  # returning False in on_data disconnects the stream
 
-    def on_disconnect():
-        super(ListenerJSON, self).on_disconnect()
-        print "made it to disconnector"
-        self.json_file.close()
+    # def on_disconnect():
+    #     super(ListenerJSON, self).on_disconnect()
+    #     print "made it to disconnector"
+    #     self.json_file.close()
 
 
 class ListenerQueue(StreamListener):
@@ -73,12 +73,26 @@ class ListenerQueue(StreamListener):
 
     """
 
-    def __init__(self, queue):
+    def __init__(self, queue, filename):
         super(ListenerQueue, self).__init__()
         self.queue = queue
+        self.json_file = open(filename, 'a')
+        print filename
 
     def on_status(self, status):
         self.queue.put(status)
+        # sj = status._json
+        user = status.user.screen_name
+        print user
+        time = status.created_at.isoformat()
+        print time
+        text = status.text
+        print text
+        # coords = status.coordinates
+        sj = [user, time, text]
+        print sj
+        j = json.dumps(sj, indent=1)
+        self.json_file.write(j)
         return True
 
     def on_error(self, status):
@@ -88,6 +102,11 @@ class ListenerQueue(StreamListener):
             print "Too many attempts made to contact the Twitter server"
             return False  # returning False in on_data disconnects the stream
 
+    # def on_disconnect():
+    #     super(ListenerJSON, self).on_disconnect()
+    #     print "made it to disconnector"
+    #     self.json_file.close()
+
 
 def stream_to_json_file(fn='tweets.json'):
     auth = get_creds()
@@ -95,8 +114,8 @@ def stream_to_json_file(fn='tweets.json'):
     stream = Stream(auth, L)
     stream.filter(locations=[-122.75, 36.8, -121.75, 37.8], async=True)
     # can find terms: by adding track=['python']
-    print "waiting 5s"
-    time.sleep(5)
+    print "waiting 15s"
+    time.sleep(15)
     print "terminating"
     stream.disconnect()
     L.json_file.close()
@@ -109,9 +128,9 @@ def get_tweets_from_q(queue):
         queue.task_done()
 
 
-def start_stream(q, bounding_box, search_terms=None):
+def start_stream(q, bounding_box, fn='tweets.json', search_terms=None):
     auth = get_creds()
-    L = ListenerQueue(q)
+    L = ListenerQueue(q, fn)
     stream = Stream(auth, L)
     if search_terms:
         stream.filter(locations=bounding_box, track=search_terms, async=True)
@@ -138,12 +157,12 @@ def kill_stream(stream, q):
 
 
 def main():
-    #    stream_to_json_file()
+    # stream_to_json_file()
     q = Queue.Queue()
     bounding_box = [-122.75, 36.8, -121.75, 37.8]
     stream = start_stream(q, bounding_box)
     atexit.register(kill_stream, stream, q)
-    get_tweets_from_q(q)
+    # get_tweets_from_q(q)
     # now read in the files
 
     # https://dev.twitter.com/streaming/overview/request-parameters
