@@ -26,7 +26,6 @@ from __future__ import division
 
 import Queue
 import argparse
-import atexit
 import sys
 
 import matplotlib.pyplot as plt
@@ -35,6 +34,8 @@ import geo_converter
 import geosearchclass
 import streamer
 import vis_helper
+
+global stream  # so that CTRL + C kills stream
 
 
 def update_fdist(fdist, new_words):
@@ -314,11 +315,13 @@ def main():
         print "search_terms = {}".format(search_terms)
         # import sys
         # sys.exit()
-        stream = streamer.start_stream(q, bounding_box, search_terms)
-        atexit.register(kill_plot)
-        atexit.register(streamer.kill_stream, stream)
+        global stream
+        fn = 'tweets.json'
+        stream = streamer.start_stream(q, bounding_box, fn, search_terms)
+        # atexit.register(kill_plot)
+        # atexit.register(streamer.kill_stream, stream, L)
         updating_stream_plot(q, number)
-        stream.disconnect()
+        # stream.disconnect()
     elif args.grow:
         print "using REST API updating plot"
         updating_plot(g, number, True)  # set grow flag to True
@@ -332,5 +335,7 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print "Main function interrupted"
+        streamer.kill_stream(stream)
+        kill_plot()
         sys.exit()
         pass

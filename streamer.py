@@ -1,13 +1,14 @@
 #!/usr/bin/python
 
 import Queue
-import atexit
 import json
 import sys
 import time
 
 from tweepy import OAuthHandler, Stream
 from tweepy.streaming import StreamListener
+
+global stream
 
 
 def get_creds(keys_file="consumerkeyandsecret"):
@@ -33,35 +34,35 @@ def get_creds(keys_file="consumerkeyandsecret"):
     return auth
 
 
-class ListenerJSON(StreamListener):
-    """A StreamListener implementation for accessing Twitter Streaming API
-    that writes to a JSON file
+# class ListenerJSON(StreamListener):
+#     """A StreamListener implementation for accessing Twitter Streaming API
+#     that writes to a JSON file
 
-    """
+#     """
 
-    def __init__(self, filename):
-        super(ListenerJSON, self).__init__()
-        self.json_file = open(filename, 'a')
+#     def __init__(self, filename):
+#         super(ListenerJSON, self).__init__()
+#         self.json_file = open(filename, 'a')
 
-    def on_status(self, status):
-        # print data
-        # print u"Tweet Message : {}\n\n".format(status.text)
-        print type(status)
-        sj = status._json
-        j = json.dumps(sj, indent=1)
-        self.json_file.write(j)
-        return True
+#     def on_status(self, status):
+#         # print data
+#         # print u"Tweet Message : {}\n\n".format(status.text)
+#         print type(status)
+#         sj = status._json
+#         j = json.dumps(sj, indent=1)
+#         self.json_file.write(j)
+#         return True
 
-    def on_error(self, status):
-        # error codes: https://dev.twitter.com/overview/api/response-codes
-        print status
-        if status == 420:
-            return False  # returning False in on_data disconnects the stream
+#     def on_error(self, status):
+#         # error codes: https://dev.twitter.com/overview/api/response-codes
+#         print status
+#         if status == 420:
+#             return False  # returning False in on_data disconnects the stream
 
-    # def on_disconnect():
-    #     super(ListenerJSON, self).on_disconnect()
-    #     print "made it to disconnector"
-    #     self.json_file.close()
+#     def on_disconnect(self):
+#         super(ListenerJSON, self).on_disconnect()
+#         print "made it to disconnector"
+#         self.json_file.close()
 
 
 class ListenerQueue(StreamListener):
@@ -77,7 +78,8 @@ class ListenerQueue(StreamListener):
         super(ListenerQueue, self).__init__()
         self.queue = queue
         self.json_file = open(filename, 'a')
-        print filename
+        self.json_file.seek(0)
+        self.json_file.truncate()
 
     def on_status(self, status):
         self.queue.put(status)
@@ -88,7 +90,6 @@ class ListenerQueue(StreamListener):
         print time
         text = status.text
         print text
-        # coords = status.coordinates
         sj = [user, time, text]
         print sj
         j = json.dumps(sj, indent=1)
@@ -102,23 +103,25 @@ class ListenerQueue(StreamListener):
             print "Too many attempts made to contact the Twitter server"
             return False  # returning False in on_data disconnects the stream
 
-    # def on_disconnect():
-    #     super(ListenerJSON, self).on_disconnect()
-    #     print "made it to disconnector"
-    #     self.json_file.close()
+    def on_disconnect(self):
+        super(ListenerQueue, self).on_disconnect()
+        print "stream disconnected"
+        self.json_file.close()
+        if self.json_file.closed:
+            print "json file closed successfully"
 
 
-def stream_to_json_file(fn='tweets.json'):
-    auth = get_creds()
-    L = ListenerJSON(fn)
-    stream = Stream(auth, L)
-    stream.filter(locations=[-122.75, 36.8, -121.75, 37.8], async=True)
-    # can find terms: by adding track=['python']
-    print "waiting 15s"
-    time.sleep(15)
-    print "terminating"
-    stream.disconnect()
-    L.json_file.close()
+# def stream_to_json_file(fn='tweets.json'):
+#     auth = get_creds()
+#     L = ListenerJSON(fn)
+#     stream = Stream(auth, L)
+#     stream.filter(locations=[-122.75, 36.8, -121.75, 37.8], async=True)
+#     # can find terms: by adding track=['python']
+#     print "waiting 15s"
+#     time.sleep(15)
+#     print "terminating"
+#     stream.disconnect()
+#     L.json_file.close()
 
 
 def get_tweets_from_q(queue):
@@ -136,35 +139,44 @@ def start_stream(q, bounding_box, fn='tweets.json', search_terms=None):
         stream.filter(locations=bounding_box, track=search_terms, async=True)
     else:
         stream.filter(locations=bounding_box, async=True)
-    
-    # q_handler_function(q)
-    # t = threading.Thread(target=get_tweets_from_q(q))
-    # t = threading.Thread(target=q_handler_function(q))
-    # t.daemon = True
-    # t.start()
-    # print "thread function must have returned"
-    # print "terminating stream"
-    # stream.disconnect()
-    # print "stream terminated"
     return stream
 
 
-def kill_stream(stream, q):
-    q.all_tasks_done()
-    print "disconnecting stream"
-    stream.disconnect()
-    print "stream disconnected"
+def kill_stream(stream):
+    if stream:
+        print "attempting to disconnect stream from kill_stream"
+        stream.disconnect()
+        print "closing file in 1 second..."
+        time.sleep(1)
+        stream.listener.json_file.close()
+    else:
+        print "stream not set"
 
-
+    
 def main():
-    # stream_to_json_file()
+
     q = Queue.Queue()
     bounding_box = [-122.75, 36.8, -121.75, 37.8]
+    global stream
     stream = start_stream(q, bounding_box)
-    atexit.register(kill_stream, stream, q)
+
+    # print "waiting 15s"
+    # time.sleep(15)
+    # kill_stream(stream)
+
+    
+    # t = threading.Thread(target=kill_stream(stream, L))
+    # t.daemon = True
+    # t.start()
+    
+    # stream_to_json_file()
+
+    # print "waiting 10s"
+    # time.sleep(10)
+    # kill_stream(stream, L)
+
     # get_tweets_from_q(q)
     # now read in the files
-
     # https://dev.twitter.com/streaming/overview/request-parameters
     
 
@@ -173,5 +185,42 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print "Main function interrupted"
+        kill_stream(stream)
         sys.exit()
         pass
+
+
+# def _find_getch():
+#         try:
+#             import termios
+#         except ImportError:
+#             # Non-POSIX. Return msvcrt's (Windows') getch.
+#             import msvcrt
+#             return msvcrt.getch
+
+#             # POSIX system. Create and return a getch that manipulates the tty.
+#             import sys
+#             import tty
+            
+#             def _getch():
+#                 fd = sys.stdin.fileno()
+#                 old_settings = termios.tcgetattr(fd)
+#                 try:
+#                     tty.setraw(fd)
+#                     ch = sys.stdin.read(1)
+#                 finally:
+#                     termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+#                     return ch
+#             return _getch
+
+        
+# def keyboard_controller(stream):
+#     while True:
+#         time.sleep(.1)
+#         getch = _find_getch()
+#         if getch:
+#             print "found this char: {}".format(getch)
+#             if getch == "s":
+#                 kill_stream(stream)
+#                 return
+#             print "type s to stop"
