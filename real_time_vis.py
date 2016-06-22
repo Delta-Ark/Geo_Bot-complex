@@ -4,22 +4,26 @@
 """This grabs tweets and visualizes them in near real time.
 
 USAGE:
-  $ python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER]
+  $ python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER][-s][-a ADDRESS]
 OR for help, try:
   $ ./real_time_vis.py -h
 OR:
   $ python real_time_vis.py
 
 
-Example using default parameter file 'params.txt', with 10 top words
+Example using default parameter file 'params.txt', with 20 top words
 to display, on a growing chart:
 
-    $ ./real_time_vis --grow --number 10
-Equivalently:
-    $ ./real_time_vis -g -n 10
+    $ ./real_time_vis --number 20
+Or using the streaming API with an address:
+    $ ./real_time_vis -n 20 -s -a "175 5th Avenue NYC"
 
-There is a delay in updating because Twitter API policy requires you
-to wait 5 seconds between queries.
+There is a delay in updating with the REST API because Twitter API
+policy requires you to wait 5 seconds between queries.
+
+TO EXIT:
+To exit one of these multithreaded programs, use a keyboard interrupt
+like CTRL+C.
 
 """
 from __future__ import division
