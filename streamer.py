@@ -154,7 +154,6 @@ def kill_stream(stream):
 
     
 def main():
-
     q = Queue.Queue()
     bounding_box = [-122.75, 36.8, -121.75, 37.8]
     global stream
@@ -164,16 +163,7 @@ def main():
     # time.sleep(15)
     # kill_stream(stream)
 
-    
-    # t = threading.Thread(target=kill_stream(stream, L))
-    # t.daemon = True
-    # t.start()
-    
     # stream_to_json_file()
-
-    # print "waiting 10s"
-    # time.sleep(10)
-    # kill_stream(stream, L)
 
     # get_tweets_from_q(q)
     # now read in the files
@@ -188,39 +178,3 @@ if __name__ == '__main__':
         kill_stream(stream)
         sys.exit()
         pass
-
-
-# def _find_getch():
-#         try:
-#             import termios
-#         except ImportError:
-#             # Non-POSIX. Return msvcrt's (Windows') getch.
-#             import msvcrt
-#             return msvcrt.getch
-
-#             # POSIX system. Create and return a getch that manipulates the tty.
-#             import sys
-#             import tty
-            
-#             def _getch():
-#                 fd = sys.stdin.fileno()
-#                 old_settings = termios.tcgetattr(fd)
-#                 try:
-#                     tty.setraw(fd)
-#                     ch = sys.stdin.read(1)
-#                 finally:
-#                     termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-#                     return ch
-#             return _getch
-
-        
-# def keyboard_controller(stream):
-#     while True:
-#         time.sleep(.1)
-#         getch = _find_getch()
-#         if getch:
-#             print "found this char: {}".format(getch)
-#             if getch == "s":
-#                 kill_stream(stream)
-#                 return
-#             print "type s to stop"

@@ -265,10 +265,11 @@ def get_parser():
                         '--stream',
                         action='store_true',
                         help='Use streaming API to update a growing plot. \
+                        Use Interrupt signal, like CTRL + C to exit. \
                         This uses the LOCATION and SEARCH_TERM from\
                         parameter file. The geolocation is approximately\
                         converted, by inscribing a bounding box square in the\
-                        circle around the geocoordinates')
+                        circle around the geocoordinates.')
 
     return parser
 
@@ -308,20 +309,15 @@ def main():
     if args.stream:
         print "using streaming queue"
         q = Queue.Queue()
-        # bounding_box = [-122.75, 36.8, -121.75, 37.8]
         bounding_box = geo_converter.get_bounding_box_from(g)
         search_terms = geo_converter.get_search_terms_from(g)
         print "bounding_box = {}".format(bounding_box)
         print "search_terms = {}".format(search_terms)
-        # import sys
-        # sys.exit()
         global stream
         fn = 'tweets.json'
         stream = streamer.start_stream(q, bounding_box, fn, search_terms)
-        # atexit.register(kill_plot)
-        # atexit.register(streamer.kill_stream, stream, L)
         updating_stream_plot(q, number)
-        # stream.disconnect()
+
     elif args.grow:
         print "using REST API updating plot"
         updating_plot(g, number, True)  # set grow flag to True
