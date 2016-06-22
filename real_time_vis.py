@@ -251,11 +251,11 @@ def get_parser():
         '-a',
         '--address',
         help='''give an ADDRESS to get geocoordinates for.''')
-    parser.add_argument('-g',
-                        '--grow',
-                        action='store_true',
-                        help='Grow chart as new words arrive. This is only\
-                        for the non-streaming plot, which uses the REST API')
+    # parser.add_argument('-r',
+    #                     '--rest',
+    #                     action='store_true',
+    #                     help='Use the REST API to create a growing chart\
+    #                     as new words arrive.')
     parser.add_argument('-n',
                         '--number',
                         help='specify NUMBER of words to display. The\
@@ -269,7 +269,9 @@ def get_parser():
                         This uses the LOCATION and SEARCH_TERM from\
                         parameter file. The geolocation is approximately\
                         converted, by inscribing a bounding box square in the\
-                        circle around the geocoordinates.')
+                        circle around the geocoordinates. Also, a search term\
+                        searches all tweets, while geolocation searches only\
+                        in that area (unlike the REST API).')
 
     return parser
 
@@ -277,7 +279,9 @@ def get_parser():
 def main():
     parser = get_parser()
     args = parser.parse_args()
-
+    # print args
+    # print args.help
+    
     if args.doc:
         print __doc__
         import sys
@@ -305,6 +309,7 @@ def main():
             g.longitude = coords[1]
         else:
             print "Failed to find coordinates"
+            sys.exit()
     
     if args.stream:
         print "using streaming queue"
@@ -317,13 +322,9 @@ def main():
         fn = 'tweets.json'
         stream = streamer.start_stream(q, bounding_box, fn, search_terms)
         updating_stream_plot(q, number)
-
-    elif args.grow:
+    else:
         print "using REST API updating plot"
         updating_plot(g, number, True)  # set grow flag to True
-    else:
-        print "using REST API non-updating plot"
-        updating_plot(g, number, False)
 
 
 if __name__ == '__main__':
@@ -331,7 +332,7 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print "Main function interrupted"
-        streamer.kill_stream(stream)
+        if "stream" in globals():
+            streamer.kill_stream(stream)
         kill_plot()
         sys.exit()
-        pass

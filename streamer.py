@@ -91,7 +91,7 @@ class ListenerQueue(StreamListener):
         text = status.text
         print text
         sj = [user, time, text]
-        print sj
+        print "\n"
         j = json.dumps(sj, indent=1)
         self.json_file.write(j)
         return True

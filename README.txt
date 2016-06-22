@@ -44,6 +44,8 @@ About:
 This library is composed of several tools for scraping
 geolocated tweets and visualizing data gleaned from these tweets.
 
+
+geotweets:
 One tool, called 'geotweets' allows you to scrape and save geolocated
 twitter data in batch form. You can optionally search within this set
 for specific words or hash tags. See geotweets.py for details or from
@@ -56,6 +58,7 @@ USAGE :
   $ python geotweets.py [-h][-d][-v][-f FILENAME][-o OUTPUT]
 
 
+real time visualizer:
 Another tool, called 'real_time_vis' uses the previous tool to create
 a word frequency distribution chart which can grow and change in near
 real time as more tweets are grabbed. See real_time_vis.py for details
@@ -65,7 +68,7 @@ or from the command line run:
   $ python real_time_vis.py --doc
   
 USAGE :
-  $ python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER]
+  $ python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER][-s][-a ADDRESS]
 
 
 Both files use a parameter file with geolocation and search
@@ -82,10 +85,10 @@ print to command line and write to output.txt (default):
 
   $ python geotweets.py --verbose
 
-Visualizing the data, 20 initial words, growing chart, using
+Visualizing the data, 20 initial words, using
 params.txt (default):
 
-  $ python real_time_vis.py -g -n 20
+  $ python real_time_vis.py -n 20
 
 Streaming real time data word frequency chart using a local address:
 
