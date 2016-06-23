@@ -1,7 +1,16 @@
 #!/usr/bin/python
 # real_time_vis.py
 # Saito 2015
-"""This grabs tweets and visualizes them in near real time.
+
+"""This grabs tweets and visualizes them in real time using params.txt.
+
+You can get the tweets using the streaming API or the REST API. The
+rest API requires 5 second pauses between successive calls to the
+twitter server. This is the default. Use the --stream or -s flag to
+enable the streaming API. The Streaming API gets all tweets that are
+geotagged within the bounding box. Or if you use search terms, all
+tweets that have those search terms are seen. The tweets are also
+saved in JSON form to a file called 'tweets.json'.
 
 USAGE:
   $ python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER][-s][-a ADDRESS]
@@ -18,8 +27,6 @@ to display, on a growing chart:
 Or using the streaming API with an address:
     $ ./real_time_vis -n 20 -s -a "175 5th Avenue NYC"
 
-There is a delay in updating with the REST API because Twitter API
-policy requires you to wait 5 seconds between queries.
 
 TO EXIT:
 To exit one of these multithreaded programs, use a keyboard interrupt
@@ -271,11 +278,13 @@ def get_parser():
                         help='Use streaming API to update a growing plot. \
                         Use Interrupt signal, like CTRL + C to exit. \
                         This uses the LOCATION and SEARCH_TERM from\
-                        parameter file. The geolocation is approximately\
-                        converted, by inscribing a bounding box square in the\
-                        circle around the geocoordinates. Also, a search term\
+                        parameter file. A search term\
                         searches all tweets, while geolocation searches only\
-                        in that area (unlike the REST API).')
+                        in that area (unlike the REST API). \
+                        The geolocation is approximately\
+                        converted, by inscribing a bounding box square in the \
+                        circle around the geocoordinates. \
+                        All tweets are saved to tweets.json')
 
     return parser
 
