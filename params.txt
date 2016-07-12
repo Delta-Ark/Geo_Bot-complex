@@ -3,12 +3,12 @@
 # You must list all parameters in python dictionary format as shown to
 # use this input method. Just follow the example below. Note the commas
 # after each entry.  Note: latitude, longitude, radius and count all
-# take numbers radius is set in miles and can be a decimal or whole
+# take numbers. Radius is set in miles and can be a decimal or whole
 # number like 0.1 or 3 search_term, result_type are both strings and
-# must be in quotes search_term can be set to for example "#SF+#tech" to
+# must be in quotes search_term can be set to, for example "#SF+#tech" to
 # use two hash tag search terms. It can also just be a word in quotes
-# "sf" or the word None without quotes result_type can be either
-# "mixed", "popular", or "recent" count must be an integer between 0 and
+# "sf" or the word None without quotes. Result_type can be either
+# "mixed", "popular", or "recent". Count must be an integer between 0 and
 # 100 OR None
 #
 # Example:
