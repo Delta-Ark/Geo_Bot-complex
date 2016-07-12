@@ -84,16 +84,31 @@ class ListenerQueue(StreamListener):
     def on_status(self, status):
         self.queue.put(status)
         # sj = status._json
+        # print status
         user = status.user.screen_name
         print user
-        time = status.created_at.isoformat()
-        print time
+        d = status.created_at
+        # Object is naive
+        # d = d.tzinfo.utcoffset(d)
+        # print d
+        isotime = d.isoformat()
+        print isotime
+        # date = isotime[0:10]
+        # print date
+        # time = isotime[11:]
+        # print time
+        loc_name = status.place.full_name
+        print loc_name
+        loc = status.place.bounding_box.origin()
+        print loc
         text = status.text
         print text
-        sj = [user, time, text]
         print "\n"
+        sj = [user, isotime, loc_name, loc, text]
+
         j = json.dumps(sj, indent=1)
         self.json_file.write(j)
+        
         return True
 
     def on_error(self, status):
@@ -136,7 +151,9 @@ def start_stream(q, bounding_box, fn='tweets.json', search_terms=None):
     L = ListenerQueue(q, fn)
     stream = Stream(auth, L)
     if search_terms:
+        # OR semantics:
         stream.filter(locations=bounding_box, track=search_terms, async=True)
+        
     else:
         stream.filter(locations=bounding_box, async=True)
     return stream
