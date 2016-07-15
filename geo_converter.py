@@ -142,6 +142,17 @@ def get_geocoords_from_address(address):
     return coords
 
 
+# def get_timezone_from_coordinates(latitude, longitude):
+#     """given a latitude and a longitude, this returns the IANA Time Zone
+#     Database (Olson database), which can be used to get a local time and
+#     returns a pytz tzinfo timezone object"""
+    
+#     from geopy.geocoders import GoogleV3
+#     g=GoogleV3(api_key=None, domain='maps.googleapis.com', scheme='https', client_id=None, secret_key=None, timeout=1, proxies=None)
+#     timezone = g.timezone(latitude, longitude)
+#     return timezone
+
+
 if __name__ == '__main__':
     # run some tests
     bounding_box = convert_geocoordinates(0, -122.4093, 0)
