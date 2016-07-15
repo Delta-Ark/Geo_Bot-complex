@@ -1,0 +1,93 @@
+Status(
+contributors=None, 
+truncated=False, 
+text=u'#pokemongo @ Alameda, California https://t.co/ksXeNFloaS', 
+is_quote_status=False, 
+in_reply_to_status_id=None, 
+id=751221344306491392, 
+favorite_count=0, _
+api=<tweepy.api.API object at 0x109924690>, 
+author=
+
+User(follow_request_sent=None, 
+  profile_use_background_image=False, 
+  _json={u'follow_request_sent': None, u'profile_use_background_image': False, u'default_profile_image': False, u'id': 31076073, u'verified': False, u'profile_image_url_https': u'https://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg', u'profile_sidebar_fill_color': u'252429', u'profile_text_color': u'666666', u'followers_count': 751, u'profile_sidebar_border_color': u'FFFFFF', u'id_str': u'31076073', u'profile_background_color': u'000000', u'listed_count': 31, u'profile_background_image_url_https': u'https://abs.twimg.com/images/themes/theme9/bg.gif', u'utc_offset': -25200, u'statuses_count': 8670, u'description': u"Creator\\Producer\\Host of Devour The Podcast\\Cantankerous Fuck\\Screenwriter and horror film reviewer\\Guitarist and vocalist for The Moors and Alchemilla's Ghost", u'friends_count': 895, u'location': u'Alameda, California ', u'profile_link_color': u'FF0000', u'profile_image_url': u'http://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg', u'following': None, u'geo_enabled': True, u'profile_banner_url': u'https://pbs.twimg.com/profile_banners/31076073/1359676007', u'profile_background_image_url': u'http://abs.twimg.com/images/themes/theme9/bg.gif', u'name': u'Brotha Nero', u'lang': u'en', u'profile_background_tile': False, u'favourites_count': 885, u'screen_name': u'ddellamorte', u'notifications': None, u'url': u'http://devourthepodcast.com', u'created_at': u'Tue Apr 14 06:53:58 +0000 2009', u'contributors_enabled': False, u'time_zone': u'Pacific Time (US & Canada)', u'protected': False, u'default_profile': False, u'is_translator': False},
+id=31076073, _api=<tweepy.api.API object at 0x109924690>, verified=False, profile_image_url_https=u'https://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg', profile_sidebar_fill_color=u'252429', is_translator=False, geo_enabled=True, profile_text_color=u'666666', followers_count=751, protected=False, location=u'Alameda, California ', default_profile_image=False, id_str=u'31076073', utc_offset=-25200, statuses_count=8670, description=u"Creator\\Producer\\Host of Devour The Podcast\\Cantankerous Fuck\\Screenwriter and horror film reviewer\\Guitarist and vocalist for The Moors and Alchemilla's Ghost", friends_count=895, profile_link_color=u'FF0000', profile_image_url=u'http://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg', notifications=None, profile_background_image_url_https=u'https://abs.twimg.com/images/themes/theme9/bg.gif', profile_background_color=u'000000', profile_banner_url=u'https://pbs.twimg.com/profile_banners/31076073/1359676007', profile_background_image_url=u'http://abs.twimg.com/images/themes/theme9/bg.gif', screen_name=u'ddellamorte', lang=u'en', profile_background_tile=False, favourites_count=885, name=u'Brotha Nero', url=u'http://devourthepodcast.com', created_at=datetime.datetime(2009, 4, 14, 6, 53, 58), contributors_enabled=False, time_zone=u'Pacific Time (US & Canada)', profile_sidebar_border_color=u'FFFFFF', default_profile=False, following=False, listed_count=31),
+
+
+_json={u'contributors': None, u'truncated': False, u'text': u'#pokemongo @ Alameda, California https://t.co/ksXeNFloaS', u'is_quote_status': False, u'in_reply_to_status_id': None, u'id': 751221344306491392, u'favorite_count': 0, u'source': u'<a href="http://instagram.com" rel="nofollow">Instagram</a>', u'retweeted': False, u'coordinates': {u'type': u'Point', u'coordinates': [-122.257, 37.764]}, u'timestamp_ms': u'1467940100157', u'entities': {u'user_mentions': [], u'symbols': [], u'hashtags': [{u'indices': [0, 10], u'text': u'pokemongo'}], u'urls': [{u'url': u'https://t.co/ksXeNFloaS', u'indices': [33, 56], u'expanded_url': u'https://www.instagram.com/p/BHlNxzDBgdI/', u'display_url': u'instagram.com/p/BHlNxzDBgdI/'}]}, u'in_reply_to_screen_name': None, u'id_str': u'751221344306491392', u'retweet_count': 0, u'in_reply_to_user_id': None, u'favorited': False, u'user': {u'follow_request_sent': None, u'profile_use_background_image': False, u'default_profile_image': False, u'id': 31076073, u'verified': False, u'profile_image_url_https': u'https://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg', u'profile_sidebar_fill_color': u'252429', u'profile_text_color': u'666666', u'followers_count': 751, u'profile_sidebar_border_color': u'FFFFFF', u'id_str': u'31076073', u'profile_background_color': u'000000', u'listed_count': 31, u'profile_background_image_url_https': u'https://abs.twimg.com/images/themes/theme9/bg.gif', u'utc_offset': -25200, u'statuses_count': 8670, u'description': u"Creator\\Producer\\Host of Devour The Podcast\\Cantankerous Fuck\\Screenwriter and horror film reviewer\\Guitarist and vocalist for The Moors and Alchemilla's Ghost", u'friends_count': 895, u'location': u'Alameda, California ', u'profile_link_color': u'FF0000', u'profile_image_url': u'http://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg', u'following': None, u'geo_enabled': True, u'profile_banner_url': u'https://pbs.twimg.com/profile_banners/31076073/1359676007', u'profile_background_image_url': u'http://abs.twimg.com/images/themes/theme9/bg.gif', u'name': u'Brotha Nero', u'lang': u'en', u'profile_background_tile': False, u'favourites_count': 885, u'screen_name': u'ddellamorte', u'notifications': None, u'url': u'http://devourthepodcast.com', u'created_at': u'Tue Apr 14 06:53:58 +0000 2009', u'contributors_enabled': False, u'time_zone': u'Pacific Time (US & Canada)', u'protected': False, u'default_profile': False, u'is_translator': False}, 
+DEPRECATED: u’geo': {u'type': u'Point', u'coordinates': [37.764, -122.257]}, 
+u'in_reply_to_user_id_str': None, u'possibly_sensitive': False, u'lang': u'und', u'created_at': u'Fri Jul 08 01:08:20 +0000 2016', u'filter_level': u'low', u'in_reply_to_status_id_str': None, u'place': {u'full_name': u'Alameda, CA', u'url': u'https://api.twitter.com/1.1/geo/id/000e96b4e9f8503f.json', u'country': u'United States', u'place_type': u'city', u'bounding_box': {u'type': u'Polygon', u'coordinates': [[[-122.332411, 37.720367], [-122.332411, 37.797229], [-122.224562, 37.797229], [-122.224562, 37.720367]]]}, u'country_code': u'US', u'attributes': {}, u'id': u'000e96b4e9f8503f', u'name': u'Alameda'}},
+
+coordinates={u'type': u'Point', u'coordinates': [-122.257, 37.764]},
+timestamp_ms=u'1467940100157',
+entities={u'user_mentions': [], u'symbols': [], u'hashtags': [{u'indices': [0, 10], u'text': u'pokemongo'}], u'urls': [{u'url': u'https://t.co/ksXeNFloaS', u'indices': [33, 56], u'expanded_url': u'https://www.instagram.com/p/BHlNxzDBgdI/', u'display_url': u'instagram.com/p/BHlNxzDBgdI/'}]},
+in_reply_to_screen_name=None,
+in_reply_to_user_id=None,
+retweet_count=0,
+id_str=u'751221344306491392',
+favorited=False,
+source_url=u'http://instagram.com',
+
+
+user=
+
+User(
+follow_request_sent=None, profile_use_background_image=False, 
+
+_json={u'follow_request_sent': None, u'profile_use_background_image': False, u'default_profile_image': False, u'id': 31076073, u'verified': False, u'profile_image_url_https': u'https://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg', u'profile_sidebar_fill_color': u'252429', u'profile_text_color': u'666666', u'followers_count': 751, u'profile_sidebar_border_color': u'FFFFFF', u'id_str': u'31076073', u'profile_background_color': u'000000', u'listed_count': 31, u'profile_background_image_url_https': u'https://abs.twimg.com/images/themes/theme9/bg.gif', u'utc_offset': -25200, u'statuses_count': 8670, u'description': u"Creator\\Producer\\Host of Devour The Podcast\\Cantankerous Fuck\\Screenwriter and horror film reviewer\\Guitarist and vocalist for The Moors and Alchemilla's Ghost", u'friends_count': 895, u'location': u'Alameda, California ', u'profile_link_color': u'FF0000', u'profile_image_url': u'http://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg', u'following': None, u'geo_enabled': True, u'profile_banner_url': u'https://pbs.twimg.com/profile_banners/31076073/1359676007', u'profile_background_image_url': u'http://abs.twimg.com/images/themes/theme9/bg.gif', u'name': u'Brotha Nero', u'lang': u'en', u'profile_background_tile': False, u'favourites_count': 885, u'screen_name': u'ddellamorte', u'notifications': None, u'url': u'http://devourthepodcast.com', u'created_at': u'Tue Apr 14 06:53:58 +0000 2009', u'contributors_enabled': False, u'time_zone': u'Pacific Time (US & Canada)', u'protected': False, u'default_profile': False, u'is_translator': False},
+
+id=31076073,
+_api=<tweepy.api.API object at 0x109924690>,
+verified=False,
+profile_image_url_https=u'https://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg',
+profile_sidebar_fill_color=u'252429',
+is_translator=False,
+geo_enabled=True,
+profile_text_color=u'666666',
+followers_count=751,
+protected=False,
+location=u'Alameda, California ',
+default_profile_image=False,
+id_str=u'31076073',
+utcoffset=-25200,
+statuses_count=8670,
+description=u"Creator\\Producer\\Host of Devour The Podcast\\Cantankerous Fuck\\Screenwriter and horror film reviewer\\Guitarist and vocalist for The Moors and Alchemilla's Ghost",
+friends_count=895,
+profile_link_color=u'FF0000',
+profile_image_url=u'http://pbs.twimg.com/profile_images/749991140129054720/K_ChBh-E_normal.jpg',
+notifications=None,
+profile_background_image_url_https=u'https://abs.twimg.com/images/themes/theme9/bg.gif',
+profile_background_color=u'000000',
+profile_banner_url=u'https://pbs.twimg.com/profile_banners/31076073/1359676007',
+profile_background_image_url=u'http://abs.twimg.com/images/themes/theme9/bg.gif',
+screen_name=u'ddellamorte',
+lang=u'en', profile_background_tile=False, favourites_count=885, name=u'Brotha Nero', url=u'http://devourthepodcast.com', created_at=datetime.datetime(2009, 4, 14, 6, 53, 58), contributors_enabled=False, time_zone=u'Pacific Time (US & Canada)', profile_sidebar_border_color=u'FFFFFF', default_profile=False, following=False, listed_count=31),
+
+
+geo={u'type': u'Point', u'coordinates': [37.764, -122.257]},
+in_reply_to_user_id_str=None,
+possibly_sensitive=False,
+lang=u'und',
+created_at=datetime.datetime(2016, 7, 8, 1, 8, 20),
+filter_level=u'low',
+in_reply_to_status_id_str=None,
+
+place=
+Place(
+_api=<tweepy.api.API object at 0x109924690>,
+country_code=u'US',
+url=u'https://api.twitter.com/1.1/geo/id/000e96b4e9f8503f.json',
+country=u'United States',
+place_type=u'city',
+bounding_box=BoundingBox(_api=<tweepy.api.API object at 0x109924690>, type=u'Polygon', coordinates=[
+[
+[-122.332411, 37.720367], [-122.332411, 37.797229], [-122.224562, 37.797229], [-122.224562, 37.720367]
+]
+]),
+full_name=u'Alameda, CA',
+attributes={},
+id=u'000e96b4e9f8503f',
+name=u'Alameda'),
+source=u'Instagram',
+retweeted=False)
