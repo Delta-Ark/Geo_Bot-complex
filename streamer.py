@@ -4,7 +4,7 @@ import Queue
 import json
 import sys
 import time
-
+import datetime
 from tweepy import OAuthHandler, Stream
 from tweepy.streaming import StreamListener
 
@@ -74,41 +74,49 @@ class ListenerQueue(StreamListener):
 
     """
 
-    def __init__(self, queue, filename):
+    def __init__(self, queue, filename, search_terms):
         super(ListenerQueue, self).__init__()
         self.queue = queue
+        self.search_terms = search_terms
         self.json_file = open(filename, 'a')
         self.json_file.seek(0)
         self.json_file.truncate()
 
+    def has_all_search_terms(self, text):
+        for term in self.search_terms:
+            if text.find(term) > -1:
+                continue
+            else:
+                return False
+        return True
+            
     def on_status(self, status):
+        text = status.text
+        if self.search_terms:
+            if not self.has_all_search_terms(text):
+                return True
+    
         self.queue.put(status)
         # sj = status._json
-        # print status
         user = status.user.screen_name
         print user
         d = status.created_at
-        # Object is naive
-        # d = d.tzinfo.utcoffset(d)
-        # print d
         isotime = d.isoformat()
         print isotime
-        # date = isotime[0:10]
-        # print date
-        # time = isotime[11:]
-        # print time
         loc_name = status.place.full_name
         print loc_name
         loc = status.place.bounding_box.origin()
         print loc
-        text = status.text
+        filter_lev = status.filter_level
+        print filter_lev
+
         print text
         print "\n"
         sj = [user, isotime, loc_name, loc, text]
 
         j = json.dumps(sj, indent=1)
         self.json_file.write(j)
-        
+
         return True
 
     def on_error(self, status):
@@ -147,15 +155,20 @@ def get_tweets_from_q(queue):
 
 
 def start_stream(q, bounding_box, fn='tweets.json', search_terms=None):
+    '''Takes in a Queue object, a bounding_box of [lon, lat, lon, lat] for
+    SW and NE corners, a filename and a search term list. Examples in:
+    bounding_box = geo_converter.get_bounding_box_from(g)
+    search_terms = geo_converter.get_search_terms_from(g)
+    '''
     auth = get_creds()
-    L = ListenerQueue(q, fn)
+    L = ListenerQueue(q, fn, search_terms)
     stream = Stream(auth, L)
-    if search_terms:
-        # OR semantics:
-        stream.filter(locations=bounding_box, track=search_terms, async=True)
-        
-    else:
-        stream.filter(locations=bounding_box, async=True)
+    stream.filter(locations=bounding_box, filter_level='none', async=True)
+    # if search_terms:
+    #     # OR semantics:
+    #     stream.filter(locations=bounding_box, track=search_terms, async=True)
+    # else:
+    #     stream.filter(locations=bounding_box, async=True)
     return stream
 
 
