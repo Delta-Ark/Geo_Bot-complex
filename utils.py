@@ -1,9 +1,22 @@
 # NLTK stuff
-import nltk
 import re
-from nltk.corpus import stopwords
-from nltk.tokenize import TweetTokenizer
+
+import nltk
 from matplotlib import pylab
+from nltk.corpus import stopwords
+
+
+def new_tweets(new_sr, old_ids):
+    '''returns only search_results that do not have ids listed in old_ids
+    new_sr is the new search results, old_ids is a set of ids
+
+    '''
+    new_tweets = []
+    if old_ids:
+        new_tweets = [sr for sr in new_sr if sr.id not in old_ids]
+    else:
+        new_tweets = new_sr
+    return new_tweets
 
 
 def do_it_all(search_results):
