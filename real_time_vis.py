@@ -8,9 +8,10 @@ You can get the tweets using the streaming API or the REST API. The
 rest API requires 5 second pauses between successive calls to the
 twitter server. This is the default. Use the --stream or -s flag to
 enable the streaming API. The Streaming API gets all tweets that are
-geotagged within the bounding box. Or if you use search terms, all
-tweets that have those search terms are seen. The tweets are also
-saved in JSON form to a file called 'tweets.json'.
+geotagged within the bounding box. The geolocation is approximately
+converted, by inscribing a bounding box square in the circle around
+the geocoordinates. The tweets are also saved in JSON form to
+a file called 'tweets.json'.
 
 USAGE:
   $ python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER][-s][-a ADDRESS]
@@ -44,7 +45,8 @@ import matplotlib.pyplot as plt
 import geo_converter
 import geosearchclass
 import streamer
-import vis_helper
+import utils
+
 
 global stream  # so that CTRL + C kills stream
 
@@ -58,19 +60,6 @@ def update_fdist(fdist, new_words):
     return fdist
 
 
-def new_tweets(new_sr, old_ids):
-    '''returns only search_results that do not have ids listed in old_ids
-    new_sr is the new search results, old_ids is a set of ids
-
-    '''
-    new_tweets = []
-    if old_ids:
-        new_tweets = [sr for sr in new_sr if sr.id not in old_ids]
-    else:
-        new_tweets = new_sr
-    return new_tweets
-
-
 def remove_infrequent_words(samples, fdist):
     trimmed_samples = []
     for item in samples:
@@ -79,10 +68,10 @@ def remove_infrequent_words(samples, fdist):
     return trimmed_samples
 
 
-def updating_plot(geosearchclass, number_of_words, grow=False):
+def updating_plot(geosearchclass, number_of_words, grow=True):
     search_results = geosearchclass.search()
-    filtered_words = vis_helper.process(search_results)
-    fdist = vis_helper.get_freq_dist(filtered_words)
+    filtered_words = utils.tokenize_and_filter(search_results)
+    fdist = utils.get_freq_dist(filtered_words)
     # set up plot
     samples = [item for item, _ in fdist.most_common(number_of_words)]
     freqs = [fdist[sample] for sample in samples]
@@ -116,9 +105,9 @@ def updating_plot(geosearchclass, number_of_words, grow=False):
         #     geosearchclass.longitude =geosearchclass.longitude + .001
 
         search_results = geosearchclass.search()
-        new_search_results = new_tweets(search_results, old_ids)
+        new_search_results = utils.new_tweets(search_results, old_ids)
         if new_search_results:
-            filtered_words = vis_helper.process(new_search_results)
+            filtered_words = utils.tokenize_and_filter(new_search_results)
             fdist = update_fdist(fdist, filtered_words)
             if grow:
                 newsamples = [item
@@ -153,7 +142,7 @@ def updating_stream_plot(q, number_of_words=30):
     bounding box.
 
     q is a queue instance, which holds tweets
-    
+
     number_of_words determines the average number of words in the
     plot. Once the plot reaches 2 x number_of_words, it is shrunk down
     to the new set of words and starts growing again
@@ -184,9 +173,9 @@ def updating_stream_plot(q, number_of_words=30):
             while len(samples) < 1:
                 status = q.get()
                 search_results.append(status)
-                filtered_words = vis_helper.process(search_results)
+                filtered_words = utils.tokenize_and_filter(search_results)
                 if fdist is None:
-                    fdist = vis_helper.get_freq_dist(filtered_words)
+                    fdist = utils.get_freq_dist(filtered_words)
                 else:
                     fdist = update_fdist(fdist, filtered_words)
                 n_words = min(10, len(fdist))
@@ -204,7 +193,7 @@ def updating_stream_plot(q, number_of_words=30):
             setup = True
 
         else:
-            filtered_words = vis_helper.process(search_results)
+            filtered_words = utils.tokenize_and_filter(search_results)
             fdist = update_fdist(fdist, filtered_words)
             newsamples = [item
                           for item, _ in fdist.most_common(number_of_words)]
@@ -278,13 +267,7 @@ def get_parser():
                         help='Use streaming API to update a growing plot. \
                         Use Interrupt signal, like CTRL + C to exit. \
                         This uses the LOCATION and SEARCH_TERM from\
-                        parameter file. A search term\
-                        searches all tweets, while geolocation searches only\
-                        in that area (unlike the REST API). \
-                        The geolocation is approximately\
-                        converted, by inscribing a bounding box square in the \
-                        circle around the geocoordinates. \
-                        All tweets are saved to tweets.json')
+                        parameter file. The tweets are saved to tweets.json')
 
     return parser
 
@@ -294,7 +277,7 @@ def main():
     args = parser.parse_args()
     # print args
     # print args.help
-    
+
     if args.doc:
         print __doc__
         import sys
@@ -323,7 +306,7 @@ def main():
         else:
             print "Failed to find coordinates"
             sys.exit()
-    
+
     if args.stream:
         print "using streaming queue"
         q = Queue.Queue()

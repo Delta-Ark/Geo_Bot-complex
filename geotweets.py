@@ -120,9 +120,9 @@ def main():
         g.json_search_results(args.json)
 
     if args.visualize:
-        import vis_helper
-        filtered_words = vis_helper.process(g.search_results)
-        vis_helper.visualize_old(filtered_words)
+        import utils
+        filtered_words = utils.tokenize_and_filter(g.search_results)
+        utils.visualize(filtered_words)
 
 
 if __name__ == '__main__':

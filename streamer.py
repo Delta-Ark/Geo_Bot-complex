@@ -4,9 +4,12 @@ import Queue
 import json
 import sys
 import time
-import datetime
+
 from tweepy import OAuthHandler, Stream
 from tweepy.streaming import StreamListener
+
+import utils
+
 
 global stream
 
@@ -98,25 +101,11 @@ class ListenerQueue(StreamListener):
     
         self.queue.put(status)
         # sj = status._json
-        user = status.user.screen_name
-        print user
-        d = status.created_at
-        isotime = d.isoformat()
-        print isotime
-        loc_name = status.place.full_name
-        print loc_name
-        loc = status.place.bounding_box.origin()
-        print loc
-        filter_lev = status.filter_level
-        print filter_lev
-
-        print text
-        print "\n"
-        sj = [user, isotime, loc_name, loc, text]
-
+        sj = utils.get_simplified_tweet(status)
+        # filter_lev = status.filter_level
+        # print filter_lev
         j = json.dumps(sj, indent=1)
         self.json_file.write(j)
-
         return True
 
     def on_error(self, status):
