@@ -5,7 +5,7 @@ Install:
 git, python 2.7.X, pip
 On Windows: upgrade powershell
    (you may still have unicode problems when printing to command line)
-Python packages required: tweepy, nltk, matplotlib
+Python packages required: tweepy, nltk, matplotlib, geopy, argparse, json
 $ python -m pip install
 $ pip install <packages>
 Need some data, so we’ll use the nltk downloader
