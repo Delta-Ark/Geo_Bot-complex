@@ -1,16 +1,56 @@
 # NLTK stuff
+"""
+This is a utils file for the other programs. 
+
+It contains Natural language processing tools from NLTK, some basic visualizer, a tweet status object info extractor and a new tweet identifier.
+"""
+
+
 import re
 
 import nltk
+import tweepy
 from nltk.corpus import stopwords
 
 
+def get_credentials(keys_file="consumerkeyandsecret", app_only=True):
+    '''This function gives credentials  to the API.
+
+    When app_only is true, application only authorization level
+    credentials are supplied. This is sufficient for searching tweet
+    history. It must be False for streaming access and to post tweets.
+
+    It requires that your consumerkeyandsecret have 4 lines, with the
+    consumer key on the first line, the secret on the next and then an
+    access token on the 3rd and the access token secret on the
+    4th. You can get these by logging on to your twitter account and
+    creating an app.
+
+    USAGE: auth = get_creds(keys_file)
+
+    '''
+    with open(keys_file, 'rU') as myfile:
+        auth_data = [line.strip() for line in myfile]
+        CONSUMER_KEY = auth_data[0]
+        CONSUMER_SECRET = auth_data[1]
+        auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+        if not app_only:
+            ACCESS_TOKEN = auth_data[2]
+            ACCESS_TOKEN_SECRET = auth_data[3]
+            auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+        api = tweepy.API(auth)
+    return (api, auth)
+            
+
 def get_simplified_tweet(status):
+    """ Takes in a tweet status object and parses it"""
     user = status.user.screen_name
     print user
     d = status.created_at
     isotime = d.isoformat()
     print isotime
+    id_string = status.id_str
+    print id_string
     loc_name = None
     loc = None
     if status.place:
@@ -20,9 +60,9 @@ def get_simplified_tweet(status):
         if status.place.bounding_box:
             loc = status.place.bounding_box.origin()
             print loc
-            text = status.text
-            print text
-            simplified_tweet = [user, isotime, loc_name, loc, text]
+    text = status.text
+    print text
+    simplified_tweet = [user, isotime, id_string, text, loc_name, loc]
     return simplified_tweet
 
 
