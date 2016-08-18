@@ -3,41 +3,47 @@ Ariel Kalinowski and Trevor Owens 5/14/2016
 Install:
 
 git, python 2.7.X, pip
+Python packages required: tweepy, nltk, matplotlib, geopy, argparse, json
+
 On Windows: upgrade powershell
    (you may still have unicode problems when printing to command line)
-Python packages required: tweepy, nltk, matplotlib, geopy, argparse, json
 $ python -m pip install
-$ pip install <packages>
-Need some data, so we’ll use the nltk downloader
-Run a python shell:
+For each required package listed above run:
+$ pip install <package>
+
+Now we need some data, so we’ll use the nltk downloader
+Run a python shell from the command line:
 $ python
 $ import nltk
 $ nltk.download()
-Less data:
-1) under corpora -> highlight stopwords, click download
-2) under corpora -> highlight treebank, click download
-3) under all packages -> highlight punkt, click download
-4) under models -> highlight averaged-perceptron-tagger, click download
-OR if you don't mind much more data:
 On main page, highlight book, click download and that should be it... 
+These are the exact packages from nltk that are required in case you want less data:
+1) under corpora -> highlight stopwords
+2) under corpora -> highlight treebank
+3) under all packages -> highlight punkt
+4) under models -> highlight averaged-perceptron-tagger
 
 This created a folder called “nltk_data” in your home folder which is
 used by the program
 
 Navigate to the folder where you want getweets to be
 git clone https://github.com/owenst/geotweets.git
-get consumerkeyandsecret and put that in the folder
+get consumerkeyandsecret (see below) and put that in the folder
 cd into folder
 run geotweets.py
 
 Consumer Key and Secret:
-The program requires a file in this folder called consumerkeyandsecret
-secret (the longer one) on the second line. This should have 4 lines,
-with the consumer key on the first line, the secret on the next and
-then an access token on the 3rd and the access token secret on the
-4th. You can get these by logging on to your twitter account in a web
-browser and creating an app. These are used in the geosearchclass and
-streamer modules.
+
+The program looks for a file in the geotweets folder called
+consumerkeyandsecret This should have 4 lines, with the consumer key
+on the first line, the secret (the longer one) on the next and then an
+access token on the 3rd and the access token secret on the 4th. You
+can get these by going to https://apps.twitter.com in a web browser and
+creating an app. Then hit the button to create access tokens. You may
+have to set the app permissions to "read and write" if you want to use
+this to send tweets on your behalf. After creating the app, copy the 4
+alphanumeric keys into a blank file called "consumerkeyandsecret" as
+described above and put this file in your "geotweets" folder.
 
 
 About:
