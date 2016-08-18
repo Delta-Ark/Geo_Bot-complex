@@ -4,7 +4,7 @@ import codecs
 import os
 import sys
 
-import tweepy
+import utils
 
 
 class GeoSearchClass(object):
@@ -37,13 +37,20 @@ class GeoSearchClass(object):
     g.print_search_results()
     """
 
-    def __init__(self, params_file=None, keys_file="consumerkeyandsecret"):
+    def __init__(self, params_file=None, keys_file="consumerkeyandsecret",
+                 api=None):
         if params_file:
             self.set_params_from_file(params_file)
         else:
             self.use_default_params()
         self.keys_file = keys_file
-        self.credits_retrieved = False
+        if api:
+            self.api = api
+            self.credits_retrieved = True
+        elif self.get_creds(keys_file):
+            self.credits_retrieved = True
+        else:
+            self.credits_retrieved = False
 
     def use_default_params(self):
         self._search_term = None
@@ -67,21 +74,7 @@ class GeoSearchClass(object):
         self._search_term = params['search_term']
         self._result_type = params['result_type']
         self._count = params['count']
-
-    def get_creds(self, keys_file="consumerkeyandsecret"):
-        '''This function gives App Only Authorization.  It is made for app
-        access to the twitter rest API.
-
-        USAGE: api = get_creds(keys_file)
-
-        '''
-        with open(keys_file, 'rU') as myfile:
-            auth_data = [line.strip() for line in myfile]
-            CONSUMER_KEY = auth_data[0]
-            CONSUMER_SECRET = auth_data[1]
-            auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-        api = tweepy.API(auth)
-        self.api = api
+        self.tweet_text = params['tweet_text']
 
     def search(self):
         '''Perform a geolocated search using the class attributes
@@ -91,10 +84,11 @@ class GeoSearchClass(object):
 
         USAGE:
         search_results = search(api)
-
+        
+        See: http://docs.tweepy.org/en/v3.5.0/api.html#API.search
         '''
         if not self.credits_retrieved:
-            self.get_creds(self.keys_file)
+            (self.api, __) = utils.get_credentials(self.keys_file, True)
             self.credits_retrieved = True
         geo_string = getattr(self, "geo_string")
         if self._geo_string is None:
@@ -182,7 +176,7 @@ class GeoSearchClass(object):
         import json
         print 'writing results to file {}'.format(output_file)
         fileSystemEncoding = sys.getfilesystemencoding()
-        #OUTPUT_FILE = os.path.expanduser(u'./output.txt')
+        # OUTPUT_FILE = os.path.expanduser(u'./output.txt')
         OUTPUT_FILE = os.path.expanduser(u'./' + output_file)
         # with codecs.open(OUTPUT_FILE, encoding='utf-8', mode="w") as f:
         with codecs.open(OUTPUT_FILE,
@@ -195,10 +189,10 @@ class GeoSearchClass(object):
 
     def _print_SRO_info(self):
         '''
-        This gives a verbose amount of info about the SearchResult objects methods 
+        This gives a verbose amount of info about the SearchResult object
 
-        USAGE: 
-        print_SRO_info()  
+        USAGE:
+        print_SRO_info()
         '''
         search_results = self.search_results
         print '\n\n\n\n'
