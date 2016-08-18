@@ -24,8 +24,9 @@ import time
 
 import geo_converter
 import geosearchclass
-from utils import new_tweets
+import tweeter
 import utils
+from utils import new_tweets
 
 
 def scan(geosearchclass, q):
@@ -104,22 +105,35 @@ def verify(geosearchclass, filename):
                 thread.join()
                 json_file.write('\n]')
                 break
-    responder(respond, filename)
+    responder(geosearchclass, respond, filename)
     return
 
 
-def responder(respond, filename):
+def responder(geosearchclass, respond, filename):
     if not respond:
         print "No responses sent!"
         return
-    print "\n\nResponding to :"
     with open(filename, 'rU') as json_file:
         json_string = json_file.read()
         tweets = json.loads(json_string)
         for tweet in tweets:
-            print '\n'
-            for el in tweet:
-                print el
+            user = tweet[0]
+            response_text = geosearchclass.tweet_text + " @" + user
+            id = int(tweet[2])
+            users_text = tweet[3]
+
+            print "Please confirm you want to respond to this tweet"
+            print user
+            print users_text
+            print "with this text: "
+            print response_text
+            response = raw_input("[y for Yes, n for No] :  ")
+            if response == 'y':
+                # response_text = "Wub a luba dub dub!"
+                # id = None
+                status = tweeter.tweet(geosearchclass.api, response_text, id)
+                print "This tweet was posted: "
+                utils.get_simplified_tweet(status)
     return
 
 
@@ -163,7 +177,9 @@ def main():
         import sys
         sys.exit(0)
 
-    g = geosearchclass.GeoSearchClass()
+    # pass in an API to GeoSearchClass to get full access for posting
+    (api, __) = utils.get_credentials('consumerkeyandsecret', False)
+    g = geosearchclass.GeoSearchClass('params.txt', None, api)
 
     if args.filename:
         print 'Using parameters from ' + str(args.filename)
