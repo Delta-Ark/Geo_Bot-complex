@@ -50,6 +50,11 @@ About:
 This library is composed of several tools for scraping
 geolocated tweets and visualizing data gleaned from these tweets.
 
+We rely on geo-located tweets. Please allow your location to be seen
+when tweeting, especially when using this application! You can modify
+this by logging into your main twitter account and under "Security and
+Privacy" check the box next to "Tweet location". THANKS!
+
 
 geotweets:
 One tool, called 'geotweets' allows you to scrape and save geolocated
