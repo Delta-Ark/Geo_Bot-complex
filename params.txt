@@ -20,10 +20,13 @@
 ,
 "radius" : 10
 ,
-"search_term" : None
+"search_term" : "eviction"
 ,
-"result_type" : "recent"
+"result_type" : "mixed"
 ,
-"count" : 100}
+"count" : 100
+,
+"tweet_text" : '''Please help us by adding your name to the anti-eviction map: http://www.antievictionmap.com'''
+}
 
 
