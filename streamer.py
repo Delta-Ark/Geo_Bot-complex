@@ -5,67 +5,12 @@ import json
 import sys
 import time
 
-from tweepy import OAuthHandler, Stream
 from tweepy.streaming import StreamListener
 
 import utils
 
 
 global stream
-
-
-def get_creds(keys_file="consumerkeyandsecret"):
-    '''This function gives stream access to the API
-
-    It requires that your consumerkeyandsecret have 4 lines, with the
-    consumer key on the first line, the secret on the next and then an
-    access token on the 3rd and the access token secret on the
-    4th. You can get these by logging on to your twitter account and
-    creating an app.
-
-    USAGE: auth = get_creds(keys_file)
-
-    '''
-    with open(keys_file, 'rU') as myfile:
-        auth_data = [line.strip() for line in myfile]
-        CONSUMER_KEY = auth_data[0]
-        CONSUMER_SECRET = auth_data[1]
-        ACCESS_TOKEN = auth_data[2]
-        ACCESS_TOKEN_SECRET = auth_data[3]
-        auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-        auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-    return auth
-
-
-# class ListenerJSON(StreamListener):
-#     """A StreamListener implementation for accessing Twitter Streaming API
-#     that writes to a JSON file
-
-#     """
-
-#     def __init__(self, filename):
-#         super(ListenerJSON, self).__init__()
-#         self.json_file = open(filename, 'a')
-
-#     def on_status(self, status):
-#         # print data
-#         # print u"Tweet Message : {}\n\n".format(status.text)
-#         print type(status)
-#         sj = status._json
-#         j = json.dumps(sj, indent=1)
-#         self.json_file.write(j)
-#         return True
-
-#     def on_error(self, status):
-#         # error codes: https://dev.twitter.com/overview/api/response-codes
-#         print status
-#         if status == 420:
-#             return False  # returning False in on_data disconnects the stream
-
-#     def on_disconnect(self):
-#         super(ListenerJSON, self).on_disconnect()
-#         print "made it to disconnector"
-#         self.json_file.close()
 
 
 class ListenerQueue(StreamListener):
@@ -149,7 +94,7 @@ def start_stream(q, bounding_box, fn='tweets.json', search_terms=None):
     bounding_box = geo_converter.get_bounding_box_from(g)
     search_terms = geo_converter.get_search_terms_from(g)
     '''
-    auth = get_creds()
+    (__, auth) = utils.get_credentials("consumerkeyandsecret", False)
     L = ListenerQueue(q, fn, search_terms)
     stream = Stream(auth, L)
     stream.filter(locations=bounding_box, filter_level='none', async=True)
@@ -197,3 +142,36 @@ if __name__ == '__main__':
         kill_stream(stream)
         sys.exit()
         pass
+
+
+
+
+# class ListenerJSON(StreamListener):
+#     """A StreamListener implementation for accessing Twitter Streaming API
+#     that writes to a JSON file
+
+#     """
+
+#     def __init__(self, filename):
+#         super(ListenerJSON, self).__init__()
+#         self.json_file = open(filename, 'a')
+
+#     def on_status(self, status):
+#         # print data
+#         # print u"Tweet Message : {}\n\n".format(status.text)
+#         print type(status)
+#         sj = status._json
+#         j = json.dumps(sj, indent=1)
+#         self.json_file.write(j)
+#         return True
+
+#     def on_error(self, status):
+#         # error codes: https://dev.twitter.com/overview/api/response-codes
+#         print status
+#         if status == 420:
+#             return False  # returning False in on_data disconnects the stream
+
+#     def on_disconnect(self):
+#         super(ListenerJSON, self).on_disconnect()
+#         print "made it to disconnector"
+#         self.json_file.close()
