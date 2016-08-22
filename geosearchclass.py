@@ -63,7 +63,7 @@ class GeoSearchClass(object):
         self.search_results = None
 
     def set_params_from_file(self, filename):
-        with open(filename, 'rU') as f:
+        with codecs.open(filename, encoding='utf-8', mode='rU') as f:
             params = dict()
             params.update(ast.literal_eval(f.read()))
         for key in params.keys():

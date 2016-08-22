@@ -17,6 +17,7 @@ from __future__ import division
 
 import Queue
 import argparse
+import codecs
 import json
 import threading
 import sys
@@ -58,7 +59,7 @@ def verify(geosearchclass, filename):
     thread.daemon = True
     thread.start()
     respond = False
-    with open(filename, 'a') as json_file:
+    with codecs.open(filename, encoding='utf-8', mode='a') as json_file:
         json_file.seek(0)
         json_file.truncate()
 
