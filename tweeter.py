@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+"""This is a utility module that allows a user to send tweets and
+read timelines"""
+
 import geosearchclass
 import utils
 
@@ -34,16 +37,23 @@ def get_user_timeline(api, screen_name, count=20):
     
 
 def main():
-    (api, __) = utils.get_credentials('consumerkeyandsecret', False)
-    g = geosearchclass.GeoSearchClass('params.txt', None, api)
+    print __doc__
+    print tweet.__name__
+    print tweet.__doc__
+    print get_user_timeline.__name__
+    print get_user_timeline.__doc__
+    
+    # TESTING
+    # (api, __) = utils.get_credentials('consumerkeyandsecret', False)
+    # g = geosearchclass.GeoSearchClass('params.txt', None, api)
 
     # Robotic Tweet:
-    print g.tweet_text
-    tweet_text = g.tweet_text + " @SaitoGroup"
-    print tweet_text
-    api = g.api
-    status = tweet(api, tweet_text, 745399390219739137)
-    utils.get_simplified_tweet(status)
+    # print g.tweet_text
+    # tweet_text = g.tweet_text + " @SaitoGroup"
+    # print tweet_text
+    # api = g.api
+    # status = tweet(api, tweet_text, 745399390219739137)
+    # utils.get_simplified_tweet(status)
 
 
     # Get user timeline:

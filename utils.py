@@ -1,8 +1,11 @@
 # NLTK stuff
-"""
-This is a utils file for the other programs. 
 
-It contains Natural language processing tools from NLTK, some basic visualizer, a tweet status object info extractor and a new tweet identifier.
+"""This is a utils file for the other programs.
+
+It contains Natural language processing tools from NLTK, some basic
+visualizer, a tweet status object info extractor and a new tweet
+identifier.
+
 """
 
 

@@ -47,8 +47,8 @@ class GeoSearchClass(object):
         if api:
             self.api = api
             self.credits_retrieved = True
-        elif self.get_creds(keys_file):
-            self.credits_retrieved = True
+        # elif self.get_creds(keys_file):
+        #     self.credits_retrieved = True
         else:
             self.credits_retrieved = False
 
@@ -317,7 +317,7 @@ def main():
     # att_test(c,"latitude",[0, -90, 90, 300, "-50", "hello", 1.3])
     # att_test(c,"longitude",[0, -180, 180, 300, "-100", "hello", 1.3])
     # att_test(c,"radius",[0, -1, 10, 100, 1000])
-    print "\n\ngetting geo_string " + c.geo_string
+    print "\n\ncurrent geo_string " + c.geo_string
     print c.result_type
 
 

@@ -3,15 +3,13 @@
 # Saito 2015
 
 """
-This program is for doing automatic writing. 
+This program classifies tweets into phrase type.
 
-It produces a JSON array with properties:
+It produces a JSON array, "phrases.json" with properties:
  phrase
  tweeter
  type
  geolocation
-
-
 """
 # TODO:
 # Try a faster parser, like chart parser or something

@@ -5,10 +5,10 @@
 
 import unittest
 import time
-from real_time_vis import new_tweets
+from utils import new_tweets
 from real_time_vis import update_fdist
 import geosearchclass
-import vis_helper
+import utils
 
 
 class TestRTV(unittest.TestCase):
@@ -17,7 +17,7 @@ class TestRTV(unittest.TestCase):
         self.g = geosearchclass.GeoSearchClass()
         self.g.latitude = 37.7821
         self.g.longitude = -122.4093
-        self.g.radius = 10
+        self.g.radius = 100
         self.g.search_term = ""
         self.g.result_type = 'mixed'
         self.g.count = 100
@@ -27,8 +27,8 @@ class TestRTV(unittest.TestCase):
         sr2 = self.sr[0:10]  # 10 old same one
         old = [s.id for s in sr2]
         old = set(old)
-        # print 'len(sr) = %d' % len(self.sr)
-        # print 'len(sr2) = %d' % len(sr2)
+        print 'len(sr) = %d' % len(self.sr)
+        print 'len(sr2) = %d' % len(sr2)
         self.assertEqual(
             len(new_tweets(self.sr, old)), 90)
 
@@ -51,8 +51,8 @@ class TestRTV(unittest.TestCase):
             len(new_tweets(self.sr, old)), 100)
 
     def test_update_fdist(self):
-        filtered_words = vis_helper.process(self.sr)
-        fdist = vis_helper.get_freq_dist(filtered_words)
+        filtered_words = utils.tokenize_and_filter(self.sr)
+        fdist = utils.get_freq_dist(filtered_words)
         # take distribution and send it empty list
         fdist2 = update_fdist(fdist, [])
         self.assertEqual(fdist, fdist2)
@@ -62,7 +62,7 @@ class TestRTV(unittest.TestCase):
         self.g.longitude = -73.990663
         self.g.count = 100
         self.sr = self.g.search()
-        filtered_words = vis_helper.process(self.sr)
+        filtered_words = utils.tokenize_and_filter(self.sr)
         # updating with entirely new word set -> should be longer
         old_len_fdist = len(fdist)
         fdist = update_fdist(fdist, filtered_words)

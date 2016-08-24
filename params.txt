@@ -8,10 +8,19 @@
 # strings and must be in quotes. search_term can be set to, for
 # example "#SF+tech" to use one hash tag search terms and one normal
 # word. It can also just be a word in quotes, "sf" or the word None
-# without quotes. Result_type can be either "mixed", "popular", or
-# "recent". Count must be an integer between 0 and 100 OR None
-# Example: {"latitude" : 37.7821, "longitude": -122.4093, "radius" :
-# 10, "search_term" : None, "result_type" : "popular", "count" : 15}
+# without quotes for no term. Result_type can be either "mixed",
+# "popular", or "recent". Count must be an integer between 0 and 100
+# OR None. Finally, a term called "tweet_text" is optional and is for
+# posting tweets on your behalf using the scan_and_respond tool.
+# 
+# Example of params.txt:
+# {"latitude" : 37.7821,
+# "longitude": -122.4093,
+# "radius" : 10,
+# "search_term" : "#SF+tech",
+# "result_type" : "mixed",
+# "count" : 100}
+
 
 
 {"latitude" : 37.7821

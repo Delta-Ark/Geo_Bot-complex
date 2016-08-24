@@ -1,7 +1,20 @@
-Ariel Kalinowski and Trevor Owens 5/14/2016
+Ariel Kalinowski and Trevor Owens 8/24/2016
+
+About:
+----------------------------------------------------------------------
+This library is composed of several tools for scraping
+geolocated tweets and visualizing data gleaned from these tweets.
+
+Geo-tag your tweets!
+--------------------
+We rely on geo-tagged tweets. Please allow your location to be seen
+when tweeting, especially when using this application! You can modify
+this by logging into your main twitter account and under "Security and
+Privacy" check the box next to "Tweet location". THANKS!
+
 
 Install:
-
+----------------------------------------------------------------------
 git, python 2.7.X, pip
 Python packages required: tweepy, nltk, matplotlib, geopy, argparse, json
 
@@ -30,15 +43,17 @@ Navigate to the folder where you want getweets to be
 git clone https://github.com/owenst/geotweets.git
 get consumerkeyandsecret (see below) and put that in the folder
 cd into folder
-run geotweets.py
+run sample.py from the command line (see below)
+
 
 Consumer Key and Secret:
-
+----------------------------------------------------------------------
 The program looks for a file in the geotweets folder called
-consumerkeyandsecret This should have 4 lines, with the consumer key
-on the first line, the secret (the longer one) on the next and then an
-access token on the 3rd and the access token secret on the 4th. You
-can get these by going to https://apps.twitter.com in a web browser and
+consumerkeyandsecret This should have at least 2 lines, with the
+consumer key on the first line, the secret (the longer one) on the
+next and then (for streaming and posting) 2 more lines. An access
+token on the 3rd and the access token secret on the 4th. You can get
+these by going to https://apps.twitter.com in a web browser and
 creating an app. Then hit the button to create access tokens. You may
 have to set the app permissions to "read and write" if you want to use
 this to send tweets on your behalf. After creating the app, copy the 4
@@ -46,30 +61,24 @@ alphanumeric keys into a blank file called "consumerkeyandsecret" as
 described above and put this file in your "geotweets" folder.
 
 
-About:
-This library is composed of several tools for scraping
-geolocated tweets and visualizing data gleaned from these tweets.
+TOOLS:
+----------------------------------------------------------------------
+sample:
+-------
+One tool, called 'sample' allows you to scrape and save up to
+100 geolocated tweets in batch form. You can optionally search within
+this set for specific words or hash tags and visualize the top word
+frequency. See sample.py for details or from command line run:
 
-We rely on geo-located tweets. Please allow your location to be seen
-when tweeting, especially when using this application! You can modify
-this by logging into your main twitter account and under "Security and
-Privacy" check the box next to "Tweet location". THANKS!
-
-
-geotweets:
-One tool, called 'geotweets' allows you to scrape and save geolocated
-twitter data in batch form. You can optionally search within this set
-for specific words or hash tags. See geotweets.py for details or from
-command line run:
-
-  $ python geotweets.py --help
-  $ python geotweets.py --doc
+  $ python sample.py --help
+  $ python sample.py --doc
   
 USAGE :
-  $ python geotweets.py [-h][-d][-v][-f FILENAME][-o OUTPUT]
+  $ python sample.py [-h][-d][-v][-f FILENAME][-o OUTPUT][-vis]
 
 
 real time visualizer:
+---------------------
 Another tool, called 'real_time_vis' uses the previous tool to create
 a word frequency distribution chart which can grow and change in near
 real time as more tweets are grabbed. See real_time_vis.py for details
@@ -89,12 +98,32 @@ You may have to adjust your PYTHONPATH variable to run the program
 from the command line. Otherwise, using the python interpreter you can
 run it.
 
-Examples:
 
+scan_and_respond
+----------------
+
+This tool scans tweets and asks the user to verify them before sending
+a tweet response. The relevant tweets are also saved to a JSON
+file. This requires write access, which means the consumerkeyandsecret
+file must contain all 4 lines.
+
+usage: scan_and_respond.py [-h] [-d] [-f FILENAME] [-a ADDRESS] [-o OUTPUT]
+
+
+write
+-----
+This program classifies tweets into phrase types and
+produces a JSON array containing these, called phrases.json. It uses
+parameters from params.txt. This requires quite a bit of processing
+time, which can be reduced by using a lower "count".
+
+
+EXAMPLES:
+----------------------------------------------------------------------
 Grabbing geo-located tweets using paramter file params.txt (default),
 print to command line and write to output.txt (default):
 
-  $ python geotweets.py --verbose
+  $ python sample.py --verbose
 
 Visualizing the data, 20 initial words, using
 params.txt (default):
@@ -104,6 +133,20 @@ params.txt (default):
 Streaming real time data word frequency chart using a local address:
 
   $ python real_time_vis.py -a "175 5th Avenue NYC" -s
+
+
+UTILITIES:
+----------------------------------------------------------------------
+These modules contain methods to assist the "tools" listed above:
+tweeter.py
+utils.py
+geo_converter.py
+geosearchclass.py
+streamer.py
+
+The below two modules run unit tests:
+test_real_time_vis
+test_write
 
 
 

@@ -1,19 +1,24 @@
 #!/usr/bin/python
+""" This is a utility that allows tweets to be read off in real time
+
+To stop, use a KeyboardInterrupt like CTRL + C"""
+
 
 import Queue
 import json
 import sys
+import threading
 import time
 
-from tweepy.streaming import StreamListener
+import tweepy
 
 import utils
 
 
-global stream
+global stream  # so that CTRL + C kills stream
 
 
-class ListenerQueue(StreamListener):
+class ListenerQueue(tweepy.streaming.StreamListener):
     """A StreamListener implementation for accessing Twitter Streaming API
     that writes to a queue object sent on initialization.
 
@@ -58,6 +63,7 @@ class ListenerQueue(StreamListener):
         print status
         if status == 420:
             print "Too many attempts made to contact the Twitter server"
+            print "Wait awhile to use the tool again"
             return False  # returning False in on_data disconnects the stream
 
     def on_disconnect(self):
@@ -94,9 +100,10 @@ def start_stream(q, bounding_box, fn='tweets.json', search_terms=None):
     bounding_box = geo_converter.get_bounding_box_from(g)
     search_terms = geo_converter.get_search_terms_from(g)
     '''
+    global stream
     (__, auth) = utils.get_credentials("consumerkeyandsecret", False)
     L = ListenerQueue(q, fn, search_terms)
-    stream = Stream(auth, L)
+    stream = tweepy.Stream(auth, L)
     stream.filter(locations=bounding_box, filter_level='none', async=True)
     # if search_terms:
     #     # OR semantics:
@@ -118,11 +125,17 @@ def kill_stream(stream):
 
     
 def main():
+    print __doc__
+    
     q = Queue.Queue()
     bounding_box = [-122.75, 36.8, -121.75, 37.8]
     global stream
     stream = start_stream(q, bounding_box)
-
+    
+    # t = threading.Thread(target=start_stream, args=(q, bounding_box))
+    # t.daemon = True
+    # t.start()
+    # t.join()
     # print "waiting 15s"
     # time.sleep(15)
     # kill_stream(stream)
@@ -139,9 +152,10 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print "Main function interrupted"
-        kill_stream(stream)
+        if "stream" in globals():
+            print "trying to kill stream"
+            kill_stream(stream)
         sys.exit()
-        pass
 
 
 

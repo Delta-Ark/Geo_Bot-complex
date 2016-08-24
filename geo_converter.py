@@ -154,6 +154,8 @@ def get_geocoords_from_address(address):
 
 
 if __name__ == '__main__':
+    print __doc__
+    
     # run some tests
     bounding_box = convert_geocoordinates(0, -122.4093, 0)
     print "longitudinal precision should be 111.32"
@@ -174,4 +176,4 @@ if __name__ == '__main__':
     print "should be sensible around pole"
     print "bounding_box = {}".format(bounding_box)
 
-    get_geocoords_from_address('28 Lexington St., San Francisco, CA, 94110')
+    get_geocoords_from_address('901 S Van Ness Ave., San Francisco, CA, 94110')

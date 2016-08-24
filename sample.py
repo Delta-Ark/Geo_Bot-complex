@@ -1,29 +1,26 @@
 #!/usr/bin/python
-# geotweets.py
+# sample.py
 # Saito 2015
 
-"""This program is for grabbing and saving geo-located tweets
+"""This program is for grabbing and saving a sample of geo-located tweets
 
 
 USAGE:
-  $ ./geotweets.py [-h][-d][-v][-f FILENAME][-o OUTPUT][-vis]
+  $ ./sample.py [-h][-d][-v][-f FILENAME][-o OUTPUT][-vis]
 
 Print command line help:
-  $ ./geotweets.py --help   (or just -h)
+  $ ./sample.py --help   (or just -h)
 
 Example: This uses parameter file 'params.txt', prints results to
 command line and writes them to 'out.txt':
-  $ ./geotweets.py --verbose --filename params.txt --output out.txt
+  $ ./sample.py --verbose --filename params.txt --output out.txt
 
 The program requires a file in this folder called consumerkeyandsecret
 which contains only a consumer key on the first line and consumer
-secret (the longer one) on the second line. You can get this by
-creating an app under your twitter account online.
+secret (the longer one) on the second line. See README.
 
-The program can optionally take a parameter file as input. This file,
-must be in python dictionary format and contain these paramters:
-latitude, longitude, radius, search_term, result_type and
-count. Please see the file "params.txt" for an example.
+The program can optionally take a parameter file as input. Please see
+the file "params.txt" for an example.
 
 Example of params.txt:
 {"latitude" : 37.7821,
