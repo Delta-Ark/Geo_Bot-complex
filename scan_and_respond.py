@@ -114,12 +114,12 @@ def responder(geosearchclass, respond, filename):
     if not respond:
         print "No responses sent!"
         return
-    with open(filename, 'rU') as json_file:
+    with codecs.open(filename, encoding='utf-8', mode='rU') as json_file:
         json_string = json_file.read()
         tweets = json.loads(json_string)
         for tweet in tweets:
             user = tweet[0]
-            response_text = geosearchclass.tweet_text + " @" + user
+            response_text = geosearchclass.tweet_text + u" @" + user
             id = int(tweet[2])
             users_text = tweet[3]
 
@@ -135,6 +135,7 @@ def responder(geosearchclass, respond, filename):
                 status = tweeter.tweet(geosearchclass.api, response_text, id)
                 print "This tweet was posted: "
                 utils.get_simplified_tweet(status)
+                
     return
 
 
