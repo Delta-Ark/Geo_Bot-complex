@@ -11,7 +11,8 @@
 # without quotes for no term. Result_type can be either "mixed",
 # "popular", or "recent". Count must be an integer between 0 and 100
 # OR None. Finally, a term called "tweet_text" is optional and is for
-# posting tweets on your behalf using the scan_and_respond tool.
+# posting tweets on your behalf using the scan_and_respond tool. It
+# should be a unicode string (hence the preceding 'u'.
 # 
 # Example of params.txt:
 # {"latitude" : 37.7821,
