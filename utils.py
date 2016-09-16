@@ -29,7 +29,8 @@ def get_credentials(keys_file="consumerkeyandsecret", app_only=True):
     4th. You can get these by logging on to your twitter account and
     creating an app.
 
-    USAGE: auth = get_creds(keys_file)
+    USAGE: (api, auth) = get_creds(keys_file, [app_only=[True/False]])
+        The second argument is optional
 
     '''
     with open(keys_file, 'rU') as myfile:
