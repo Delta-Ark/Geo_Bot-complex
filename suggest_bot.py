@@ -22,9 +22,13 @@ def create_poem(words):
     A user can use the word, decline the word, or add their own input.
     """
     poem = []
+    formatted_poem = """"""
     # for no, yes and finish (print poem)
     options = ['y', 'n', 'f']
     keep_adding = True
+    print "And using these words: "
+    print words
+    print "\n\n\n"
     print """
         This robot poet will present a series of suggestions. You can
         either choose to use these suggestions by typing 'y' (for
@@ -40,28 +44,24 @@ def create_poem(words):
     while keep_adding:
         chosen = random.choice(for_poem)
         print chosen,
-        response = raw_input("[Enter y, n, or f or your own prose] :  ")
+        response = raw_input("      [y, n, f or your own prose] :  ")
         # include the chosen word:
         if response == "y":
-            poem.append(chosen)
-            formatted_poem = " ".join(poem),
-            print formatted_poem,
-            # regenerate new work:
+            formatted_poem = formatted_poem + " " + chosen
+            print
+            print formatted_poem
+            continue
         if response == "n":
-            chosen = random.choice(for_poem),
-            formatted_poem = " ".join(poem),
-            print formatted_poem,
-            # add the poets' thing:
+            continue
         if response not in options:
-            if response == "\\n":
-                response = '\n'
-            poem.append(response),
-            formatted_poem = " ".join(poem),
-            print formatted_poem,
-            # print"
+            # if response == "\\n":
+            #     response = '\n'
+            formatted_poem = formatted_poem + " " + response
+            print
+            print formatted_poem
+            continue
         if response == "f":
-            formatted_poem = " ".join(poem)
-            print ""
+            print
             print formatted_poem
             keep_adding = False
     return formatted_poem
@@ -117,16 +117,18 @@ def main():
             g.set_params_from_file(args.filename)
         search_results = g.search()
         filtered_words = utils.tokenize_and_filter(search_results)
+        print "\n\n\nUsing these Twitter words: "
         print filtered_words
+        print "\n"
         for_poem.extend(filtered_words)
 
     formatted_poem = create_poem(for_poem)
     
     if args.output:
-        print 'writing formatted poem to ' + str(args.output)
+        print '\nwriting formatted poem to ' + str(args.output)
         output_file = args.output
     else:
-        print "writing formatted poem to output.txt"
+        print "\nwriting formatted poem to output.txt"
         output_file = "output.txt"
 
     fileSystemEncoding = sys.getfilesystemencoding()
