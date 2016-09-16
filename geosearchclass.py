@@ -37,7 +37,8 @@ class GeoSearchClass(object):
     g.print_search_results()
     """
 
-    def __init__(self, params_file=None, keys_file="consumerkeyandsecret",
+    def __init__(self, params_file='params.txt',
+                 keys_file="consumerkeyandsecret",
                  api=None):
         if params_file:
             self.set_params_from_file(params_file)
