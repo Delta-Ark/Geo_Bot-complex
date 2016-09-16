@@ -143,28 +143,31 @@ for_poem = [
     'Agricultural', 'ecological', 'systems', 'meat', 'genetically',
     'modified', 'precision', 'vertical', 'farming', 'printing', 'contour',
     'crafting', 'artificial', 'uterus', 'transplant', 'cryonics',
-    'vitrification', 'suspended animation', 'de-extinction', 'genetic\
-    engineering', 'gene therapy', 'life extension', 'engineered negligible\
-    senescence', 'nanomedicine', 'nanosensors', 'regenerative', 'medicine',
+    'vitrification', 'suspended animation', 'de-extinction',
+    'genetic engineering', 'gene therapy', 'life extension',
+    'engineered negligible senescence',
+    'nanomedicine', 'nanosensors', 'regenerative', 'medicine',
     'stem-cell', 'tissue engineering', 'robot assisted surgery',
-    'synthetic biology', 'synthetic genomics', 'virus', 'whole genome\
-    sequencing', 'bionic contact lens', 'head-mounted display', 'virtual',
+    'synthetic biology', 'synthetic genomics', 'virus',
+    'whole genome sequencing', 'bionic contact lens',
+    'head-mounted display', 'virtual',
     'retinal', 'e-textiles', 'molecular', 'electronics', 'thermal',
     'copper', 'pillar', 'airborne wind turbine', 'artificial',
     'photosynthesis', 'biofuels', 'solar', 'power', 'fusion', 'fuel cell',
     'molten salt', 'photovoltaic', 'translation', 'machine vision',
     'speech recognition', 'fourth-generation', 'optical discs', 'storage',
-    'holographic data', 'millipede', 'optical computing', 'quantum\
-    computing', 'quantum cryptography', 'RFID', 'software-defined',
+    'holographic data', 'millipede', 'optical computing',
+    'quantum computing', 'quantum cryptography', 'RFID', 'software-defined',
     'three-dimensional', 'integrated', 'circuit', 'artificial muscle',
     'superconductivity', 'superfluidity', 'metamaterials', 'cloaking',
     'metal', 'multi-function', 'superalloy', 'synthetic diamond',
     'weapon', 'laser', 'particle-beam', 'coilgun', 'plasma', 'stealth',
-    'brain computer interface', 'retinal implant', 'self reconfiguring\
-    modular robot', 'swarm robotics', 'pulse', 'solar sail', 'backpack',
+    'brain computer interface', 'retinal implant',
+    'self reconfiguring modular robot', 'swarm robotics', 'pulse',
+    'solar sail', 'backpack',
     'helicopter', 'delivery drone', 'detonation', 'engine', 'driverless\
     car', 'automated', 'vacuum', 'collection', 'cloak', 'immersive',
-    'dilemma',\
+    'dilemma',
     # japanese shit
     'august', 'black', 'chinese', 'Gaugin', 'heaven', 'illusion',
     'island', 'Kibune', 'Michinoku', 'milky', 'Mogami', 'mother',
