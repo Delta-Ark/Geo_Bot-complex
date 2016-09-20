@@ -13,6 +13,7 @@ import random
 import sys
 
 import geosearchclass
+import geo_converter
 import utils
 
 
@@ -93,6 +94,7 @@ def get_parser():
     --help -h
     --params_file -p
     --output -o
+    --address -a
 
     This automatically grabs arguments from sys.argv[]
     """
@@ -111,6 +113,10 @@ def get_parser():
         '-o', '--output',
         help='''specify an OUTPUT file to write to.
         Default is output.txt''')
+    parser.add_argument(
+        '-a',
+        '--address',
+        help='''give an ADDRESS to get geocoordinates for.''')
 
     return parser
 
@@ -123,13 +129,22 @@ def main():
         print __doc__
         sys.exit()
 
-    g = None
+    g = geosearchclass.GeoSearchClass()
 
     if args.params_file:
-        g = geosearchclass.GeoSearchClass()
         print 'Using parameters from ' + str(args.filename)
         # turn parameter file into dictionary
         g.set_params_from_file(args.filename)
+
+    if args.address:
+        print "Finding geocoordates for address:\n{}".format(args.address)
+        coords = geo_converter.get_geocoords_from_address(args.address)
+        if coords:
+            g.latitude = coords[0]
+            g.longitude = coords[1]
+        else:
+            print "Failed to find coordinates. Exiting."
+            sys.exit()
 
     formatted_poem = create_poem(for_poem, g)
     
