@@ -60,6 +60,8 @@ def create_poem(words, g=None):
         elif response == "n":
             continue
         elif response == "s":
+            print "Searching geo-located tweets to add to vocab"
+            print "This can only be used once every 5 seconds"
             if g is None:
                 g = geosearchclass.GeoSearchClass()
             search_results = g.search()
