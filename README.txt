@@ -42,7 +42,7 @@ This created a folder called “nltk_data” in your home folder which is
 used by the program
 
 Navigate to the folder where you want getweets to be
-git clone https://github.com/owenst/geotweets.git
+git clone https://github.com/owenst/geotweets.git    #THIS WILL CHANGE
 get consumerkeyandsecret (see below) and put that in the folder
 cd into folder
 run sample.py from the command line (see below)
@@ -119,6 +119,23 @@ produces a JSON array containing these, called phrases.json. It uses
 parameters from params.txt. This requires quite a bit of processing
 time, which can be reduced by using a lower "count".
 
+suggest_bot
+-----------
+This is a robotically assisted poetry engine. The user can create
+poems using a large supplied word corpus or use their own. It can also
+add words to the corpus from the twitter-sphere using the search
+option. 
+
+
+HELP:
+----------------------------------------------------------------------
+All programs can be run from the command line (a.k.a. terminal in OS X).
+$    The $ symbol represents a command prompt.
+By typing $ python <program_name> -h you will get help on the various
+command line tool options.
+By typing $ python <program_name> -d you will get the programs
+documentation string
+
 
 EXAMPLES:
 ----------------------------------------------------------------------
@@ -127,12 +144,11 @@ print to command line and write to output.txt (default):
 
   $ python sample.py --verbose
 
-Visualizing the data, 20 initial words, using
-params.txt (default):
+Visualizing the data, using params.txt (default):
 
-  $ python real_time_vis.py -n 20
+  $ python real_time_vis.py
 
-Streaming real time data word frequency chart using a local address:
+Streaming real time data to create a word frequency chart using a local address:
 
   $ python real_time_vis.py -a "175 5th Avenue NYC" -s
 
