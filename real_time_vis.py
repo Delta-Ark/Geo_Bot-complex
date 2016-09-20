@@ -304,7 +304,7 @@ def main():
             g.latitude = coords[0]
             g.longitude = coords[1]
         else:
-            print "Failed to find coordinates"
+            print "Failed to find coordinates. Exiting."
             sys.exit()
 
     if args.stream:
