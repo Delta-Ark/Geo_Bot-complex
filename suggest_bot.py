@@ -141,7 +141,11 @@ def main():
         coords = geo_converter.get_geocoords_from_address(args.address)
         if coords:
             g.latitude = coords[0]
+            print "Found this latitude:"
+            print g.latitude
             g.longitude = coords[1]
+            print "Found this longitude:"
+            print g.longitude
         else:
             print "Failed to find coordinates. Exiting."
             sys.exit()
