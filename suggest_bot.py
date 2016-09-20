@@ -16,51 +16,68 @@ import geosearchclass
 import utils
 
 
-def create_poem(words):
+def create_poem(words, g=None):
     """ This creates a poem with user input by suggesting from the words supplied.
 
     A user can use the word, decline the word, or add their own input.
+    g is for geosearchclass. It is none by default.
     """
-    poem = []
-    formatted_poem = """"""
+
+    formatted_poem = ''''''
     # for no, yes and finish (print poem)
-    options = ['y', 'n', 'f']
+    options = ['y', 'n', 's', 'f']
     keep_adding = True
     print "And using these words: "
     print words
     print "\n\n\n"
     print """
+
         This robot poet will present a series of suggestions. You can
         either choose to use these suggestions by typing 'y' (for
-        yes), or 'n' (for no, give me another word) or by typing your
-        own input then hitting enter. These will be succeessively
-        added to a poem, which will be printed and saved to an output
-        file. To finish writing type f (for finish).
+        yes), or 'n' (for no) or by typing your own input then hitting
+        enter. You may also type 's' for search, to add more search
+        terms from geolocated tweets to your word corpus. The words
+        you choose or add will be succeessively added to a poem, which
+        will be printed and saved to an output file. To add a new
+        line, type '\n'. To finish writing type f (for finish).
 
         y: yes use this word or phrase
         n: no, skip this and give me a new phrase
+        s: add more geolocated search terms
+        \n: carriage return (new line)
         f: finish writing
     """
     while keep_adding:
-        chosen = random.choice(for_poem)
+        chosen = random.choice(words)
         print chosen,
-        response = raw_input("      [y, n, f or your own prose] :  ")
+        response = raw_input("      [y, n, s, \\n, f or your own words] :  ")
         # include the chosen word:
         if response == "y":
-            formatted_poem = formatted_poem + " " + chosen
+            formatted_poem = formatted_poem + ''' ''' + chosen
             print
             print formatted_poem
             continue
-        if response == "n":
+        elif response == "n":
             continue
-        if response not in options:
+        elif response == "s":
+            if g is None:
+                g = geosearchclass.GeoSearchClass()
+            search_results = g.search()
+            filtered_words = utils.tokenize_and_filter(search_results)
+            print "\n\n\nAdding these Twitter words: "
+            print filtered_words
+            print "\n"
+            words.extend(filtered_words)
+            continue
+        elif response not in options:
             # if response == "\\n":
             #     response = '\n'
-            formatted_poem = formatted_poem + " " + response
+            response = response.replace('\\n', '\n')
+            formatted_poem = formatted_poem + ''' ''' + response
             print
             print formatted_poem
             continue
-        if response == "f":
+        elif response == "f":
             print
             print formatted_poem
             keep_adding = False
@@ -74,7 +91,6 @@ def get_parser():
     --help -h
     --params_file -p
     --output -o
-    --search -s
 
     This automatically grabs arguments from sys.argv[]
     """
@@ -88,11 +104,7 @@ def get_parser():
     parser.add_argument(
         '-p', '--params_file',
         help='''specify a PARAMS_FILE to use as the parameter file.
-        If not specified, will use 'params.txt'.''')
-    parser.add_argument(
-        '-s', '--search', action='store_true',
-        help="""Perform a geolocated tweet search using the params
-        file and use the vocab from this to add to the poems""")
+        If not specified, will use 'params.txt' for searches.''')
     parser.add_argument(
         '-o', '--output',
         help='''specify an OUTPUT file to write to.
@@ -109,20 +121,15 @@ def main():
         print __doc__
         sys.exit()
 
-    if args.search:
-        g = geosearchclass.GeoSearchClass()
-        if args.params_file:
-            print 'Using parameters from ' + str(args.filename)
-            # turn parameter file into dictionary
-            g.set_params_from_file(args.filename)
-        search_results = g.search()
-        filtered_words = utils.tokenize_and_filter(search_results)
-        print "\n\n\nUsing these Twitter words: "
-        print filtered_words
-        print "\n"
-        for_poem.extend(filtered_words)
+    g = None
 
-    formatted_poem = create_poem(for_poem)
+    if args.params_file:
+        g = geosearchclass.GeoSearchClass()
+        print 'Using parameters from ' + str(args.filename)
+        # turn parameter file into dictionary
+        g.set_params_from_file(args.filename)
+
+    formatted_poem = create_poem(for_poem, g)
     
     if args.output:
         print '\nwriting formatted poem to ' + str(args.output)
