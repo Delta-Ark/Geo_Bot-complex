@@ -17,43 +17,51 @@ import geo_converter
 import utils
 
 
-def create_poem(words, g=None):
+def create_poem(g=None, default_words=None):
     """ This creates a poem with user input by suggesting from the words supplied.
 
     A user can use the word, decline the word, or add their own input.
     g is for geosearchclass. It is none by default.
+    default_words is a list of words that can be enabled by default.
     """
-
+    words = []
     formatted_poem = ''''''
     # for no, yes and finish (print poem)
-    options = ['y', 'n', 's', 'f']
+    options = ['y', 'n', 's', 'd', 'f', '\n']
     keep_adding = True
-    print "And using these words: "
-    print words
+    added_default = False
     print "\n\n\n"
     print """
 
         This robot poet will present a series of suggestions. You can
-        either choose to use these suggestions by typing 'y' (for
-        yes), or 'n' (for no) or by typing your own input then hitting
-        enter. You may also type 's' for search, to add more search
-        terms from geolocated tweets to your word corpus. The words
-        you choose or add will be succeessively added to a poem, which
-        will be printed and saved to an output file. To add a new
-        line, type '\n'. To finish writing type f (for finish).
+        either use these suggestions, edit them, or type your own
+        input.  You may also add more words from geolocated tweets to
+        your word corpus. The words you choose or add will be
+        succeessively added to a poem, which will be printed and saved
+        to an output file. To add a new line, type '\\n'. To finish
+        writing type f (for finish).
 
-        y: yes use this word or phrase
+        y: yes use this word
         n: no, skip this and give me a new phrase
-        s: add more geolocated search terms
-        \n: carriage return (new line)
-        f: finish writing
+        s: search: add more geolocated terms from twitter
+        d: default words added to corpus
+        \\n: new line
+        f: finish
+
     """
     while keep_adding:
-        chosen = random.choice(words)
-        print chosen,
-        response = raw_input("      [y, n, s, \\n, f or your own words] :  ")
+        if len(words) == 0:
+            print "Nothing in corpus. Type d for default words or s to search\
+twitter"
+        else:
+            chosen = random.choice(words)
+            print chosen,
+        response_string = "     " + str(options) + " or your own :"
+        response = raw_input(response_string)
         # include the chosen word:
         if response == "y":
+            if len(words)==0:
+                continue
             formatted_poem = formatted_poem + ''' ''' + chosen
             print
             print formatted_poem
@@ -72,6 +80,14 @@ def create_poem(words, g=None):
             print "\n"
             words.extend(filtered_words)
             continue
+        elif response == "d":
+            if not added_default:
+                print "\nadding in these words to corpus:"
+                print default_words
+                print "\n\n\n"
+                words.extend(default_words)
+                options.remove('d')
+                added_default = True
         elif response not in options:
             # if response == "\\n":
             #     response = '\n'
@@ -150,8 +166,7 @@ def main():
             print "Failed to find coordinates. Exiting."
             sys.exit()
 
-    formatted_poem = create_poem(for_poem, g)
-    
+    formatted_poem = create_poem(g, for_poem)
     if args.output:
         print '\nwriting formatted poem to ' + str(args.output)
         output_file = args.output
