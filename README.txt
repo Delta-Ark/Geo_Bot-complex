@@ -1,6 +1,4 @@
-NOTE: This repo will be migrated to github.com/saitogroup/geotweets
-
-Ariel Kalinowski and Trevor Owens 8/24/2016
+Ariel Kalinowski and Trevor Owens 10/25/2016
 
 About:
 ----------------------------------------------------------------------
