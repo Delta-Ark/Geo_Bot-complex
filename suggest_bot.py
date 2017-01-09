@@ -12,9 +12,10 @@ import os
 import random
 import sys
 
-import geosearchclass
 import geo_converter
+import geosearchclass
 import utils
+import write
 
 
 def create_poem(g=None, default_words=None):
@@ -30,6 +31,7 @@ def create_poem(g=None, default_words=None):
     options = ['y', 'n', 's', 'd', 'f', '\n']
     keep_adding = True
     added_default = False
+    use_phrases = False
     print "\n\n\n"
     print """
 
@@ -49,6 +51,16 @@ def create_poem(g=None, default_words=None):
         f: finish
 
     """
+    response = ""
+    while response not in ["y", "n"]:
+        response = raw_input("Would you like to use phrases? [y/n]: ")
+        if response == "y":
+            use_phrases = True
+        elif response == "n":
+            use_phrases = False
+        else:
+            continue
+         
     while keep_adding:
         if len(words) == 0:
             print "Nothing in corpus. Type d for default words or s to search\
@@ -60,7 +72,7 @@ twitter"
         response = raw_input(response_string)
         # include the chosen word:
         if response == "y":
-            if len(words)==0:
+            if len(words) == 0:
                 continue
             formatted_poem = formatted_poem + ''' ''' + chosen
             print
@@ -74,7 +86,17 @@ twitter"
             if g is None:
                 g = geosearchclass.GeoSearchClass()
             search_results = g.search()
-            filtered_words = utils.tokenize_and_filter(search_results)
+            if use_phrases:
+                list_of_info_dicts = write.parse_tweets(search_results)
+                filtered_words = []
+                if len(list_of_info_dicts) < 1:
+                    continue
+                for d in list_of_info_dicts:
+                    # print type(d)
+                    # print d['phrase']
+                    filtered_words.append(d['phrase'])
+            else:
+                filtered_words = utils.tokenize_and_filter(search_results)
             print "\n\n\nAdding these Twitter words: "
             print filtered_words
             print "\n"

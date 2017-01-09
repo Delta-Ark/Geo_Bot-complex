@@ -10,7 +10,6 @@ identifier.
 
 
 import re
-
 import nltk
 import tweepy
 from nltk.corpus import stopwords

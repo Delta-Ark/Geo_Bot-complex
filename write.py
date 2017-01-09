@@ -117,7 +117,8 @@ def traverse_tree_grab_phrase(tree, label):
 
     Usage: phrase = traverse_tree_grab_phrase(tree, 'VP')
 
-    For exhaustive search try the sister function traverse_tree_grab_phrases(tree,phrases)
+    For exhaustive search try the sister function
+    traverse_tree_grab_phrases(tree,phrases)
     """
     phrase = None
     logging.debug("tree type: {}".format(type(tree)))
@@ -154,7 +155,7 @@ def get_phrases_from_tree(tree, exhaustive=False):
 
             phrase = traverse_tree_grab_phrase(tree, label)
 
-            if phrase != None:
+            if phrase is not None:
                 phrases[label].append(phrase)
     return phrases
 
@@ -230,10 +231,10 @@ def parse_tweets(search_results):
     for sr in search_results:
         print u'tweet text: {}'.format(sr.text)
         #        nltk.tree.Tree.draw(tree)
-        sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
-        sents = sent_detector.tokenize(sr.text)
+        sentence_detector = nltk.data.load('tokenizers/punkt/english.pickle')
+        sentences = sentence_detector.tokenize(sr.text)
         tokenizer = nltk.tokenize.casual.TweetTokenizer()
-        for sent in sents:
+        for sent in sentences:
             if not sent:
                 logging.debug('sent is None')
                 continue
@@ -265,6 +266,7 @@ def parse_tweets(search_results):
         i += 1
 
     json_phrases(list_of_info_dicts, 'phrases.json')
+    return list_of_info_dicts
 
 
 def main():
@@ -278,11 +280,11 @@ def main():
     search_results = g.search()
     parse_tweets(search_results)
     # grammar = get_grammar()
-    # #sents = treebank.sents()[34:35]
-    # sents = [nltk.word_tokenize('Numerous passing references to the phrase have occurred in movies')]
-    # #print sents
+    # #sentences = treebank.sentences()[34:35]
+    # sentences = [nltk.word_tokenize('Numerous passing references to the phrase have occurred in movies')]
+    # #print sentences
 
-    # sentence_trees = parse_sentences(sents, grammar)
+    # sentence_trees = parse_sentences(sentences, grammar)
     # phrases = get_phrases(sentence_trees)
     # print 'Now printing the phrases: '
     # for k,v in phrases.items():

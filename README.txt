@@ -1,4 +1,4 @@
-Ariel Kalinowski and Trevor Owens 10/25/2016
+Saito Group 12-19-2016
 
 About:
 ----------------------------------------------------------------------
@@ -16,7 +16,7 @@ Privacy" check the box next to "Tweet location". THANKS!
 Install:
 ----------------------------------------------------------------------
 git, python 2.7.X, pip
-Python packages required: tweepy, nltk, matplotlib, geopy, argparse, json
+Python packages required: tweepy, nltk, matplotlib, geopy, argparse
 
 On Windows: upgrade powershell
    (you may still have unicode problems when printing to command line)
