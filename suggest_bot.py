@@ -133,7 +133,8 @@ def get_parser():
 
     --doc -d
     --help -h
-    --params_file -p
+    --params -p
+    --input -i
     --output -o
     --address -a
 
@@ -147,9 +148,13 @@ def get_parser():
         '-d', '--doc', action='store_true',
         help='print module documentation and exit')
     parser.add_argument(
-        '-p', '--params_file',
-        help='''specify a PARAMS_FILE to use as the parameter file.
+        '-p', '--params',
+        help='''specify a PARAMS file to use as the parameter file.
         If not specified, will use 'params.txt' for searches.''')
+    parser.add_argument(
+        '-i', '--input',
+        help='''specify an input file to use as word seed file.
+        ''')
     parser.add_argument(
         '-o', '--output',
         help='''specify an OUTPUT file to write to.
@@ -172,11 +177,16 @@ def main():
 
     g = geosearchclass.GeoSearchClass()
 
-    if args.params_file:
-        print 'Using parameters from ' + str(args.filename)
+    if args.params:
+        print 'Using parameters from ' + str(args.params)
         # turn parameter file into dictionary
-        g.set_params_from_file(args.filename)
+        g.set_params_from_file(args.params)
 
+    if args.input:
+        with codecs.open(args.input, encoding='utf-8', mode='rU') as f:
+            input = f.read()
+        for_poem = utils.tokenize_and_filter(input)
+        
     if args.address:
         print "Finding geocoordates for address:\n{}".format(args.address)
         coords = geo_converter.get_geocoords_from_address(args.address)
