@@ -7,6 +7,7 @@
 """
 import curses
 from curses.textpad import Textbox
+import locale
 
 
 def emacs_textbox(stdscr, initial_text):
@@ -41,7 +42,7 @@ def emacs_textbox(stdscr, initial_text):
     ------------------------------------------------------\n"""
     stdscr.addstr(ending)
     stdscr.addstr(initial_text)
-    box = Textbox(stdscr, insert_mode=False)  # Infinite recursion bug when True
+    box = Textbox(stdscr, insert_mode=False)  # Inf recursion bug when True
     box.edit()
     message = box.gather()
     # n_lines = len(instructions.splitlines()) - 4 + 1
@@ -53,13 +54,16 @@ def emacs_textbox(stdscr, initial_text):
 
 
 def create_editor(initial_text):
+    locale.setlocale(locale.LC_ALL, '')
+    code = locale.getpreferredencoding()
+    initial_text = initial_text.encode(code, 'replace')  # or 'ignore'
     msg = curses.wrapper(emacs_textbox, initial_text)
     return msg
 
 
 def main():
-    initial_text = """
-This is my poem
+    initial_text = u"""
+This is my po\xe9m
 It is not very clever
 But I'm fond of it
 """
