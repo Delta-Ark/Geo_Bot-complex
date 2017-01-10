@@ -45,10 +45,6 @@ def emacs_textbox(stdscr, initial_text):
     box = Textbox(stdscr, insert_mode=False)  # Inf recursion bug when True
     box.edit()
     message = box.gather()
-    # n_lines = len(instructions.splitlines()) - 4 + 1
-    # lines = message.splitlines()
-    # print lines[n_lines:]
-    # message = "\n".join(lines[n_lines:])
     remove_index = len(ending) + len(instructions)
     return message[remove_index + 15:]
 
