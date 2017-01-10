@@ -13,6 +13,7 @@ import random
 import sys
 
 import geo_converter
+import editor
 import geosearchclass
 import utils
 import write
@@ -28,7 +29,7 @@ def create_poem(g=None, default_words=None):
     words = []
     formatted_poem = ''''''
     # for no, yes and finish (print poem)
-    options = ['y', 'n', 's', 'd', 'f', '\n']
+    options = ['y', 'n', 's', 'd', 'f', 'e', '\n']
     keep_adding = True
     added_default = False
     use_phrases = False
@@ -47,7 +48,8 @@ def create_poem(g=None, default_words=None):
         n: no, skip this and give me a new phrase
         s: search: add more geolocated terms from twitter
         d: default words added to corpus
-        \\n: new line
+        e: edit the text
+        \\n: enter line
         f: finish
 
     """
@@ -110,9 +112,10 @@ twitter"
                 words.extend(default_words)
                 options.remove('d')
                 added_default = True
+        elif response == "e":
+            formatted_poem = editor.create_editor(formatted_poem)
+            print formatted_poem
         elif response not in options:
-            # if response == "\\n":
-            #     response = '\n'
             response = response.replace('\\n', '\n')
             formatted_poem = formatted_poem + ''' ''' + response
             print
@@ -186,7 +189,7 @@ def main():
             print g.longitude
         else:
             print "Failed to find coordinates. Exiting."
-            sys.exit()
+            Sys.exit()
 
     formatted_poem = create_poem(g, for_poem)
     if args.output:
