@@ -41,7 +41,7 @@ def emacs_textbox(stdscr, initial_text):
     ------------------------------------------------------\n"""
     stdscr.addstr(ending)
     stdscr.addstr(initial_text)
-    box = Textbox(stdscr)  # from curses.textpad
+    box = Textbox(stdscr, insert_mode=False)  # Infinite recursion bug when True
     box.edit()
     message = box.gather()
     # n_lines = len(instructions.splitlines()) - 4 + 1
