@@ -13,7 +13,6 @@ import re
 import nltk
 import tweepy
 from nltk.corpus import stopwords
-import matplotlib
 
 
 
@@ -127,8 +126,10 @@ def visualize(word_list):
     """Takes in a word list and visualizes the distribution of the top 30 words.
 
     This works well when combined with tokenize_and_filter(search_results)."""
+    # import matplotlib
+    # matplotlib.use('qt4agg')  # workaround for virtual environments
+    import matplotlib.pyplot as plt
     
-    matplotlib.use('qt4agg')
     fdist = get_freq_dist(word_list)
     textOb = nltk.text.Text(word_list)
     print "\nCollocations: "
@@ -136,11 +137,12 @@ def visualize(word_list):
     # fdist.plot(30)
     samples = [item for item, _ in fdist.most_common(30)]
     freqs = [fdist[sample] for sample in samples]
-    matplotlib.pyplot.grid(True, color="silver")
-    matplotlib.pyplot.plot(freqs, range(1, 1+len(freqs)))
-    matplotlib.pyplot.yticks(range(
+
+    plt.grid(True, color="silver")
+    plt.plot(freqs, range(1, 1+len(freqs)))
+    plt.yticks(range(
         1, 1 + len(samples)), [s for s in samples], rotation=0)
-    matplotlib.pyplot.ylabel("Samples")
-    matplotlib.pyplot.xlabel("Counts")
-    matplotlib.pyplot.show()
+    plt.ylabel("Samples")
+    plt.xlabel("Counts")
+    plt.show()
     return fdist
