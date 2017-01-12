@@ -1,4 +1,4 @@
-Saito Group 12-19-2016
+Saito Group 1-11-2017
 
 About:
 ----------------------------------------------------------------------
@@ -122,7 +122,10 @@ suggest_bot
 This is a robotically assisted poetry engine. The user can create
 poems using a large supplied word corpus or use their own. It can also
 add words to the corpus from the twitter-sphere using the search
-option. 
+option. It can also parse those twitter messages into phrases using
+natural language processing.
+
+
 
 
 HELP:
@@ -159,6 +162,7 @@ utils.py
 geo_converter.py
 geosearchclass.py
 streamer.py
+editor.py
 
 The below two modules run unit tests:
 test_real_time_vis
