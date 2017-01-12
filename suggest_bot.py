@@ -55,7 +55,7 @@ def create_poem(g=None, default_words=None):
     """
     response = ""
     while response not in ["y", "n"]:
-        response = raw_input("Would you like to use phrases? [y/n]: ")
+        response = raw_input("\nWould you like to use phrases (otherwise just words)? [y/n]: ")
         if response == "y":
             use_phrases = True
         elif response == "n":
@@ -324,3 +324,4 @@ def get_default_words():
 
 if __name__ == '__main__':
     main()
+
