@@ -16,7 +16,8 @@ Privacy" check the box next to "Tweet location". THANKS!
 Install:
 ----------------------------------------------------------------------
 git, python 2.7.X, pip
-Python packages required: tweepy, nltk, matplotlib, geopy, argparse
+Python packages required: tweepy, nltk, matplotlib, geopy, argparse,
+curses, bs4 (beautiful soup), locale
 
 On Windows: upgrade powershell
    (you may still have unicode problems when printing to command line)
@@ -138,7 +139,9 @@ add words to the corpus from the twitter-sphere using the search
 option. It can also parse those twitter messages into phrases using
 natural language processing.
 
-
+scraper
+--------
+Given a URL this will scrape a website and save the text to scraped_text.txt
 
 
 HELP:
