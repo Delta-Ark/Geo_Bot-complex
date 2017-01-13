@@ -198,10 +198,9 @@ def main():
             
     if args.input:
         with codecs.open(args.input, encoding='utf-8', mode='rU') as f:
-            input = f.read()
-            for_poem = utils.tokenize_and_filter(input)
-    else:
-        for_poem = get_default_words()
+            text = f.read()
+            tokens = utils.tokenize_normal_words(text)
+            for_poem = utils.filter_words(tokens)
             
     formatted_poem = create_poem(g, for_poem)
     if args.output:

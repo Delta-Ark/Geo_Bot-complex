@@ -108,6 +108,12 @@ def tokenize_results(search_results):
     return tokens
 
 
+def tokenize_normal_words(text_string):
+    """ This takes in a normal string and tokenizes it into a word list """
+    tokens = nltk.word_tokenize(text_string)
+    return tokens
+
+
 def filter_words(word_list):
     """remove stop words and do some basic filtering"""
     tokens = [word.lower() for word in word_list]
