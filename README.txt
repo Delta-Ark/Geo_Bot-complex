@@ -20,15 +20,22 @@ Python packages required: tweepy, nltk, matplotlib, geopy, argparse
 
 On Windows: upgrade powershell
    (you may still have unicode problems when printing to command line)
-$ python -m pip install
-For each required package listed above run:
-$ pip install <package>
+   
+```
+python -m pip install
+```
 
+For each required package listed above run:
+```
+pip install <package>
+```
 Now we need some data, so we’ll use the nltk downloader
 Run a python shell from the command line:
-$ python
-$ import nltk
-$ nltk.download()
+```
+python
+import nltk
+nltk.download()
+```
 On main page, highlight book, click download and that should be it... 
 These are the exact packages from nltk that are required in case you want less data:
 1) under corpora -> highlight stopwords
@@ -40,7 +47,9 @@ This created a folder called “nltk_data” in your home folder which is
 used by the program
 
 Navigate to the folder where you want getweets to be
-git clone https://github.com/owenst/geotweets.git    #THIS WILL CHANGE
+```
+git clone https://github.com/saitogroup/geotweets.git
+```
 get consumerkeyandsecret (see below) and put that in the folder
 cd into folder
 run sample.py from the command line (see below)
@@ -69,12 +78,14 @@ One tool, called 'sample' allows you to scrape and save up to
 100 geolocated tweets in batch form. You can optionally search within
 this set for specific words or hash tags and visualize the top word
 frequency. See sample.py for details or from command line run:
-
-  $ python sample.py --help
-  $ python sample.py --doc
-  
+```
+python sample.py --help
+python sample.py --doc
+```  
 USAGE :
-  $ python sample.py [-h][-d][-v][-f FILENAME][-o OUTPUT][-vis]
+```
+python sample.py [-h][-d][-v][-f FILENAME][-o OUTPUT][-vis]
+```
 
 
 real time visualizer:
@@ -83,13 +94,14 @@ Another tool, called 'real_time_vis' uses the previous tool to create
 a word frequency distribution chart which can grow and change in near
 real time as more tweets are grabbed. See real_time_vis.py for details
 or from the command line run:
-
-  $ python real_time_vis.py --help
-  $ python real_time_vis.py --doc
-  
+```
+python real_time_vis.py --help
+python real_time_vis.py --doc
+```  
 USAGE :
-  $ python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER][-s][-a ADDRESS]
-
+```
+python real_time_vis.py [-h][-d][-f FILENAME][-n NUMBER][-s][-a ADDRESS]
+```
 
 Both files use a parameter file with geolocation and search
 terms. See params.txt for an example.
@@ -107,8 +119,9 @@ a tweet response. The relevant tweets are also saved to a JSON
 file. This requires write access, which means the consumerkeyandsecret
 file must contain all 4 lines.
 
-usage: scan_and_respond.py [-h] [-d] [-f FILENAME] [-a ADDRESS] [-o OUTPUT]
-
+```
+scan_and_respond.py [-h] [-d] [-f FILENAME] [-a ADDRESS] [-o OUTPUT]
+```
 
 write
 -----
@@ -131,28 +144,30 @@ natural language processing.
 HELP:
 ----------------------------------------------------------------------
 All programs can be run from the command line (a.k.a. terminal in OS X).
-$    The $ symbol represents a command prompt.
-By typing $ python <program_name> -h you will get help on the various
-command line tool options.
-By typing $ python <program_name> -d you will get the programs
-documentation string
+
+By typing
+```python <program_name> -h```
+you will get help on the various command line tool options.
+By typing
+```python <program_name> -d```
+you will get the programs documentation string
 
 
 EXAMPLES:
 ----------------------------------------------------------------------
 Grabbing geo-located tweets using paramter file params.txt (default),
 print to command line and write to output.txt (default):
-
-  $ python sample.py --verbose
-
+```
+python sample.py --verbose
+```
 Visualizing the data, using params.txt (default):
-
-  $ python real_time_vis.py
-
+```
+python real_time_vis.py
+```
 Streaming real time data to create a word frequency chart using a local address:
-
-  $ python real_time_vis.py -a "175 5th Avenue NYC" -s
-
+```
+python real_time_vis.py -a "175 5th Avenue NYC" -s
+```
 
 UTILITIES:
 ----------------------------------------------------------------------
