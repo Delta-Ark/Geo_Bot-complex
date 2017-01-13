@@ -5,6 +5,7 @@ output.txt
 params.txt
 grammar.pickle
 grammr*pickle
+poemsforrobots.txt
 deprecated/
 *.pickle
 *.json
