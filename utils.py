@@ -9,11 +9,14 @@ identifier.
 """
 
 
+import codecs
+import os
 import re
+import sys
+
 import nltk
 import tweepy
 from nltk.corpus import stopwords
-
 
 
 def get_credentials(keys_file="consumerkeyandsecret", app_only=True):
@@ -152,3 +155,20 @@ def visualize(word_list):
     plt.xlabel("Counts")
     plt.show()
     return fdist
+
+
+def save_file(filename, text):
+    fileSystemEncoding = sys.getfilesystemencoding()
+    OUTPUT_FILE = os.path.expanduser(u'./' + filename)
+    with codecs.open(OUTPUT_FILE,
+                     encoding=fileSystemEncoding,
+                     mode="w") as f:
+        f.write(text)
+
+        
+def load_file(filename):
+    fileSystemEncoding = sys.getfilesystemencoding()
+    #  with codecs.open(filename, encoding='utf-8', mode='rU') as f:
+    with codecs.open(filename, encoding=fileSystemEncoding, mode='rU') as f:
+        text = f.read()
+    return text

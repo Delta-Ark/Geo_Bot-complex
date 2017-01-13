@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # suggest_bot.py
-# Saito 2016
+# Saito 2017
 
 """This creates robot assisted poems!
 
@@ -194,30 +194,27 @@ def main():
             print g.longitude
         else:
             print "Failed to find coordinates. Exiting."
-            Sys.exit()
-            
+            sys.exit()
+
     if args.input:
-        with codecs.open(args.input, encoding='utf-8', mode='rU') as f:
-            text = f.read()
-            tokens = utils.tokenize_normal_words(text)
-            for_poem = utils.filter_words(tokens)
+        text = utils.load_file(args.input)
+        tokens = utils.tokenize_normal_words(text)
+        for_poem = utils.filter_words(tokens)
+    else:
+        for_poem = get_default_words()
             
     formatted_poem = create_poem(g, for_poem)
+    
     if args.output:
         print '\nwriting formatted poem to ' + str(args.output)
         output_file = args.output
     else:
-        print "\nwriting formatted poem to output.txt"
-        output_file = "output.txt"
+        print "\nwriting formatted poem to poem.txt"
+        output_file = "poem.txt"
 
-    fileSystemEncoding = sys.getfilesystemencoding()
-    OUTPUT_FILE = os.path.expanduser(u'./' + output_file)
-    with codecs.open(OUTPUT_FILE,
-                     encoding=fileSystemEncoding,
-                     mode="w") as f:
-        f.write(formatted_poem)
+    utils.save_file(output_file, formatted_poem)
 
-
+    
 def get_default_words():
     # These are some good default words used in the poem creator above
     for_poem = [  # emerging tech shit
