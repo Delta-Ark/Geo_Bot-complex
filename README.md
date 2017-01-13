@@ -172,17 +172,19 @@ python real_time_vis.py -a "175 5th Avenue NYC" -s
 UTILITIES:
 ----------------------------------------------------------------------
 These modules contain methods to assist the "tools" listed above:
+```
 tweeter.py
 utils.py
 geo_converter.py
 geosearchclass.py
 streamer.py
 editor.py
-
+```
 The below two modules run unit tests:
+```
 test_real_time_vis
 test_write
-
+```
 
 
 
