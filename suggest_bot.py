@@ -70,7 +70,7 @@ twitter"
             potential_word = ""
             if len(tokens) > 0:
                 #  This is for trigrams
-                if num > 0.3 and len(tokens) > 1:
+                if num > 0.5 and len(tokens) > 1:  # 50% of time get trigram
                     potential_word = tokens_to_word(tokens, ngram, 2)
                     if potential_word:
                         chosen = potential_word
@@ -80,12 +80,14 @@ twitter"
                             chosen = potential_word
                         else:
                             chosen = random.choice(words)
-                else:
+                elif num > 0.2:  # 30% of time get bigram
                     potential_word = tokens_to_word(tokens, ngram, 1)
                     if potential_word:
                         chosen = potential_word
                     else:
                         chosen = random.choice(words)
+                else:  # 20% of time get random word
+                    chosen = random.choice(words)
             else:
                 chosen = random.choice(words)
         else:
