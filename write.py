@@ -15,7 +15,6 @@ It produces a JSON array, "phrases.json" with properties:
 # Try a faster parser, like chart parser or something
 
 
-import sys
 import nltk
 import json
 import cPickle

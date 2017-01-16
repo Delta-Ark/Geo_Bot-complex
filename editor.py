@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # editor.py
-# Saito 2016
+# Saito 2017
 
 
 """Creates a simple text editor
