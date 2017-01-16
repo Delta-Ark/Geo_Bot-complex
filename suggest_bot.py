@@ -32,6 +32,7 @@ def create_poem(g=None, default_words=None, ngram=None):
     keep_adding = True
     added_default = False
     use_phrases = False
+    random_word = False
     print "\n\n\n"
     print """
 
@@ -53,17 +54,6 @@ def create_poem(g=None, default_words=None, ngram=None):
         f: finish
 
     """
-    response = ""
-    random_word = False
-    while response not in ["y", "n"]:
-        response = raw_input("\nWould you like to use phrases (\
-otherwise just words)? [y/n]: ")
-        if response == "y":
-            use_phrases = True
-        elif response == "n":
-            use_phrases = False
-        else:
-            continue
 
     if ngram:
         print "Combining all dictionary values."
@@ -76,22 +66,26 @@ otherwise just words)? [y/n]: ")
 twitter"
         if ngram and formatted_poem and not random_word:
             tokens = utils.tokenize_normal_words(formatted_poem)
-            if len(tokens) > 1:
-                potential_word = tokens_to_word(tokens, ngram, 2)
-                if potential_word:
-                    chosen = potential_word
+            num = random.random()
+            potential_word = ""
+            if len(tokens) > 0:
+                #  This is for trigrams
+                if num > 0.3 and len(tokens) > 1:
+                    potential_word = tokens_to_word(tokens, ngram, 2)
+                    if potential_word:
+                        chosen = potential_word
+                    else:
+                        potential_word = tokens_to_word(tokens, ngram, 1)
+                        if potential_word:
+                            chosen = potential_word
+                        else:
+                            chosen = random.choice(words)
                 else:
                     potential_word = tokens_to_word(tokens, ngram, 1)
                     if potential_word:
                         chosen = potential_word
                     else:
                         chosen = random.choice(words)
-            elif len(tokens) == 1:
-                potential_word = tokens_to_word(tokens, ngram, 1)
-                if potential_word:
-                    chosen = potential_word
-                else:
-                    chosen = random.choice(words)
             else:
                 chosen = random.choice(words)
         else:
@@ -119,17 +113,24 @@ twitter"
             if g is None:
                 g = geosearchclass.GeoSearchClass()
             search_results = g.search()
-            if use_phrases:
-                list_of_info_dicts = write.parse_tweets(search_results)
-                filtered_words = []
-                if len(list_of_info_dicts) < 1:
+
+            phrase_response = ""
+            while phrase_response not in ["y", "n"]:
+                phrase_response = raw_input("\nWould you like to use phrases (\
+(otherwise, just words)? [y/n]: ")
+                if phrase_response == "y":
+                    list_of_info_dicts = write.parse_tweets(search_results)
+                    filtered_words = []
+                    if len(list_of_info_dicts) < 1:
+                        filtered_words = utils.tokenize_and_filter(
+                            search_results)
+                    else:
+                        for d in list_of_info_dicts:
+                            filtered_words.append(d['phrase'])
+                elif phrase_response == "n":
+                    filtered_words = utils.tokenize_and_filter(search_results)
+                else:
                     continue
-                for d in list_of_info_dicts:
-                    # print type(d)
-                    # print d['phrase']
-                    filtered_words.append(d['phrase'])
-            else:
-                filtered_words = utils.tokenize_and_filter(search_results)
             print "\n\n\nAdding these Twitter words: "
             print filtered_words
             print "\n"
@@ -252,6 +253,7 @@ def main():
 use --markov <your_text_file.txt>")
         else:
             text = utils.load_file(args.markov)
+            # ngram = ngrams.make_ngram(text, 2)
             ngram = ngrams.make_bigram_trigram_dictionary(text)
             formatted_poem = create_poem(g, for_poem, ngram)
     else:
