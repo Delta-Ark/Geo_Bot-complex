@@ -7,19 +7,18 @@
 
 """
 import argparse
-import codecs
-import os
 import random
 import sys
 
 import geo_converter
 import editor
 import geosearchclass
+import ngrams
 import utils
 import write
 
 
-def create_poem(g=None, default_words=None):
+def create_poem(g=None, default_words=None, ngram=None):
     """ This creates a poem with user input by suggesting from the words supplied.
 
     A user can use the word, decline the word, or add their own input.
@@ -55,21 +54,47 @@ def create_poem(g=None, default_words=None):
     """
     response = ""
     while response not in ["y", "n"]:
-        response = raw_input("\nWould you like to use phrases (otherwise just words)? [y/n]: ")
+        response = raw_input("\nWould you like to use phrases (\
+        otherwise just words)? [y/n]: ")
         if response == "y":
             use_phrases = True
         elif response == "n":
             use_phrases = False
         else:
             continue
+
+    if ngram:
+        print "Combining all dictionary values."
+        values = sum(ngram.values(), [])
+        words.extend(values)
          
     while keep_adding:
         if len(words) == 0:
             print "Nothing in corpus. Type d for default words or s to search\
 twitter"
+        if ngram and formatted_poem:
+            tokens = utils.tokenize_normal_words(formatted_poem)
+            if len(tokens) > 1:
+                potential_word = tokens_to_word(tokens, ngram, 2)
+                if potential_word:
+                    chosen = potential_word
+                else:
+                    potential_word = tokens_to_word(tokens, ngram, 1)
+                    if potential_word:
+                        chosen = potential_word
+                    else:
+                        chosen = random.choice(words)
+            elif len(tokens) == 1:
+                potential_word = tokens_to_word(tokens, ngram, 1)
+                if potential_word:
+                    chosen = potential_word
+                else:
+                    chosen = random.choice(words)
+            else:
+                chosen = random.choice(words)
         else:
             chosen = random.choice(words)
-            print chosen,
+        print chosen,
         response_string = "     " + str(options) + " or your own :"
         response = raw_input(response_string)
         # include the chosen word:
@@ -128,6 +153,13 @@ twitter"
     return formatted_poem
 
 
+def tokens_to_word(tokens, ngram, n):
+    seed = tokens[-n:]
+    t = tuple(seed)
+    word = ngrams.generate(ngram, t)
+    return word
+
+
 def get_parser():
     """ Creates a command line parser
 
@@ -135,6 +167,7 @@ def get_parser():
     --help -h
     --params -p
     --input -i
+    --markov -m
     --output -o
     --address -a
 
@@ -147,6 +180,10 @@ def get_parser():
     parser.add_argument(
         '-d', '--doc', action='store_true',
         help='print module documentation and exit')
+    parser.add_argument(
+        '-m', '--markov',
+        help='''specify a TEXT file. Train a markov chain using this text \
+and use for word prediction''')
     parser.add_argument(
         '-p', '--params',
         help='''specify a PARAMS file to use as the parameter file.
@@ -202,9 +239,18 @@ def main():
         for_poem = utils.filter_words(tokens)
     else:
         for_poem = get_default_words()
-            
-    formatted_poem = create_poem(g, for_poem)
-    
+
+    if args.markov:
+        if args.input:
+            raise StandardError("Can only input a single text file. \
+use --markov <your_text_file.txt>")
+        else:
+            text = utils.load_file(args.markov)
+            ngram = ngrams.make_bigram_trigram_dictionary(text)
+            formatted_poem = create_poem(g, for_poem, ngram)
+    else:
+        formatted_poem = create_poem(g, for_poem)
+
     if args.output:
         print '\nwriting formatted poem to ' + str(args.output)
         output_file = args.output
