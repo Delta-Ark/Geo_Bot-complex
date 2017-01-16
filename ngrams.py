@@ -34,18 +34,19 @@ def make_ngram(text, n):
 def generate(ngram, seed):
     """given an ngram dictionary and a string or tuple of words, this \
 returns a word. For efficiency, pass in all words as a list"""
-    if seed is not tuple:
+    if type(seed) is not tuple:
         l = list()
         tokens = utils.tokenize_normal_words(seed)
         tokens = [t.lower() for t in tokens]
         l.extend(tokens)
         seed = tuple(l)
-        print seed
+
     word = ""
     if seed in ngram:
-        print "found in dictionary"
-        print ngram[seed]
         word = random.choice(ngram[seed])
+        # print "found in dictionary"
+        # print ngram[seed]
+
     # elif words is None:
     #     print "Combining all dictionary values."
     #     words = sum(ngram.values(), [])
@@ -64,7 +65,7 @@ def make_bigram_trigram_dictionary(text):
     # print "printing bigram"
     # print bigram
     return bigram
-    
+
 
 def main():
     initial_text = u"""
@@ -72,7 +73,7 @@ This is my poem.
 It is not very clever,
 But I'm fond of it.
 """
-    
+
     print initial_text
     ngram = make_bigram_trigram_dictionary(initial_text)
     word = generate(ngram, 'this')
