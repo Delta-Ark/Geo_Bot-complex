@@ -28,7 +28,7 @@ def create_poem(g=None, default_words=None, ngram=None):
     words = []
     formatted_poem = ''''''
     # for no, yes and finish (print poem)
-    options = ['y', 'n', 's', 'd', 'f', 'e', '\n']
+    options = ['y', 'n', 's', 'd', 'r', 'e', 'f', '\n']
     keep_adding = True
     added_default = False
     use_phrases = False
@@ -47,15 +47,17 @@ def create_poem(g=None, default_words=None, ngram=None):
         n: no, skip this and give me a new phrase
         s: search: add more geolocated terms from twitter
         d: default words added to corpus
+        r: get random word
         e: edit the text
         \\n: enter line
         f: finish
 
     """
     response = ""
+    random_word = False
     while response not in ["y", "n"]:
         response = raw_input("\nWould you like to use phrases (\
-        otherwise just words)? [y/n]: ")
+otherwise just words)? [y/n]: ")
         if response == "y":
             use_phrases = True
         elif response == "n":
@@ -72,7 +74,7 @@ def create_poem(g=None, default_words=None, ngram=None):
         if len(words) == 0:
             print "Nothing in corpus. Type d for default words or s to search\
 twitter"
-        if ngram and formatted_poem:
+        if ngram and formatted_poem and not random_word:
             tokens = utils.tokenize_normal_words(formatted_poem)
             if len(tokens) > 1:
                 potential_word = tokens_to_word(tokens, ngram, 2)
@@ -94,6 +96,8 @@ twitter"
                 chosen = random.choice(words)
         else:
             chosen = random.choice(words)
+            random_word = False
+        
         print chosen,
         response_string = "     " + str(options) + " or your own :"
         response = raw_input(response_string)
@@ -107,6 +111,8 @@ twitter"
             continue
         elif response == "n":
             continue
+        elif response == "r":
+            random_word = True
         elif response == "s":
             print "Searching geo-located tweets to add to vocab"
             print "This can only be used once every 5 seconds"
