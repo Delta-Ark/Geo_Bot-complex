@@ -36,7 +36,7 @@
 ,
 "count" : 100
 ,
-"tweet_text" : u'''Awesome! Thanks for coming! This tweet was written using the saito 'geotweets' project on github for this event! Check it out!'''
+"tweet_text" : u'''WASSUP! This tweet was written using the saito 'geotweets' project on github! Check it out!'''
 }
 
 

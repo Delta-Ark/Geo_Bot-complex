@@ -120,6 +120,9 @@ def responder(geosearchclass, respond, filename):
         for tweet in tweets:
             user = tweet[0]
             response_text = geosearchclass.tweet_text + u" @" + user
+            if len(response_text) > 140:
+                raise ValueError("Tweet text is > 140 characters. Can't post. \
+Shorten the tweet text in the params file")
             id = int(tweet[2])
             users_text = tweet[3]
 
