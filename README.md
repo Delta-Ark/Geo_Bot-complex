@@ -2,8 +2,12 @@ Saito Group 1-11-2017
 
 About:
 ----------------------------------------------------------------------
-This library is composed of several tools for scraping
-geolocated tweets and visualizing data gleaned from these tweets.
+This library is composed of several tools for scraping geolocated
+tweets and visualizing data gleaned from these tweets. It also has a
+robotic assistant tool, called ```suggest_bot``` which can help you
+write poems in a certain style based on a document you upload. Another
+tool, called ```scan_and_respond``` allows you to scan an area for
+search terms you provide and then tweet at those people!
 
 Geo-tag your tweets!
 --------------------

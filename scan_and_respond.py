@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # real_time_vis.py
-# Saito 2015
+# Saito 2016
 
 """
 Scans tweets and asks the user to verify them before sending a tweet response.
