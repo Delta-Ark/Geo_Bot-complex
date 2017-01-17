@@ -91,10 +91,14 @@ python sample.py [-h][-d][-v][-f FILENAME][-o OUTPUT][-vis]
 
 real time visualizer:
 ---------------------
+
 Another tool, called 'real_time_vis' uses the previous tool to create
 a word frequency distribution chart which can grow and change in near
-real time as more tweets are grabbed. See real_time_vis.py for details
-or from the command line run:
+real time as more tweets are grabbed. If you use -s, you'll get
+streaming results. Otherwise you will get batched quotes, every 5
+seconds using the REST API. See real_time_vis.py for details or from
+the command line run:
+
 ```
 python real_time_vis.py --help
 python real_time_vis.py --doc

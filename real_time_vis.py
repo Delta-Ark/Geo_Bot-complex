@@ -250,7 +250,8 @@ def get_parser():
     parser.add_argument(
         '-a',
         '--address',
-        help='''give an ADDRESS to get geocoordinates for.''')
+        help='''give an ADDRESS to get geocoordinates for.
+Put the address in quotes''')
     # parser.add_argument('-r',
     #                     '--rest',
     #                     action='store_true',
@@ -265,10 +266,10 @@ def get_parser():
                         '--stream',
                         action='store_true',
                         help='Use streaming API to update a growing plot. \
+                        Otherwise, results will be batched.\
                         Use Interrupt signal, like CTRL + C to exit. \
                         This uses the LOCATION and SEARCH_TERM from\
-                        parameter file. The tweets are saved to tweets.json')
-
+                        parameter file. The tweets are saved to tweets.json.')
     return parser
 
 
