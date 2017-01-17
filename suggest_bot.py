@@ -48,7 +48,7 @@ def create_poem(g=None, default_words=None, ngram=None):
         n: no, skip this and give me a new phrase
         s: search: add more geolocated terms from twitter
         d: default words added to corpus
-        r: get random word
+        r: get random word, when running markov model
         e: edit the text
         \\n: enter line
         f: finish
@@ -56,7 +56,7 @@ def create_poem(g=None, default_words=None, ngram=None):
     """
 
     if ngram:
-        print "Combining all dictionary values."
+        print "Populating seed words from trained markov chain ngram"
         values = sum(ngram.values(), [])
         words.extend(values)
          
@@ -193,8 +193,8 @@ def get_parser():
         help='print module documentation and exit')
     parser.add_argument(
         '-m', '--markov',
-        help='''specify a TEXT file. Train a markov chain using this text \
-and use for word prediction''')
+        help='''specify a TEXT file. Train a markov chain word predictor\
+ using this text. This will basically create a robotic poet!''')
     parser.add_argument(
         '-p', '--params',
         help='''specify a PARAMS file to use as the parameter file.
