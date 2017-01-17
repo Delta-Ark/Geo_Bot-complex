@@ -182,12 +182,13 @@ By typing
 you will get help on the various command line tool options.
 By typing
 ```python <program_name> -d```
-you will get the programs documentation string
+you will get the programs documentation string.
 If a parameter says something like:
 ```-o OUTPUT``` Then simply substitute a file for the capitalized word, like so:
 ```
 python suggest_bot.py -m my_poetic_text.txt
 ```
+If 
 
 
 EXAMPLES:
@@ -208,6 +209,10 @@ python real_time_vis.py -a "175 5th Avenue NYC" -s
 Scraping a website and saving to an output file:
 ```
 python scraper.py -u http://www.cnn.com -o scraped_text.txt
+```
+Using suggest_bot with a file of random words, which will NOT be a markov chain:
+```
+python suggest_bot.py -i random_not_necessarily_grammatical_text.txt
 ```
 
 UTILITIES:
