@@ -128,13 +128,6 @@ file must contain all 4 lines.
 scan_and_respond.py [-h] [-d] [-f FILENAME] [-a ADDRESS] [-o OUTPUT]
 ```
 
-write
------
-This program classifies tweets into phrase types and
-produces a JSON array containing these, called phrases.json. It uses
-parameters from params.txt. This requires quite a bit of processing
-time, which can be reduced by using a lower "count".
-
 suggest_bot
 -----------
 This is a robotically assisted poetry engine. The user can create
@@ -179,6 +172,14 @@ python real_time_vis.py -a "175 5th Avenue NYC" -s
 UTILITIES:
 ----------------------------------------------------------------------
 These modules contain methods to assist the "tools" listed above:
+
+write
+-----
+This program classifies tweets into phrase types and
+produces a JSON array containing these, called phrases.json. It uses
+parameters from params.txt. This requires quite a bit of processing
+time, which can be reduced by using a lower "count".
+
 ```
 tweeter.py
 utils.py
