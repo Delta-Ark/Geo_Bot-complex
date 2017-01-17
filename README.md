@@ -75,7 +75,7 @@ TOOLS:
 ----------------------------------------------------------------------
 sample:
 -------
-One tool, called 'sample' allows you to scrape and save up to
+A simple tool, called 'sample' allows you to scrape and save up to
 100 geolocated tweets in batch form. You can optionally search within
 this set for specific words or hash tags and visualize the top word
 frequency. See sample.py for details or from command line run:
@@ -131,6 +131,7 @@ poems using a large supplied word corpus or use their own. It can also
 add words to the corpus from the twitter-sphere using the search
 option. It can also parse those twitter messages into phrases using
 natural language processing.
+
 USAGE:
 ```
 python suggest_bot.py [-d][-h][-p PARAMS][-i INPUT | -m INPUT][-o OUTPUT][-a ADDRESS]
