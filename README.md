@@ -88,6 +88,13 @@ USAGE :
 python sample.py [-h][-d][-v][-f FILENAME][-o OUTPUT][-vis]
 ```
 
+scraper
+--------
+Given a URL this will scrape a website and save the text to scraped_text.txt
+```
+scraper.py [-d][-h][-u URL][-o OUTPUT_FILE]
+```
+
 
 real time visualizer:
 ---------------------
@@ -116,6 +123,43 @@ from the command line. Otherwise, using the python interpreter you can
 run it.
 
 
+
+suggest_bot
+-----------
+This is a robotically assisted poetry engine. The user can create
+poems using a large supplied word corpus or use their own. It can also
+add words to the corpus from the twitter-sphere using the search
+option. It can also parse those twitter messages into phrases using
+natural language processing.
+USAGE:
+```
+python suggest_bot.py [-d][-h][-p PARAMS][-i INPUT | -m INPUT][-o OUTPUT][-a ADDRESS]
+```
+1) Once you are running the program, if you call the 's' command, you
+can search twitter.  This will use the parameters in the params.txt
+file as usual.
+
+2) If you want to parse the tweets and then use phrases,
+simply repond 'y' to the query after you hit 's'.  There is also a
+default corpus.
+
+3)This is also a default set of words, that you can use
+by calling the 'd' command.
+
+4)You can also load your own corpus, which will then just use those words
+randomly as suggestions.
+
+5) Finally, while using the word suggester, if you ever find that you
+made an error, simply hit e and an inline editor will pop up. There is
+currently an error that was patched but hasn't been pushed to all
+python versions, so you currently cannot insert words. Sorry!
+
+6) Finally, I would suggest trying out the markov chain poetry assistant. It can help create poems that mimic the natural statistics of the input text. Simply supply the progra
+m with a grammatical text of poems or literature.
+```
+python suggest_bot.py -m <your_text_file_here.txt>
+```
+
 scan_and_respond
 ----------------
 
@@ -128,22 +172,6 @@ file must contain all 4 lines.
 scan_and_respond.py [-h] [-d] [-f FILENAME] [-a ADDRESS] [-o OUTPUT]
 ```
 
-suggest_bot
------------
-This is a robotically assisted poetry engine. The user can create
-poems using a large supplied word corpus or use their own. It can also
-add words to the corpus from the twitter-sphere using the search
-option. It can also parse those twitter messages into phrases using
-natural language processing.
-
-scraper
---------
-Given a URL this will scrape a website and save the text to scraped_text.txt
-```
-python scraper.py -u http://www.cnn.com -o scraped_text.txt
-```
-
-
 HELP:
 ----------------------------------------------------------------------
 All programs can be run from the command line (a.k.a. terminal in OS X).
@@ -154,6 +182,11 @@ you will get help on the various command line tool options.
 By typing
 ```python <program_name> -d```
 you will get the programs documentation string
+If a parameter says something like:
+```-o OUTPUT``` Then simply substitute a file for the capitalized word, like so:
+```
+python suggest_bot.py -m my_poetic_text.txt
+```
 
 
 EXAMPLES:
@@ -170,6 +203,10 @@ python real_time_vis.py
 Streaming real time data to create a word frequency chart using a local address:
 ```
 python real_time_vis.py -a "175 5th Avenue NYC" -s
+```
+Scraping a website and saving to an output file:
+```
+python scraper.py -u http://www.cnn.com -o scraped_text.txt
 ```
 
 UTILITIES:
