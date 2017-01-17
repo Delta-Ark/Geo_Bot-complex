@@ -172,14 +172,6 @@ python real_time_vis.py -a "175 5th Avenue NYC" -s
 UTILITIES:
 ----------------------------------------------------------------------
 These modules contain methods to assist the "tools" listed above:
-
-write
------
-This program classifies tweets into phrase types and
-produces a JSON array containing these, called phrases.json. It uses
-parameters from params.txt. This requires quite a bit of processing
-time, which can be reduced by using a lower "count".
-
 ```
 tweeter.py
 utils.py
@@ -188,6 +180,14 @@ geosearchclass.py
 streamer.py
 editor.py
 ```
+
+write
+-----
+This program classifies tweets into phrase types and
+produces a JSON array containing these, called phrases.json. It uses
+parameters from params.txt. This requires quite a bit of processing
+time, which can be reduced by using a lower "count".
+
 The below two modules run unit tests:
 ```
 test_real_time_vis
