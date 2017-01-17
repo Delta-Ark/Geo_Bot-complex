@@ -56,7 +56,7 @@ def create_poem(g=None, default_words=None, ngram=None):
     """
 
     if ngram:
-        print "Populating seed words from trained markov chain ngram"
+        print "Populating seed words from markov chain ngram"
         values = sum(ngram.values(), [])
         words.extend(values)
          
@@ -93,10 +93,10 @@ twitter"
         elif words:
             chosen = random.choice(words)
             random_word = False
-            print chosen,
         else:
             pass
-
+        if chosen:
+            print chosen,
         response_string = "     " + str(options) + " or your own :"
         response = raw_input(response_string)
         # include the chosen word:
@@ -193,7 +193,8 @@ def get_parser():
         help='print module documentation and exit')
     parser.add_argument(
         '-m', '--markov',
-        help='''specify a TEXT file. Train a markov chain word predictor\
+        help='''specify a TEXT file to mimic. This will\
+ Train a markov chain word predictor\
  using this text. This will basically create a robotic poet!''')
     parser.add_argument(
         '-p', '--params',
