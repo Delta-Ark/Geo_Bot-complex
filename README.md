@@ -139,6 +139,9 @@ natural language processing.
 scraper
 --------
 Given a URL this will scrape a website and save the text to scraped_text.txt
+```
+python scraper.py -u http://www.cnn.com -o scraped_text.txt
+```
 
 
 HELP:
@@ -173,12 +176,13 @@ UTILITIES:
 ----------------------------------------------------------------------
 These modules contain methods to assist the "tools" listed above:
 ```
-tweeter.py
+tweeter.py: this allows you to tweet at people, programmatically
 utils.py
-geo_converter.py
-geosearchclass.py
-streamer.py
-editor.py
+geo_converter.py: this returns geocoordinates for a given address
+geosearchclass.py: searches the REST API
+streamer.py : creates a multithreaded twitter API streamer
+editor.py : creates a command line editor
+ngrams.py : creates a markov chain ngram word generator
 ```
 
 write

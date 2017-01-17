@@ -45,12 +45,12 @@ def get_parser():
         help='print module documentation and exit')
     parser.add_argument(
         '-u', '--url',
-        help='''specify a url to scrape.
-        ''')
+        help='''specify a url to scrape. Use the full name like
+        http://www.cnn.com''')
     parser.add_argument(
         '-o', '--output',
         help='''specify an OUTPUT file to write to.
-        Default is output.txt''')
+        Default is scraped_text.txt''')
 
     return parser
 
