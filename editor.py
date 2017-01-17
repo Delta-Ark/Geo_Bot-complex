@@ -11,6 +11,7 @@ import locale
 
 
 def emacs_textbox(stdscr, initial_text):
+    stdscr.clear()
     instructions = """
     To Save and Exit hit Control-G
 
@@ -36,12 +37,15 @@ def emacs_textbox(stdscr, initial_text):
         Kill line            Control-K
     """
     stdscr.addstr(instructions)
+    stdscr.refresh()
 
     ending = """------------------------------------------------------\n
                      EDIT BELOW ONLY
     ------------------------------------------------------\n"""
     stdscr.addstr(ending)
+    stdscr.refresh()
     stdscr.addstr(initial_text)
+    stdscr.refresh()
     box = Textbox(stdscr, insert_mode=False)  # Inf recursion bug when True
     box.edit()
     message = box.gather()
