@@ -123,15 +123,13 @@ def responder(geosearchclass, respond, filename):
             id = int(tweet[2])
             users_text = tweet[3]
 
-            print "Please confirm you want to respond to this tweet"
+            print "\n\n\nPlease confirm you want to respond to this tweet"
             print user
             print users_text
             print "with this text: "
             print response_text
-            response = raw_input("[y for Yes, n for No] :  ")
+            response = raw_input("[y for Yes, anything for No] :  ")
             if response == 'y':
-                # response_text = "Wub a luba dub dub!"
-                # id = None
                 status = tweeter.tweet(geosearchclass.api, response_text, id)
                 print "This tweet was posted: "
                 utils.get_simplified_tweet(status)
