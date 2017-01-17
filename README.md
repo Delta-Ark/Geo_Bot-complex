@@ -188,7 +188,7 @@ If a parameter says something like:
 ```
 python suggest_bot.py -m my_poetic_text.txt
 ```
-If 
+If a USAGE says something like ```[-x | -y]``` then you can only use parameter x OR y but not both.
 
 
 EXAMPLES:
