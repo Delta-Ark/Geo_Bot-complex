@@ -59,7 +59,7 @@ def create_poem(g=None, default_words=None, ngram=None):
         print "Populating seed words from markov chain ngram"
         values = sum(ngram.values(), [])
         words.extend(values)
-         
+    chosen = ""
     while keep_adding:
         if len(words) == 0:
             print "Nothing in corpus. Type d for default words or s to search\
