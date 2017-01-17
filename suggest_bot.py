@@ -90,11 +90,13 @@ twitter"
                     chosen = random.choice(words)
             else:
                 chosen = random.choice(words)
-        else:
+        elif words:
             chosen = random.choice(words)
             random_word = False
-        
-        print chosen,
+            print chosen,
+        else:
+            pass
+
         response_string = "     " + str(options) + " or your own :"
         response = raw_input(response_string)
         # include the chosen word:
